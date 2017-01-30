@@ -1,13 +1,61 @@
+require 'pry'
+
 describe FHIR::Hashable do
   include FHIR::Hashable
 
-  let(:test_class) { described_class }
+  context '#to_hash'
 
   context '#from_hash'
 
-  context '#to_hash'
+  context '#make_child' do
+    context 'child hash' do
+      before do
+        allow_any_instance_of(FHIR::Resource).to receive(:from_hash) # Tested elsewhere...
+      end
 
-  context '#make_child'
+      context 'without resourceType' do
+        let(:child_hash) { { 'id' => '123' } }
+
+        it 'uses the class passed in' do
+          expect(make_child(child_hash, FHIR::Resource)).to be_a(FHIR::Resource)
+        end
+
+        it 'cannot be called with an invalid class' do
+          expect { make_child(child_hash, NonExistentClass) }.to raise_error(NameError)
+        end
+      end
+
+      context 'with resourceType and class' do
+        let(:child_hash) { { 'id' => 123, 'resourceType' => 'Resource' } }
+
+        it 'uses the class passed in resourceType' do
+          # Example: If klass is 'FHIR::Bundle::Entry' from the metadata type,
+          # we want to use the resourceType if we have it, as it will be more
+          # descriptive of the correct object.
+          expect(make_child(child_hash, FHIR::Bundle::Entry)).to be_a(FHIR::Resource)
+        end
+
+        it 'cannot be called with an invalid class' do
+          expect { make_child(child_hash, NonExistentClass) }.to raise_error(NameError)
+        end
+      end
+
+      context 'with resourceType, without class' do
+        let(:child_hash) { { 'id' => 123, 'resourceType' => 'Resource' } }
+
+        it 'infers the class from the hash' do
+          expect(make_child(child_hash, nil)).to be_a(FHIR::Resource)
+        end
+
+        it 'logs an error with an improper class' do
+          expect(FHIR.logger).to receive(:error)
+          expect(make_child({ 'resourceType' => 'NonExistentClass' }, nil)).to be nil
+        end
+      end
+    end
+
+    context 'child object'
+  end
 
   context '#convert_primitive' do
     context 'non-string value' do
@@ -54,8 +102,8 @@ describe FHIR::Hashable do
       end
 
       context 'type = string' do
-        %w(date dateTime code string oid uri uuid instant
-           base64Binary markdown time id xhtml).each do |primitive_type|
+        %w(date dateTime code string oid uri uuid instant base64Binary markdown
+           time id xhtml).each do |primitive_type|
           let(:metadata) { { 'type' => primitive_type } }
 
           it 'returns the original value' do

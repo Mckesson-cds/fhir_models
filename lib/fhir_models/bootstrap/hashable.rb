@@ -76,6 +76,8 @@ module FHIR
       self
     end
 
+    private
+
     def make_child(child, klass)
       if child['resourceType']
         klass = Module.const_get("FHIR::#{child['resourceType']}") rescue nil
@@ -103,7 +105,5 @@ module FHIR
       end # boolean else
       rval
     end
-
-    private :make_child, :convert_primitive
   end
 end
