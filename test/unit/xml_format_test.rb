@@ -5,6 +5,10 @@ class XmlFormatTest < Test::Unit::TestCase
   # turn off the ridiculous warnings
   $VERBOSE=nil
 
+  def setup
+    pend("NYI") # TODO: Remove
+  end
+
   ERROR_DIR = File.join('tmp', 'errors', 'XmlFormatTest')
   ERROR_LOSSY_DIR = File.join('tmp', 'errors', 'XmlLossinessTest')
   EXAMPLE_ROOT = File.join('lib', 'fhir_models', 'examples', 'xml')

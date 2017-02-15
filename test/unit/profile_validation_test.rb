@@ -5,6 +5,10 @@ class ProfileValidationTest < Test::Unit::TestCase
   # turn off the ridiculous warnings
   $VERBOSE=nil
 
+  def setup
+    pend("NYI") # TODO: Remove
+  end
+
   ERROR_DIR = File.join('tmp', 'errors', 'ProfileValidationTest')
   EXAMPLE_ROOT = File.join('lib', 'fhir_models', 'examples', 'json')
 
@@ -42,7 +46,7 @@ class ProfileValidationTest < Test::Unit::TestCase
     FHIR::Resource::METADATA['language']['binding']['strength'] = 'required'
     model = FHIR::Resource.new({'language'=>'en-US'})
     assert model.is_valid?, 'Language validation failed.'
-    FHIR::Resource::METADATA['language']['binding']['strength'] = binding_strength    
+    FHIR::Resource::METADATA['language']['binding']['strength'] = binding_strength
   end
 
 end

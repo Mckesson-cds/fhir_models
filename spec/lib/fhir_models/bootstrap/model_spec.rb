@@ -1,4 +1,63 @@
-RSpec.describe 'FHIR::Model' do
+RSpec.describe 'FHIR::Model', :skip do
+  describe '#primitive?(datatype, value)' do
+    subject { FHIR::Patient.new({}) }
+
+    describe "datatype 'integer'" do
+      let(:datatype) { 'integer' }
+
+      context 'returns true when' do
+        let(:result) { true }
+        specify 'value= 0' do
+          expect(subject.primitive?(datatype, 0)).to be result
+        end
+        specify 'value= -1' do
+          expect(subject.primitive?(datatype, -1)).to be result
+        end
+        specify 'value= 1' do
+          expect(subject.primitive?(datatype, 1)).to be result
+        end
+        specify "value= '0'" do
+          expect(subject.primitive?(datatype, '0')).to be result
+        end
+        specify "value= '-1'" do
+          expect(subject.primitive?(datatype, '-1')).to be result
+        end
+        specify "value= '1'" do
+          expect(subject.primitive?(datatype, '1')).to be result
+        end
+      end
+
+      context 'returns false when' do
+        let(:result) { false }
+        specify "value= '1.0'" do
+          expect(subject.primitive?(datatype, '1.0')).to be result
+        end
+        specify "value= '+1'" do
+          pending('+1 does not match the specification regex for FHIR <= 1.8.0, but is a valid ruby integer')
+          expect(subject.primitive?(datatype, '+1')).to be result
+        end
+        specify "value= 'non-numeric-string'" do
+          expect(subject.primitive?(datatype, 'non-numeric-string')).to be result
+        end
+        specify "value= 'string with trailing 123'" do
+          expect(subject.primitive?(datatype, 'string with trailing 123')).to be result
+        end
+        specify "value= '123 string with leading number'" do
+          expect(subject.primitive?(datatype, '123 string with leading number')).to be result
+        end
+        specify 'value= nil' do
+          expect(subject.primitive?(datatype, nil)).to be result
+        end
+        specify "value= '1.5'" do
+          expect(subject.primitive?(datatype, '1.5')).to be result
+        end
+        specify 'value= 1.5' do
+          expect(subject.primitive?(datatype, 1.5)).to be result
+        end
+      end
+    end
+  end
+
   describe '#hash' do
     it 'should be the same for two identical fhir models' do
       attributes = {
