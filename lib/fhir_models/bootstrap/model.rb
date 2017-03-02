@@ -31,22 +31,6 @@ module FHIR
       end
     end
 
-    def initialize(values = {})
-      values.each do |attribute, value|
-        values[attribute] =
-          if value.is_a? Hash
-            Model.new(value)
-          elsif value.is_a? Array
-            value.map do |each_value|
-              each_value.is_a?(Hash) ? Model.new(each_value) : each_value
-            end
-          else
-            value
-          end
-      end
-      super
-    end
-
     def self.from_fhir(json, format: :json)
       public_send("from_#{format}", json)
     end
@@ -54,9 +38,13 @@ module FHIR
     def self.from_json(json)
       # JSON.parse(json, object_class: Model)
       # { resourceType: 'FHIR::Patient' }
-      # JSON.parse(json, create_additions: true, create_id: 'resourceType')
       # binding.pry
-      new(JSON.parse(json))
+      # new(JSON.parse(json))
+      JSON.recurse_proc(JSON.parse(json), &builder_proc)
+    end
+
+    def self.builder_proc
+      proc { |obj| Model.new(obj) if obj.is_a? Hash }
     end
 
     def to_fhir(format: :json)
@@ -97,3 +85,7 @@ module FHIR
     end
   end
 end
+
+# FIXME: Remove these. They're old model support and need to be elsewhere.
+FHIR::MedicationOrder = Class.new(FHIR::Model)
+FHIR::Conformance = Class.new(FHIR::Model)
