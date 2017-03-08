@@ -1,4 +1,6 @@
 require 'bigdecimal'
+require 'active_support/all'
+
 module FHIR
   module Hashable
 
@@ -27,7 +29,8 @@ module FHIR
       hash
     end
 
-    def from_hash(hash)
+    def from_hash(orig_hash)
+      hash = orig_hash.deep_dup
       # clear the existing variables
       self.class::METADATA.each do |key, value|
         local_name = key
