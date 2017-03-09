@@ -3,9 +3,12 @@ require 'nokogiri'
 require 'mime/types'
 require 'yaml'
 require 'bcp47'
+require 'active_support/all'
 
 module FHIR
-  class Model < OpenStruct
+  class Model
+    attr_reader :model_data
+
     def self.new(*args, &block)
       resource_type = (args.first || {}).delete('resourceType')
       if self == Model && resource_type.nil?
@@ -18,71 +21,71 @@ module FHIR
       else
         super
       end
-    rescue => e
-      puts e
-      # TODO: This is probably not what we want. For now, it's good enough. It
-      # handles the case where a resourceType got deprecated and removed.
-      # super
-      if resource_type
-        subclass = FHIR.const_set(resource_type, Class.new(Model))
-        subclass.new(*args, &block)
-      else
-        super
-      end
     end
 
-    def self.from_fhir(json, format: :json)
-      public_send("from_#{format}", json)
+    def initialize(data = {})
+      @resource_type = data.delete('resourceType')
+      @model_data = data.symbolize_keys
+    end
+
+    def method_missing(method_name, *args)
+      super unless model_data.key?(method_name)
+
+      model_data[method_name] = convert_to_fhir_model(model_data[method_name])
+
+      define_singleton_method(method_name) do
+        model_data[method_name]
+      end
+
+      model_data[method_name]
     end
 
     def self.from_json(json)
-      # JSON.parse(json, object_class: Model)
-      # { resourceType: 'FHIR::Patient' }
-      # binding.pry
-      # new(JSON.parse(json))
-      JSON.recurse_proc(JSON.parse(json), &builder_proc)
+      new(JSON.parse(json))
     end
 
-    def self.builder_proc
-      proc { |obj| Model.new(obj) if obj.is_a? Hash }
+    def self.from_fhir(json, format: :json)
+      from_json(json)
     end
-
-    def to_fhir(format: :json)
-      public_send("to_fhir_#{format}")
-    end
-
-    def as_json(*args)
-      to_h.as_json(*args)
-    end
-
-    def to_fhir_json(*args)
-      to_h.tap do |json|
-        json.merge!(resourceType: resource_type) unless resource_type == 'Model'
-      end.to_json(*args)
-    end
-    alias to_json to_fhir_json
-
-    def resource_type
-      self.class.resource_type
-    end
-    alias resourceType resource_type
 
     def self.resource_type
       name.split('::').last unless name == 'Model'
     end
 
-    # FIXME: Hacks to get it working.
-    def activity
-      super || [FHIR::Model.new]
+    def as_json
+      model_data
     end
 
-    def actionResulting
-      super || []
+    def to_json
+      as_json.merge('resourceType' => resource_type).to_json
+    end
+    alias to_fhir_json to_json
+
+    def to_fhir(format: :json)
+      to_json
     end
 
-    def reference
-      super || FHIR::Model.new(reference: '')
+    def resource_type
+      @resource_type ||= self.class.resource_type
     end
+    alias resourceType resource_type
+
+    def ==(other)
+      model_data == other.model_data
+    end
+
+    private
+
+    def convert_to_fhir_model(data)
+      if data.is_a?(Array)
+        data.map { |datum| convert_to_fhir_model(datum) }
+      elsif data.is_a?(Hash)
+        FHIR::Model.new(data)
+      else
+        data
+      end
+    end
+
   end
 end
 

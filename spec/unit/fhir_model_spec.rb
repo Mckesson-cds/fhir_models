@@ -49,7 +49,9 @@ shared_context 'a FHIR Model' do |model_name|
   context 'from_fhir' do
     context 'json' do
       it 'parses JSON into a FHIR Model' do
-        expect(described_class.from_fhir(expected_json)).to eq fhir_object
+        model = described_class.from_fhir(expected_json)
+        expect(model).to eq fhir_object
+        expect(model.id).to eq expected_hash[:id]
       end
 
       it 'allows passing in nested FHIR Models' do
@@ -57,6 +59,13 @@ shared_context 'a FHIR Model' do |model_name|
         result = described_class.from_fhir(json)
         expect(result).to be_a(described_class)
         expect(result.nested).to be_a FHIR::Patient
+      end
+
+      it 'allows passing in nested arrays' do
+        json = expected_hash.merge('nested' => [{ 'resourceType' => 'Patient' }, 'primitive']).to_json
+        result = described_class.from_fhir(json)
+        expect(result.nested.first).to be_a FHIR::Patient
+        expect(result.nested.second).to eq 'primitive'
       end
 
       it 'allows passing in a FHIR Version context'
