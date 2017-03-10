@@ -13,7 +13,7 @@ module FHIR
         json: 'application/fhir+json',
         xml: 'application/fhir+xml'
       },
-      (1.02...1.8) => {
+      (1.0...1.8) => {
         json: 'application/json+fhir',
         xml: 'application/xml+fhir'
       }
@@ -74,7 +74,7 @@ module FHIR
     alias conformance_statement capability_statement
 
     def select_mime_type!(format)
-      @accept_type = mime_types_for(@fhir_version).detect { |_abbr, mimetype| mimetype == format }.first
+      @accept_type = mime_types_for(@fhir_version).detect { |abbr, mimetype| mimetype == format || abbr.to_s == format }.first
     end
 
     def use_json!
@@ -92,6 +92,7 @@ module FHIR
     def use_format_param?
       @use_format_param ||= false
     end
+    alias use_format_param use_format_param?
 
     def use_format_param!(value = true)
       @use_format_param = value
