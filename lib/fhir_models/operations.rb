@@ -23,11 +23,21 @@ module FHIR
         resource = new(resource) unless resource.is_a?(self)
         resource.create(client)
       end
+
+      def conditional_update(resource, params, client)
+        resource = new(resource) unless resource.is_a?(self)
+        resource.conditional_update(params, client)
+      end
     end
 
     def create(client = self.client)
       raise MissingClientError, 'Cannot create resource without a client' unless client.present?
       client.create(self.class, to_hash).resource || self
+    end
+
+    def conditional_update(params, client = self.client)
+      raise MissingClientError, 'Cannot create resource without a client' unless client.present?
+      client.conditional_update(self.class, to_hash, params).resource || self
     end
 
     def client=(new_client)

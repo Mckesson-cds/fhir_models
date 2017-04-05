@@ -127,6 +127,79 @@ describe FHIR::Client do
     end
   end
 
+  context '#conditional_update' do
+    context 'with valid content' do
+      let(:resource_hash) do
+        {
+          name: [
+            {
+              family: ['Watson'],
+              given: ['John']
+            }
+          ]
+        }
+      end
+
+      context 'and valid search parameters' do
+        it 'returns a successful status code' do
+          stub_request(:put, "#{iss}/Patient?name=John")
+            .with(headers: fhir_headers, body: resource_hash.to_json)
+            .to_return(status: 200, body: '')
+
+          response = subject.conditional_update(FHIR::Patient, resource_hash, name: 'John')
+
+          expect(response).to be_a FHIR::ClientReply
+          expect(response.response.code).to eq 200
+          expect(response.resource).to be_nil
+          expect(response.client).to eq subject
+        end
+
+        it 'can parse a response from the server' do
+          stub_request(:put, "#{iss}/Patient?name=John")
+            .with(headers: fhir_headers)
+            .to_return(status: 200, body: example_json)
+
+          response = subject.conditional_update(FHIR::Patient, resource_hash, name: 'John')
+
+          expect(response).to be_a FHIR::ClientReply
+          expect(response.resource).to be_a FHIR::Patient
+          expect(response.resource.id).to eq 'example'
+        end
+      end
+
+      context 'and invalid search parameters' do
+        it 'returns an exception object' do
+          error_response = '{ "resourceType": "OperationOutcome", "issue": { "diagnostics": "Multiple resources found" } }'
+          stub_request(:put, "#{iss}/Patient?name=Fred")
+            .with(headers: fhir_headers, body: resource_hash.to_json)
+            .to_return(status: 412, body: error_response)
+          response = subject.conditional_update(FHIR::Patient, resource_hash, name: 'Fred')
+
+          expect(response).to be_a FHIR::ClientException
+          expect(response.resource).to be_a FHIR::OperationOutcome
+          expect(response.response.code).to eq 412
+          expect(response.response.body).to eq error_response
+        end
+      end
+    end
+
+    context 'with invalid content' do
+      it 'returns an exception object' do
+        error_response = '{ "resourceType": "OperationOutcome", "issue": { "diagnostics": "Patient requires field \'name\' to be set." } }'
+        stub_request(:put, "#{iss}/Patient?name=John")
+          .with(headers: fhir_headers)
+          .to_return(status: 400, body: error_response)
+
+        response = subject.conditional_update(FHIR::Patient, {}, name: 'John')
+
+        expect(response).to be_a FHIR::ClientException
+        expect(response.resource).to be_a FHIR::OperationOutcome
+        expect(response.response.code).to eq 400
+        expect(response.response.body).to eq error_response
+      end
+    end
+  end
+
   context 'mime type methods' do
     context '#use_json!' do
       let(:expected_header) { { 'Accept' => 'application/fhir+json' } }
@@ -176,6 +249,76 @@ describe FHIR::Client do
           subject.read(FHIR::Patient, example_patient_id)
           subject.use_format_param!(true)
           subject.read(FHIR::Patient, example_patient_id)
+        end
+      end
+    end
+
+    context 'select_mime_type!', :focus do
+      def unset_accept_type
+        subject.instance_variable_set(:@accept_type, nil)
+      end
+
+      it 'sets the accept_type based on the given formats' do
+        subject.select_mime_type!(['json'])
+        expect(subject.accept_type).to eq :json
+
+        subject.select_mime_type!(['xml'])
+        expect(subject.accept_type).to eq :xml
+      end
+
+      it 'chooses the correct accept_type for MIME types' do
+        subject.select_mime_type!(['application/fhir+json'])
+        expect(subject.accept_type).to eq :json
+
+        subject.select_mime_type!(['application/fhir+xml'])
+        expect(subject.accept_type).to eq :xml
+
+        subject.select_mime_type!(['application/json+fhir'])
+        expect(subject.accept_type).to eq :json
+
+        subject.select_mime_type!(['application/xml+fhir'])
+        expect(subject.accept_type).to eq :xml
+      end
+
+      it 'chooses the correct accept_type for non-FHIR-specific MIME types' do
+        subject.select_mime_type!(['application/json'])
+        expect(subject.accept_type).to eq :json
+
+        subject.select_mime_type!(['application/xml'])
+        expect(subject.accept_type).to eq :xml
+      end
+
+      it 'handles weird capitalization' do
+        subject.select_mime_type!(['APPLICATION/fhir+Xml'])
+        expect(subject.accept_type).to eq :xml
+      end
+
+      it 'raises an exception for unsupported formats' do
+        subject.use_xml!
+
+        expect { subject.select_mime_type!(%w(foo bar)) }.to raise_error(FHIR::Client::NoSupportedFormat)
+        expect(subject.accept_type).to eq :xml # accept_type should not have changed
+      end
+
+      context 'when multiple formats are passed' do
+        it 'uses the first supported format' do
+          unset_accept_type
+
+          subject.select_mime_type!(%w(foo ttl text/html xml json))
+          expect(subject.accept_type).to eq :xml
+        end
+
+        context 'when accept_type is already set' do
+          it 'prefers the type that is already set' do
+            subject.use_json!
+
+            subject.select_mime_type!(%w(xml json))
+            expect(subject.accept_type).to eq :json
+
+            subject.use_xml!
+            subject.select_mime_type!(%w(application/fhir+json xml))
+            expect(subject.accept_type).to eq :xml
+          end
         end
       end
     end

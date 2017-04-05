@@ -8,6 +8,8 @@ module FHIR
   # client = FHIR::Client.new('https://fhir.example.com/fhir')
   # client.read(FHIR::Patient, id)
   class Client
+    class NoSupportedFormat < StandardError; end
+
     ACCEPT_HEADER_TYPES = {
       (1.8..3.0) => {
         json: 'application/fhir+json',
@@ -17,6 +19,18 @@ module FHIR
         json: 'application/json+fhir',
         xml: 'application/xml+fhir'
       }
+    }.freeze
+
+    SUPPORTED_TYPES = {
+      'application/fhir+json' => :json,
+      'application/json+fhir' => :json,
+      'application/json' => :json,
+      'json' => :json,
+
+      'application/fhir+xml' => :xml,
+      'application/xml+fhir' => :xml,
+      'application/xml' => :xml,
+      'xml' => :xml
     }.freeze
 
     include FHIR::URIHelper
@@ -65,6 +79,17 @@ module FHIR
       ClientException.new(response: http_error)
     end
 
+    def conditional_update(resource_class, body, params = {})
+      path = resource_url(resource_class, params).to_s
+      ClientReply.new(
+        response: http_client.put(path, body.to_json, fhir_headers),
+        resource_type: resource_class,
+        client: self
+      )
+    rescue RestClient::ExceptionWithResponse => http_error
+      ClientException.new(response: http_error)
+    end
+
     def capability_statement
       @capability_statement ||= begin
         ClientReply.new(
@@ -77,11 +102,11 @@ module FHIR
     end
     alias conformance_statement capability_statement
 
-    # TODO: Test this method better
     def select_mime_type!(formats)
-      mime_types = mime_types_for(@fhir_version)
-      return if formats.any? { |format| format == @accept_type || format == mime_types[@accept_type] }
-      @accept_type = mime_types.detect { |abbr, mimetype| formats.include?(mimetype) || formats.include?(abbr) }.first
+      supported_formats = formats.map { |format| SUPPORTED_TYPES[format.downcase] }.uniq.compact
+      return if supported_formats.include?(accept_type)
+      raise NoSupportedFormat, "No supported format found in #{formats}" if supported_formats.empty?
+      @accept_type = supported_formats.first
     end
 
     def use_json!
