@@ -1,7 +1,6 @@
 require 'rest-client'
 require 'addressable/uri'
 require 'oauth2'
-require 'pry'
 
 module FHIR
   # Ruby Client for FHIR requests, handling metadata, get, post, etc.
