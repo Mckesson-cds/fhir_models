@@ -9,7 +9,7 @@ shared_examples 'a fhir response container' do
 
   context '.code' do
     it 'returns the response status code' do
-      expect(subject.code).to eq expected_response_code
+      expect(subject.status).to eq expected_response_code
     end
   end
 
@@ -29,7 +29,7 @@ describe FHIR::ClientReply do
   let(:client) { nil }
   let(:response) do
     stub_request(:get, iss).to_return(body: example_json, status: expected_response_code)
-    RestClient.get(iss)
+    Faraday.get(iss)
   end
 
   subject { FHIR::ClientReply.new(response: response, client: client) }
@@ -92,10 +92,12 @@ describe FHIR::ClientException do
   let(:example_json) { '{ "resourceType": "OperationOutcome" }' }
   let(:iss) { 'http://fhir.example.com' }
   let(:expected_response_code) { 404 }
-  let(:response) { double(body: example_json, code: expected_response_code, request: double(url: iss)) }
-  let(:exception) { RestClient::ResourceNotFound.new(response) }
+  let(:response) do
+    stub_request(:get, iss).to_return(body: example_json, status: expected_response_code)
+    Faraday.get(iss)
+  end
 
-  subject { FHIR::ClientException.new(response: exception) }
+  subject { FHIR::ClientException.new(response: response) }
 
   it_behaves_like 'a fhir response container'
 

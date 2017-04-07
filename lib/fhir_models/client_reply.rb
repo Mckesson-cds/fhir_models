@@ -4,7 +4,7 @@ module FHIR
   class ClientReply
     attr_accessor :response, :resource_type
     attr_reader :client
-    delegate :body, :code, :request, to: :response
+    delegate :body, :status, :request, to: :response
 
     def initialize(response:, resource_type: nil, client: nil)
       @response = response

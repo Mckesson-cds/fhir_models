@@ -17,7 +17,7 @@ describe FHIR::Client do
       response = subject.read(FHIR::Patient, example_patient_id)
 
       expect(response).to be_a FHIR::ClientReply
-      expect(response.response.code).to eq 200
+      expect(response.response.status).to eq 200
       expect(response.resource).to be_a FHIR::Patient
       expect(response.client).to eq subject
     end
@@ -32,7 +32,7 @@ describe FHIR::Client do
 
         expect(response).to be_a FHIR::ClientException
         expect(response.resource).to be_a FHIR::OperationOutcome
-        expect(response.response.code).to eq 404
+        expect(response.response.status).to eq 404
         expect(response.response.body).to eq error_response
       end
     end
@@ -49,7 +49,7 @@ describe FHIR::Client do
         response = subject.search(FHIR::Patient)
 
         expect(response).to be_a FHIR::ClientReply
-        expect(response.response.code).to eq 200
+        expect(response.response.status).to eq 200
         expect(response.resource).to be_a FHIR::Bundle
         expect(response.client).to eq subject
       end
@@ -63,7 +63,7 @@ describe FHIR::Client do
         response = subject.search(FHIR::Patient, name: 'John', _count: 1)
 
         expect(response).to be_a FHIR::ClientReply
-        expect(response.response.code).to eq 200
+        expect(response.response.status).to eq 200
         expect(response.resource).to be_a FHIR::Bundle
         expect(response.client).to eq subject
       end
@@ -79,7 +79,7 @@ describe FHIR::Client do
 
         expect(response).to be_a FHIR::ClientException
         expect(response.resource).to be_a FHIR::OperationOutcome
-        expect(response.response.code).to eq 400
+        expect(response.response.status).to eq 400
         expect(response.response.body).to eq error_response
       end
     end
@@ -94,7 +94,7 @@ describe FHIR::Client do
         response = subject.create(FHIR::Patient, name: 'John')
 
         expect(response).to be_a FHIR::ClientReply
-        expect(response.response.code).to eq 201
+        expect(response.response.status).to eq 201
         expect(response.resource).to be_nil
         expect(response.client).to eq subject
       end
@@ -121,7 +121,7 @@ describe FHIR::Client do
 
         expect(response).to be_a FHIR::ClientException
         expect(response.resource).to be_a FHIR::OperationOutcome
-        expect(response.response.code).to eq 500
+        expect(response.response.status).to eq 500
         expect(response.response.body).to eq error_response
       end
     end
@@ -206,8 +206,14 @@ describe FHIR::Client do
 
       it 'sets the accept header' do
         subject.use_json!
-        expect(RestClient).to receive(:get).with(anything, hash_including(expected_header)).once
+
+        stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
+          .with(headers: expected_header)
+          .to_return(status: 200)
+
         subject.read(FHIR::Patient, example_patient_id)
+
+        expect(stub).to have_been_requested
       end
     end
 
@@ -216,8 +222,14 @@ describe FHIR::Client do
 
       it 'sets the accept header' do
         subject.use_xml!
-        expect(RestClient).to receive(:get).with(anything, hash_including(expected_header)).once
+
+        stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
+          .with(headers: expected_header)
+          .to_return(status: 200)
+
         subject.read(FHIR::Patient, example_patient_id)
+
+        expect(stub).to have_been_requested
       end
     end
 
@@ -226,14 +238,14 @@ describe FHIR::Client do
         let(:expected_header) { { 'Accept' => 'application/fhir+json' } }
 
         it 'uses the accept header without parameter' do
-          expect(RestClient)
-            .to receive(:get)
-            .with("#{iss}/Patient/#{example_patient_id}", hash_including(expected_header))
-            .twice
+          stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
+            .with(headers: expected_header)
           # The default is false
           subject.read(FHIR::Patient, example_patient_id)
           subject.use_format_param!(false)
           subject.read(FHIR::Patient, example_patient_id)
+
+          expect(stub).to have_been_requested.twice
         end
       end
 
@@ -241,10 +253,16 @@ describe FHIR::Client do
         let(:unexpected_header) { { 'Accept' => 'application/fhir+json' } }
 
         it 'removes the header and adds a query parameter' do
-          expect(RestClient)
+          stub_request(:get, "#{iss}/Patient/#{example_patient_id}?_format=json")
+
+          # We need this AND the request stub because Webmock doesn't let you
+          # check for headers with hash_excluding.
+          expect(Faraday)
             .to receive(:get)
-            .with("#{iss}/Patient/#{example_patient_id}?_format=json", hash_excluding(unexpected_header))
+            .with("#{iss}/Patient/#{example_patient_id}?_format=json", nil, hash_excluding(unexpected_header))
             .twice
+            .and_call_original
+
           subject.use_format_param!
           subject.read(FHIR::Patient, example_patient_id)
           subject.use_format_param!(true)
@@ -372,7 +390,7 @@ describe FHIR::Client do
 
         response = subject.read(FHIR::Patient, example_patient_id)
         expect(stub).to have_been_requested
-        expect(response.response.request.headers.keys).not_to include 'Authorization'
+        expect(response.response.env.request_headers.keys).not_to include 'Authorization'
       end
     end
 

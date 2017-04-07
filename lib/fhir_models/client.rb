@@ -47,11 +47,19 @@ module FHIR
 
     def read(resource_class, id)
       path = resource_url(resource_class, id: id).to_s
-      ClientReply.new(
-        response: http_client.get(path, fhir_headers),
-        resource_type: resource_class,
-        client: self
-      )
+      response = http_client.get(path, fhir_headers)
+
+      if successful?(response)
+        ClientReply.new(
+          response: response,
+          resource_type: resource_class,
+          client: self
+        )
+      else
+        ClientException.new(
+          response: response
+        )
+      end
       # TODO: Put note here about what ExceptionWithResponse is.
     rescue RestClient::ExceptionWithResponse => http_error
       ClientException.new(response: http_error)
@@ -59,22 +67,38 @@ module FHIR
 
     def search(resource_class, params = {})
       path = resource_url(resource_class, params).to_s
-      ClientReply.new(
-        response: http_client.get(path, fhir_headers),
-        resource_type: resource_class,
-        client: self
-      )
+      response = http_client.get(path, fhir_headers)
+
+      if successful?(response)
+        ClientReply.new(
+          response: response,
+          resource_type: resource_class,
+          client: self
+        )
+      else
+        ClientException.new(
+          response: OpenStruct.new(response: response)
+        )
+      end
     rescue RestClient::ExceptionWithResponse => http_error
       ClientException.new(response: http_error)
     end
 
     def create(resource_class, body, options = {})
       path = resource_url(resource_class, options).to_s
-      ClientReply.new(
-        response: http_client.post(path, body.to_json, fhir_headers),
-        resource_type: resource_class,
-        client: self
-      )
+      response = http_client.post(path, body.to_json, fhir_headers)
+
+      if successful?(response)
+        ClientReply.new(
+          response: response,
+          resource_type: resource_class,
+          client: self
+        )
+      else
+        ClientException.new(
+          response: response
+        )
+      end
     rescue RestClient::ExceptionWithResponse => http_error
       ClientException.new(response: http_error)
     end
@@ -181,6 +205,16 @@ module FHIR
 
     def mime_types_for(fhir_version = @fhir_version)
       ACCEPT_HEADER_TYPES.detect { |versions, _values| versions.include? fhir_version }.last
+    end
+
+    # Blech
+    def successful?(response)
+      case response
+      when Faraday::Response
+        response.success?
+      when OAuth2::Response
+        true
+      end
     end
   end
 end

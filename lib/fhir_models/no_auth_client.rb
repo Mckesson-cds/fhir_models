@@ -2,11 +2,11 @@ class NoAuthClient
   attr_accessor :http_client
 
   def initialize(*_args, http_client: nil)
-    @http_client = http_client || RestClient
+    @http_client = http_client || Faraday
   end
 
   def get(url, headers = {})
-    http_client.get(url, headers.merge(auth_headers))
+    http_client.get(url, nil, headers.merge(auth_headers))
   end
 
   def post(url, body, headers = {})
@@ -22,15 +22,15 @@ class NoAuthClient
   end
 
   def delete(url, headers = {})
-    http_client.delete(url, headers.merge(auth_headers))
+    http_client.delete(url, nil, headers.merge(auth_headers))
   end
 
   def head(url, headers = {})
-    http_client.head(url, headers.merge(auth_headers))
+    http_client.head(url, nil, headers.merge(auth_headers))
   end
 
   def options(url, headers = {})
-    http_client.options(url, headers.merge(auth_headers))
+    http_client.options(url, nil, headers.merge(auth_headers))
   end
 
   private
