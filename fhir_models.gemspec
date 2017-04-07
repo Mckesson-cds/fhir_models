@@ -1,4 +1,5 @@
 # coding: utf-8
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'fhir_models/version'
@@ -26,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'bcp47', '>= 0.3'
   spec.add_dependency 'mime-types', '>= 1.16', '< 3'
   spec.add_dependency 'oauth2', '~> 1.1'
-  spec.add_dependency 'rest-client', '~> 1.8'
+  spec.add_dependency 'faraday', '~> 0.11'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
@@ -35,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'nokogiri-diff'
-  spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'rubocop', '>= 0.48.1'
   spec.add_development_dependency 'codeclimate-test-reporter'
   spec.add_development_dependency 'webmock'
 end

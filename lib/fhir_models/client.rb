@@ -1,4 +1,3 @@
-require 'rest-client'
 require 'addressable/uri'
 require 'oauth2'
 
@@ -46,54 +45,53 @@ module FHIR
     end
 
     def read(resource_class, id)
-      path = resource_url(resource_class, id: id).to_s
-      ClientReply.new(
-        response: http_client.get(path, fhir_headers),
+      reply = ClientReply.new(
+        response: http_client.get(resource_url(resource_class, id: id), nil, fhir_headers),
         resource_type: resource_class,
         client: self
       )
-      # TODO: Put note here about what ExceptionWithResponse is.
-    rescue RestClient::ExceptionWithResponse => http_error
-      ClientException.new(response: http_error)
+      raise ClientException, reply unless reply.success?
+      reply
     end
 
     def search(resource_class, params = {})
-      path = resource_url(resource_class, params).to_s
-      ClientReply.new(
-        response: http_client.get(path, fhir_headers),
+      reply = ClientReply.new(
+        response: http_client.get(resource_url(resource_class), params, fhir_headers),
         resource_type: resource_class,
         client: self
       )
-    rescue RestClient::ExceptionWithResponse => http_error
-      ClientException.new(response: http_error)
+      raise ClientException, reply unless reply.success?
+      reply
     end
 
     def create(resource_class, body, options = {})
-      path = resource_url(resource_class, options).to_s
-      ClientReply.new(
+      path = resource_url(resource_class, options)
+
+      reply = ClientReply.new(
         response: http_client.post(path, body.to_json, fhir_headers),
         resource_type: resource_class,
         client: self
       )
-    rescue RestClient::ExceptionWithResponse => http_error
-      ClientException.new(response: http_error)
+      raise ClientException, reply unless reply.success?
+      reply
     end
 
     def conditional_update(resource_class, body, params = {})
-      path = resource_url(resource_class, params).to_s
-      ClientReply.new(
+      path = resource_url(resource_class, params)
+
+      reply = ClientReply.new(
         response: http_client.put(path, body.to_json, fhir_headers),
         resource_type: resource_class,
         client: self
       )
-    rescue RestClient::ExceptionWithResponse => http_error
-      ClientException.new(response: http_error)
+      raise ClientException, reply unless reply.success?
+      reply
     end
 
     def capability_statement
       @capability_statement ||= begin
         ClientReply.new(
-          response: http_client.get(capability_url) # See if this pans out with Grahame's server, etc. (since it's not asking for json/etc)
+          response: http_client.get('metadata') # See if this pans out with Grahame's server, etc. (since it's not asking for json/etc)
         ).resource.tap do |capabilities|
           @fhir_version = capabilities.fhirVersion.to_f if capabilities.fhirVersion.present?
           select_mime_type!(capabilities.format)
@@ -131,18 +129,18 @@ module FHIR
     end
 
     def use_no_auth!
-      @http_client = NoAuthClient.new
+      @http_client = Faraday.new(iss)
     end
     alias set_no_auth use_no_auth!
 
     # TODO: Should the args here be id/secret or key/secret?
     def use_basic_auth!(username, password)
-      @http_client = BasicAuthClient.new(username, password)
+      @http_client.basic_auth(username, password)
     end
     alias set_basic_auth use_basic_auth!
 
     def use_bearer_token!(token)
-      @http_client = BearerTokenClient.new(token)
+      @http_client.authorization(:Bearer, token)
     end
     alias set_bearer_token use_bearer_token!
 
@@ -157,7 +155,9 @@ module FHIR
         }
       }
       client = OAuth2::Client.new(client_id, client_secret, options)
-      @http_client = client.client_credentials.get_token
+      # This might feel hacky, but Faraday is used underneath anyway, so
+      # why not keep the same method calls?
+      use_bearer_token!(client.client_credentials.get_token.token)
     end
     alias set_oauth2_auth use_oauth2_auth!
 
@@ -167,10 +167,6 @@ module FHIR
     alias get_oauth2_metadata_from_conformance oauth2_urls
 
     private
-
-    def capability_url
-      iss.merge(path: [iss.path, 'metadata'].compact.join('/')).to_s
-    end
 
     def fhir_headers
       return {} if use_format_param?
