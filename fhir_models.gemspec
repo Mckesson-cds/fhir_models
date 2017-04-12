@@ -1,4 +1,5 @@
 # coding: utf-8
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'fhir_models/version'
@@ -36,7 +37,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'nokogiri-diff'
-  spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'rubocop', '>= 0.48.1'
   spec.add_development_dependency 'codeclimate-test-reporter'
   spec.add_development_dependency 'webmock'
 end

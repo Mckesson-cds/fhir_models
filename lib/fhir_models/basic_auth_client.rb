@@ -1,4 +1,5 @@
 # TODO: This is nearly the same as BearerTokenClient... Can we make this nicer?
+# Client which uses HTTP Basic Auth
 class BasicAuthClient < NoAuthClient
   attr_reader :username, :password
 

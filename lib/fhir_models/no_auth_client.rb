@@ -1,3 +1,5 @@
+# Base client which requires no authentication.
+# Other client forms inherit from this
 class NoAuthClient
   attr_accessor :http_client
 

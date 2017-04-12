@@ -271,7 +271,7 @@ describe FHIR::Client do
       end
     end
 
-    context 'select_mime_type!', :focus do
+    context 'select_mime_type!' do
       def unset_accept_type
         subject.instance_variable_set(:@accept_type, nil)
       end
