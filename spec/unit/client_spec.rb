@@ -263,12 +263,13 @@ describe FHIR::Client do
 
         it 'removes the header and adds a query parameter' do
           stub_request(:get, "#{iss}/Patient/#{example_patient_id}?_format=json")
+          expected_url = Addressable::URI.parse("#{iss}/Patient/#{example_patient_id}?_format=json")
 
           # We need this AND the request stub because Webmock doesn't let you
           # check for headers with hash_excluding.
-          expect(Faraday)
+          expect_any_instance_of(Faraday::Connection)
             .to receive(:get)
-            .with("#{iss}/Patient/#{example_patient_id}?_format=json", nil, hash_excluding(unexpected_header))
+            .with(expected_url, nil, hash_excluding(unexpected_header))
             .twice
             .and_call_original
 
