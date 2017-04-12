@@ -1,12 +1,11 @@
 module FHIR
-  # ClientException acts like a ClientReply, but is intended to receive an
-  # ExceptionWithResponse object from the http_client.
-  class ClientException < ClientReply
-    # attr_accessor :exception_with_response
-    # delegate :response, to: :exception_with_response
+  # Exception which gets raised for failed FHIR requests
+  class ClientException < StandardError
+    attr_reader :client_reply
+    delegate :body, :status, :resource, :success?, to: :client_reply
 
-    def initialize(response:)
-      @response = response
+    def initialize(client_reply)
+      @client_reply = client_reply
     end
   end
 end

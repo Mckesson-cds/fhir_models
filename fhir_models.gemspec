@@ -27,7 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'bcp47', '>= 0.3'
   spec.add_dependency 'mime-types', '>= 1.16', '< 3'
   spec.add_dependency 'oauth2', '~> 1.1'
-  spec.add_dependency 'rest-client', '~> 1.8'
   spec.add_dependency 'faraday', '~> 0.11'
 
   spec.add_development_dependency 'bundler'

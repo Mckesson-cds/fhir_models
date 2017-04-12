@@ -5,6 +5,7 @@ module FHIR
     attr_accessor :response, :resource_type
     attr_reader :client
     delegate :body, :status, :request, to: :response
+    alias code status
 
     def initialize(response:, resource_type: nil, client: nil)
       @response = response
@@ -13,7 +14,7 @@ module FHIR
     end
 
     def resource
-      return if body.empty?
+      return if body.blank?
       @resource ||= FHIR.from_contents(body).tap do |resource|
         resource.client = client
       end

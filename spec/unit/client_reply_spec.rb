@@ -7,17 +7,9 @@ shared_examples 'a fhir response container' do
     end
   end
 
-  context '.code' do
+  context '.status' do
     it 'returns the response status code' do
       expect(subject.status).to eq expected_response_code
-    end
-  end
-
-  context '.request' do
-    it 'returns the originating request object' do
-      binding.pry unless response.respond_to?(:request)
-      expect(subject.request).to eq response.request
-      expect(subject.request.url).to eq iss
     end
   end
 end
@@ -96,8 +88,13 @@ describe FHIR::ClientException do
     stub_request(:get, iss).to_return(body: example_json, status: expected_response_code)
     Faraday.get(iss)
   end
+  let(:client_reply) do
+    FHIR::ClientReply.new(
+      response: response
+    )
+  end
 
-  subject { FHIR::ClientException.new(response: response) }
+  subject { FHIR::ClientException.new(client_reply) }
 
   it_behaves_like 'a fhir response container'
 
@@ -119,7 +116,7 @@ describe FHIR::ClientException do
 
   context '.success?' do
     it 'returns false' do
-      expect(subject.code).to eq expected_response_code
+      expect(subject.status).to eq expected_response_code
       expect(subject.success?).to eq false
     end
   end

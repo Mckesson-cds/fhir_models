@@ -28,12 +28,14 @@ describe FHIR::Client do
         stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
           .with(headers: fhir_headers)
           .to_return(status: 404, body: error_response)
-        response = subject.read(FHIR::Patient, example_patient_id)
 
-        expect(response).to be_a FHIR::ClientException
-        expect(response.resource).to be_a FHIR::OperationOutcome
-        expect(response.response.status).to eq 404
-        expect(response.response.body).to eq error_response
+        expect { subject.read(FHIR::Patient, example_patient_id) }.to raise_error do |error|
+          expect(error).to be_a(FHIR::ClientException)
+          reply = error.client_reply
+          expect(reply.resource).to be_a FHIR::OperationOutcome
+          expect(reply.status).to eq 404
+          expect(reply.body).to eq error_response
+        end
       end
     end
   end
@@ -75,12 +77,14 @@ describe FHIR::Client do
         stub_request(:get, "#{iss}/Patient")
           .with(headers: fhir_headers)
           .to_return(status: 400, body: error_response)
-        response = subject.search(FHIR::Patient)
 
-        expect(response).to be_a FHIR::ClientException
-        expect(response.resource).to be_a FHIR::OperationOutcome
-        expect(response.response.status).to eq 400
-        expect(response.response.body).to eq error_response
+        expect { subject.search(FHIR::Patient) }.to raise_error do |error|
+          expect(error).to be_a(FHIR::ClientException)
+          reply = error.client_reply
+          expect(reply.resource).to be_a FHIR::OperationOutcome
+          expect(reply.status).to eq 400
+          expect(reply.body).to eq error_response
+        end
       end
     end
   end
@@ -117,12 +121,14 @@ describe FHIR::Client do
         stub_request(:post, "#{iss}/Patient")
           .with(headers: fhir_headers)
           .to_return(status: 500, body: error_response)
-        response = subject.create(FHIR::Patient, {})
 
-        expect(response).to be_a FHIR::ClientException
-        expect(response.resource).to be_a FHIR::OperationOutcome
-        expect(response.response.status).to eq 500
-        expect(response.response.body).to eq error_response
+        expect { subject.create(FHIR::Patient, {}) }.to raise_error do |error|
+          expect(error).to be_a(FHIR::ClientException)
+          reply = error.client_reply
+          expect(reply.resource).to be_a FHIR::OperationOutcome
+          expect(reply.status).to eq 500
+          expect(reply.body).to eq error_response
+        end
       end
     end
   end
@@ -149,7 +155,7 @@ describe FHIR::Client do
           response = subject.conditional_update(FHIR::Patient, resource_hash, name: 'John')
 
           expect(response).to be_a FHIR::ClientReply
-          expect(response.response.code).to eq 200
+          expect(response.status).to eq 200
           expect(response.resource).to be_nil
           expect(response.client).to eq subject
         end
@@ -173,12 +179,14 @@ describe FHIR::Client do
           stub_request(:put, "#{iss}/Patient?name=Fred")
             .with(headers: fhir_headers, body: resource_hash.to_json)
             .to_return(status: 412, body: error_response)
-          response = subject.conditional_update(FHIR::Patient, resource_hash, name: 'Fred')
 
-          expect(response).to be_a FHIR::ClientException
-          expect(response.resource).to be_a FHIR::OperationOutcome
-          expect(response.response.code).to eq 412
-          expect(response.response.body).to eq error_response
+          expect { subject.conditional_update(FHIR::Patient, resource_hash, name: 'Fred') }.to raise_error do |error|
+            expect(error).to be_a(FHIR::ClientException)
+            reply = error.client_reply
+            expect(reply.resource).to be_a FHIR::OperationOutcome
+            expect(reply.status).to eq 412
+            expect(reply.body).to eq error_response
+          end
         end
       end
     end
@@ -190,12 +198,13 @@ describe FHIR::Client do
           .with(headers: fhir_headers)
           .to_return(status: 400, body: error_response)
 
-        response = subject.conditional_update(FHIR::Patient, {}, name: 'John')
-
-        expect(response).to be_a FHIR::ClientException
-        expect(response.resource).to be_a FHIR::OperationOutcome
-        expect(response.response.code).to eq 400
-        expect(response.response.body).to eq error_response
+        expect { subject.conditional_update(FHIR::Patient, {}, name: 'John') }.to raise_error do |error|
+          expect(error).to be_a(FHIR::ClientException)
+          reply = error.client_reply
+          expect(reply.resource).to be_a FHIR::OperationOutcome
+          expect(reply.status).to eq 400
+          expect(reply.body).to eq error_response
+        end
       end
     end
   end

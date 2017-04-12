@@ -1,4 +1,3 @@
-require 'rest-client'
 require 'addressable/uri'
 require 'oauth2'
 
@@ -47,71 +46,50 @@ module FHIR
 
     def read(resource_class, id)
       path = resource_url(resource_class, id: id).to_s
-      response = http_client.get(path, fhir_headers)
 
-      if successful?(response)
-        ClientReply.new(
-          response: response,
-          resource_type: resource_class,
-          client: self
-        )
-      else
-        ClientException.new(
-          response: response
-        )
-      end
-      # TODO: Put note here about what ExceptionWithResponse is.
-    rescue RestClient::ExceptionWithResponse => http_error
-      ClientException.new(response: http_error)
+      reply = ClientReply.new(
+        response: http_client.get(path, fhir_headers),
+        resource_type: resource_class,
+        client: self
+      )
+      raise ClientException, reply unless reply.success?
+      reply
     end
 
     def search(resource_class, params = {})
       path = resource_url(resource_class, params).to_s
-      response = http_client.get(path, fhir_headers)
 
-      if successful?(response)
-        ClientReply.new(
-          response: response,
-          resource_type: resource_class,
-          client: self
-        )
-      else
-        ClientException.new(
-          response: OpenStruct.new(response: response)
-        )
-      end
-    rescue RestClient::ExceptionWithResponse => http_error
-      ClientException.new(response: http_error)
+      reply = ClientReply.new(
+        response: http_client.get(path, fhir_headers),
+        resource_type: resource_class,
+        client: self
+      )
+      raise ClientException, reply unless reply.success?
+      reply
     end
 
     def create(resource_class, body, options = {})
       path = resource_url(resource_class, options).to_s
-      response = http_client.post(path, body.to_json, fhir_headers)
 
-      if successful?(response)
-        ClientReply.new(
-          response: response,
-          resource_type: resource_class,
-          client: self
-        )
-      else
-        ClientException.new(
-          response: response
-        )
-      end
-    rescue RestClient::ExceptionWithResponse => http_error
-      ClientException.new(response: http_error)
+      reply = ClientReply.new(
+        response: http_client.post(path, body.to_json, fhir_headers),
+        resource_type: resource_class,
+        client: self
+      )
+      raise ClientException, reply unless reply.success?
+      reply
     end
 
     def conditional_update(resource_class, body, params = {})
       path = resource_url(resource_class, params).to_s
-      ClientReply.new(
+
+      reply = ClientReply.new(
         response: http_client.put(path, body.to_json, fhir_headers),
         resource_type: resource_class,
         client: self
       )
-    rescue RestClient::ExceptionWithResponse => http_error
-      ClientException.new(response: http_error)
+      raise ClientException, reply unless reply.success?
+      reply
     end
 
     def capability_statement
