@@ -178,15 +178,5 @@ module FHIR
     def mime_types_for(fhir_version = @fhir_version)
       ACCEPT_HEADER_TYPES.detect { |versions, _values| versions.include? fhir_version }.last
     end
-
-    # Blech
-    def successful?(response)
-      case response
-      when Faraday::Response
-        response.success?
-      when OAuth2::Response
-        true
-      end
-    end
   end
 end
