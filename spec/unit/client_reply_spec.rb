@@ -129,4 +129,13 @@ describe FHIR::ClientException do
       expect(message).to match(example_json)
     end
   end
+
+  context '#short_message' do
+    it 'returns a short error message' do
+      message = subject.short_message
+      expect(message).to match('status 404')
+      expect(message).not_to match("GET #{iss}")
+      expect(message).not_to match(example_json)
+    end
+  end
 end

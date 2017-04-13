@@ -16,10 +16,14 @@ module FHIR
       # have the potential to end up in logs, but there could be situations
       # where that would be helpful.
       <<~MSG
-        FHIR transport failed with status #{status}
+        #{short_message}
           #{request_env.method.to_s.upcase} #{request_env.url}
           #{body}
       MSG
+    end
+
+    def short_message
+      "FHIR transport failed with status #{status}"
     end
   end
 end
