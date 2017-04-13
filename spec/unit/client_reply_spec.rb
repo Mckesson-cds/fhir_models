@@ -120,4 +120,13 @@ describe FHIR::ClientException do
       expect(subject.success?).to eq false
     end
   end
+
+  context '#to_s' do
+    it 'returns a descriptive error message' do
+      message = subject.to_s
+      expect(message).to match('status 404')
+      expect(message).to match("GET #{iss}")
+      expect(message).to match(example_json)
+    end
+  end
 end
