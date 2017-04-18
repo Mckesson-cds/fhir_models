@@ -2,7 +2,9 @@ root = File.expand_path '..', File.dirname(File.absolute_path(__FILE__))
 
 require 'fhir_models/operations'
 # FIXME: This should probably be a narrower scope!
-require 'active_support/all'
+# require 'active_support/all'
+require 'active_support/deprecation'
+require 'active_support/core_ext/hash'
 
 require File.join(root, 'lib', 'fhir_models', 'version')
 
