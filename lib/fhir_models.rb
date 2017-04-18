@@ -1,10 +1,6 @@
 root = File.expand_path '..', File.dirname(File.absolute_path(__FILE__))
 
-require 'fhir_models/operations'
-# FIXME: This should probably be a narrower scope!
-# require 'active_support/all'
-require 'active_support/deprecation'
-require 'active_support/core_ext/hash'
+require 'active_support/all'
 
 require File.join(root, 'lib', 'fhir_models', 'version')
 
@@ -22,10 +18,6 @@ end
 require File.join(root, 'lib', 'fhir_models', 'fhir.rb')
 
 # TODO: Refactor to take advantage of autoload in Rails
-require 'fhir_models/client/uri_helper'
-require 'fhir_models/client'
-require 'fhir_models/client_reply'
-require 'fhir_models/client_exception'
 
 # Require the generated code
 Dir.glob(File.join(root, 'lib', 'fhir_models', 'fhir', '*.rb')).each do |file|

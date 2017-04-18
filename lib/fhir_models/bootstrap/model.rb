@@ -2,6 +2,7 @@ require 'nokogiri'
 require 'mime/types'
 require 'yaml'
 require 'bcp47'
+require 'fhir_models/operations'
 
 module FHIR
   class Model

@@ -1,3 +1,7 @@
+require 'fhir_models/client/uri_helper'
+require 'fhir_models/client'
+require 'fhir_models/client_reply'
+require 'fhir_models/client_exception'
 require 'addressable/uri'
 require 'oauth2'
 
