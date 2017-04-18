@@ -1,6 +1,8 @@
 require 'nokogiri'
 require 'logger'
 module FHIR
+  DEPRECATOR = ActiveSupport::Deprecation.new('2.0', 'fhir_models')
+
   def self.logger
     @logger || default_logger
   end

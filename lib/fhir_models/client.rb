@@ -115,38 +115,44 @@ module FHIR
       @accept_type = :json
     end
     alias default_json use_json!
-    deprecate :default_json
+    deprecate default_json: :use_json!, deprecator: FHIR::DEPRECATOR
 
     def use_xml!
       @accept_type = :xml
     end
     alias default_xml use_xml!
-    deprecate :default_xml
+    deprecate default_xml: :use_xml!, deprecator: FHIR::DEPRECATOR
 
     def use_format_param?
       @use_format_param ||= false
     end
     alias use_format_param use_format_param?
+    deprecate use_format_param: :use_format_param?, deprecator: FHIR::DEPRECATOR
 
     def use_format_param!(value = true)
       @use_format_param = value
     end
+    alias use_format_param= use_format_param!
+    deprecate :use_format_param= => :use_format_param!, deprecator: FHIR::DEPRECATOR
 
     def use_no_auth!
       @http_client = Faraday.new(iss)
     end
     alias set_no_auth use_no_auth!
+    deprecate set_no_auth: :use_no_auth!, deprecator: FHIR::DEPRECATOR
 
     # TODO: Should the args here be id/secret or key/secret?
     def use_basic_auth!(username, password)
       @http_client.basic_auth(username, password)
     end
     alias set_basic_auth use_basic_auth!
+    deprecate set_basic_auth: :use_basic_auth!, deprecator: FHIR::DEPRECATOR
 
     def use_bearer_token!(token)
       @http_client.authorization(:Bearer, token)
     end
     alias set_bearer_token use_bearer_token!
+    deprecate set_bearer_token: :use_bearer_token!, deprecator: FHIR::DEPRECATOR
 
     def use_oauth2_auth!(client_id, client_secret, authorize_url, token_url)
       options = {
@@ -164,11 +170,13 @@ module FHIR
       use_bearer_token!(client.client_credentials.get_token.token)
     end
     alias set_oauth2_auth use_oauth2_auth!
+    deprecate set_oauth2_auth: :use_oauth2_auth!, deprecator: FHIR::DEPRECATOR
 
     def oauth2_urls
       capability_statement.oauth2_urls
     end
     alias get_oauth2_metadata_from_conformance oauth2_urls
+    deprecate get_oauth2_metadata_from_conformance: :oauth2_urls, deprecator: FHIR::DEPRECATOR
 
     private
 
