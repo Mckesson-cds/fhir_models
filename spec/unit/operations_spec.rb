@@ -106,7 +106,7 @@ describe FHIR::Model do
           created_model = patient.create
 
           expect(stub).to have_been_requested
-          expect(created_model).to eq patient
+          expect(created_model).to be patient
         end
 
         it 'performs a POST with itself as params using an override client' do
@@ -119,7 +119,7 @@ describe FHIR::Model do
           created_model = patient.create(other_client)
 
           expect(stub).to have_been_requested
-          expect(created_model).to eq patient
+          expect(created_model).to be patient
         end
       end
 
@@ -132,8 +132,8 @@ describe FHIR::Model do
           created_model = patient.create
 
           expect(stub).to have_been_requested
-          expect(created_model).not_to eq patient
-          expect(created_model.client).to eq client
+          expect(created_model).not_to be patient
+          expect(created_model.client).to be client
         end
 
         it 'performs a POST with itself as params using an override client' do
@@ -146,8 +146,8 @@ describe FHIR::Model do
           created_model = patient.create(other_client)
 
           expect(stub).to have_been_requested
-          expect(created_model).not_to eq patient
-          expect(created_model.client).to eq other_client
+          expect(created_model).not_to be patient
+          expect(created_model.client).to be other_client
         end
       end
     end
@@ -162,7 +162,7 @@ describe FHIR::Model do
           created_model = patient.create(client)
 
           expect(stub).to have_been_requested
-          expect(created_model).to eq patient
+          expect(created_model).to be patient
         end
       end
 
@@ -175,8 +175,8 @@ describe FHIR::Model do
           created_model = patient.create(client)
 
           expect(stub).to have_been_requested
-          expect(created_model).not_to eq patient
-          expect(created_model.client).to eq client
+          expect(created_model).not_to be patient
+          expect(created_model.client).to be client
         end
       end
 
@@ -220,7 +220,7 @@ describe FHIR::Model do
           updated_model = patient.conditional_update(name: 'Jackson')
 
           expect(stub).to have_been_requested
-          expect(updated_model).to eq patient
+          expect(updated_model).to be patient
         end
 
         it 'performs a PUT with itself as params using an override client' do
@@ -233,7 +233,7 @@ describe FHIR::Model do
           updated_model = patient.conditional_update({ name: 'Jackson' }, other_client)
 
           expect(stub).to have_been_requested
-          expect(updated_model).to eq patient
+          expect(updated_model).to be patient
         end
       end
 
@@ -246,8 +246,8 @@ describe FHIR::Model do
           updated_model = patient.conditional_update(name: 'Bob')
 
           expect(stub).to have_been_requested
-          expect(updated_model).not_to eq patient
-          expect(updated_model.client).to eq client
+          expect(updated_model).not_to be patient
+          expect(updated_model.client).to be client
         end
 
         it 'performs a PUT with itself as params using an override client' do
@@ -260,8 +260,8 @@ describe FHIR::Model do
           updated_model = patient.conditional_update({ name: 'Bob' }, other_client)
 
           expect(stub).to have_been_requested
-          expect(updated_model).not_to eq patient
-          expect(updated_model.client).to eq other_client
+          expect(updated_model).not_to be patient
+          expect(updated_model.client).to be other_client
         end
       end
     end
@@ -276,7 +276,7 @@ describe FHIR::Model do
           updated_model = patient.conditional_update({ name: 'Jackson' }, client)
 
           expect(stub).to have_been_requested
-          expect(updated_model).to eq patient
+          expect(updated_model).to be patient
         end
       end
 
@@ -289,8 +289,8 @@ describe FHIR::Model do
           updated_model = patient.conditional_update({ name: 'Bob Jackson' }, client)
 
           expect(stub).to have_been_requested
-          expect(updated_model).not_to eq patient
-          expect(updated_model.client).to eq client
+          expect(updated_model).not_to be patient
+          expect(updated_model.client).to be client
         end
       end
 
