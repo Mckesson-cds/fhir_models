@@ -2,7 +2,7 @@ describe FHIR::Model do
   let(:iss) { 'http://fhir.example.com' }
   let(:client) { FHIR::Client.new(iss) }
   let(:fhir_headers) do
-    { 'Accept' => 'application/fhir+json' }
+    { 'Accept' => 'application/json+fhir; fhirVersion=1.6.0' }
   end
 
   let(:example_json) { File.read('./spec/fixtures/json/patient-example.json') }
@@ -22,18 +22,20 @@ describe FHIR::Model do
     let(:search_json) { File.read('./spec/fixtures/json/search-example.json') }
 
     it 'performs a GET with the search params' do
-      stub_request(:get, "#{iss}/Patient?name=Chadwick")
+      stub = stub_request(:get, "#{iss}/Patient?name=Chadwick")
         .with(headers: fhir_headers)
         .to_return(body: search_json, status: 200)
       models = FHIR::Patient.search({ name: 'Chadwick' }, client)
+      expect(stub).to have_been_requested
       expect(models).to be_a FHIR::Bundle
     end
 
     it 'performs a GET with nested search params', :skip do # I think this is wrong?
-      stub_request(:get, "#{iss}/Patient?search[name]=Chadwick")
+      stub = stub_request(:get, "#{iss}/Patient?search[name]=Chadwick")
         .with(headers: fhir_headers)
         .to_return(body: search_json, status: 200)
       models = FHIR::Patient.search({ search: { name: 'Chadwick' } }, client)
+      expect(stub).to have_been_requested
       expect(models).to be_a FHIR::Bundle
     end
   end

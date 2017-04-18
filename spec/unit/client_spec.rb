@@ -3,8 +3,9 @@ require 'spec_helper'
 describe FHIR::Client do
   let(:iss) { 'http://fhir.example.com' }
   let(:example_json) { File.read('./spec/fixtures/json/patient-example.json') }
+  let(:fhir_version) { '1.6.0' }
   let(:fhir_headers) do
-    { 'Accept' => 'application/fhir+json' }
+    { 'Accept' => "#{subject.send(:mime_types_for, fhir_version)[:json]}; fhirVersion=#{fhir_version}" }
   end
   let(:example_patient_id) { '575577' }
   subject { FHIR::Client.new(iss) }
@@ -211,7 +212,7 @@ describe FHIR::Client do
 
   context 'mime type methods' do
     context '#use_json!' do
-      let(:expected_header) { { 'Accept' => 'application/fhir+json' } }
+      let(:expected_header) { { 'Accept' => "application/json+fhir; fhirVersion=#{fhir_version}" } }
 
       it 'sets the accept header' do
         subject.use_json!
@@ -227,7 +228,7 @@ describe FHIR::Client do
     end
 
     context '#use_xml!' do
-      let(:expected_header) { { 'Accept' => 'application/fhir+xml' } }
+      let(:expected_header) { { 'Accept' => "application/xml+fhir; fhirVersion=#{fhir_version}" } }
 
       it 'sets the accept header' do
         subject.use_xml!
@@ -244,7 +245,7 @@ describe FHIR::Client do
 
     context '#use_format_param' do
       context 'false' do
-        let(:expected_header) { { 'Accept' => 'application/fhir+json' } }
+        let(:expected_header) { { 'Accept' => "application/json+fhir; fhirVersion=#{fhir_version}" } }
 
         it 'uses the accept header without parameter' do
           stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
@@ -259,7 +260,7 @@ describe FHIR::Client do
       end
 
       context 'true' do
-        let(:unexpected_header) { { 'Accept' => 'application/fhir+json' } }
+        let(:unexpected_header) { { 'Accept' => "application/json+fhir; fhirVersion=#{fhir_version}" } }
 
         it 'removes the header and adds a query parameter' do
           stub_request(:get, "#{iss}/Patient/#{example_patient_id}?_format=json")
@@ -352,6 +353,22 @@ describe FHIR::Client do
     end
   end
 
+  context '#fhir_version' do
+    ['1.6.0', '1.8.0'].each do |version|
+      context "FHIR v#{version}" do
+        let(:fhir_version) { version }
+
+        it 'sets the outbound accept header version' do
+          stub = stub_request(:get, "#{iss}/Patient/1234")
+            .with(headers: fhir_headers)
+          subject.fhir_version = fhir_version
+          subject.read(FHIR::Patient, 1234)
+          expect(stub).to have_been_requested
+        end
+      end
+    end
+  end
+
   context '#capability_statement' do
     let(:example_json) do
       {
@@ -363,7 +380,7 @@ describe FHIR::Client do
 
     context 'FHIR >= 1.8' do
       let(:resource_type) { 'CapabilityStatement' }
-      let(:fhir_version) { 1.8 }
+      let(:fhir_version) { '1.8.0' }
       let(:accepted_formats) { ['application/fhir+xml'] }
 
       it 'returns a valid capability statement' do
@@ -377,11 +394,16 @@ describe FHIR::Client do
 
     context 'FHIR < 1.8' do
       let(:resource_type) { 'Conformance' }
-      let(:fhir_version) { 1.6 }
+      let(:fhir_version) { '1.6.0' }
       let(:accepted_formats) { ['application/xml+fhir'] }
 
-      # TODO: Implement when multiple FHIR Versions are supported!
-      it 'returns a valid conformance statement'
+      it 'returns a valid conformance statement' do
+        stub_request(:get, "#{iss}/metadata")
+          .to_return(body: example_json)
+        expect(subject.conformance_statement).to be_a FHIR::Conformance
+        expect(subject.fhir_version).to eq fhir_version
+        expect(subject.accept_type).to eq :xml
+      end
     end
   end
 

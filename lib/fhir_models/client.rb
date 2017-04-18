@@ -38,12 +38,12 @@ module FHIR
 
     include FHIR::URIHelper
 
-    attr_accessor :iss, :http_client
-    attr_reader :accept_type, :fhir_version
+    attr_accessor :iss, :http_client, :fhir_version
+    attr_reader :accept_type
 
     def initialize(iss)
       @iss = Addressable::URI.parse(iss)
-      @fhir_version = FHIR::VERSION.to_f
+      @fhir_version = FHIR::VERSION
       use_no_auth!
       use_json!
     end
@@ -97,7 +97,7 @@ module FHIR
         ClientReply.new(
           response: http_client.get('metadata') # See if this pans out with Grahame's server, etc. (since it's not asking for json/etc)
         ).resource.tap do |capabilities|
-          @fhir_version = capabilities.fhirVersion.to_f if capabilities.fhirVersion.present?
+          @fhir_version = capabilities.fhirVersion if capabilities.fhirVersion.present?
           select_mime_type!(capabilities.format)
         end
       end
@@ -183,12 +183,12 @@ module FHIR
     def fhir_headers
       return {} if use_format_param?
       {
-        'Accept' => mime_types_for(fhir_version)[accept_type]
+        'Accept' => mime_types_for(fhir_version)[accept_type] + "; fhirVersion=#{fhir_version}"
       }
     end
 
     def mime_types_for(fhir_version = @fhir_version)
-      ACCEPT_HEADER_TYPES.detect { |versions, _values| versions.include? fhir_version }.last
+      ACCEPT_HEADER_TYPES.detect { |versions, _values| versions.include? fhir_version.to_f }.last
     end
   end
 end
