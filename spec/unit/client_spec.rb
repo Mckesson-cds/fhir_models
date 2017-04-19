@@ -3,9 +3,14 @@ require 'spec_helper'
 describe FHIR::Client do
   let(:iss) { 'http://fhir.example.com' }
   let(:example_json) { File.read('./spec/fixtures/json/patient-example.json') }
+  let(:preferred_format) { :json }
   let(:fhir_version) { '1.6.0' }
+  let(:shared_header) { "#{subject.send(:mime_types_for, fhir_version)[preferred_format]}; fhirVersion=#{fhir_version}" }
   let(:fhir_headers) do
-    { 'Accept' => "#{subject.send(:mime_types_for, fhir_version)[:json]}; fhirVersion=#{fhir_version}" }
+    {
+      'Accept' => shared_header,
+      'Content-Type' => shared_header
+    }
   end
   let(:example_patient_id) { '575577' }
   subject { FHIR::Client.new(iss) }
@@ -272,13 +277,13 @@ describe FHIR::Client do
 
   context 'mime type methods' do
     context '#use_json!' do
-      let(:expected_header) { { 'Accept' => "application/json+fhir; fhirVersion=#{fhir_version}" } }
+      let(:preferred_format) { :json }
 
       it 'sets the accept header' do
         subject.use_json!
 
         stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
-          .with(headers: expected_header)
+          .with(headers: fhir_headers)
           .to_return(status: 200)
 
         subject.read(FHIR::Patient, example_patient_id)
@@ -288,13 +293,13 @@ describe FHIR::Client do
     end
 
     context '#use_xml!' do
-      let(:expected_header) { { 'Accept' => "application/xml+fhir; fhirVersion=#{fhir_version}" } }
+      let(:preferred_format) { :xml }
 
       it 'sets the accept header' do
         subject.use_xml!
 
         stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
-          .with(headers: expected_header)
+          .with(headers: fhir_headers)
           .to_return(status: 200)
 
         subject.read(FHIR::Patient, example_patient_id)
@@ -305,11 +310,9 @@ describe FHIR::Client do
 
     context '#use_format_param' do
       context 'false' do
-        let(:expected_header) { { 'Accept' => "application/json+fhir; fhirVersion=#{fhir_version}" } }
-
         it 'uses the accept header without parameter' do
           stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
-            .with(headers: expected_header)
+            .with(headers: fhir_headers)
           # The default is false
           subject.read(FHIR::Patient, example_patient_id)
           subject.use_format_param!(false)
@@ -320,8 +323,6 @@ describe FHIR::Client do
       end
 
       context 'true' do
-        let(:unexpected_header) { { 'Accept' => "application/json+fhir; fhirVersion=#{fhir_version}" } }
-
         it 'removes the header and adds a query parameter' do
           stub_request(:get, "#{iss}/Patient/#{example_patient_id}?_format=json")
           expected_url = Addressable::URI.parse("#{iss}/Patient/#{example_patient_id}?_format=json")
@@ -330,7 +331,7 @@ describe FHIR::Client do
           # check for headers with hash_excluding.
           expect_any_instance_of(Faraday::Connection)
             .to receive(:get)
-            .with(expected_url, nil, hash_excluding(unexpected_header))
+            .with(expected_url, nil, hash_excluding(fhir_headers))
             .twice
             .and_call_original
 

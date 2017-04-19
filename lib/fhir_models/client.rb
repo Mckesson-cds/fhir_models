@@ -194,8 +194,10 @@ module FHIR
 
     def fhir_headers
       return {} if use_format_param?
+      format_header = mime_types_for(fhir_version)[accept_type] + "; fhirVersion=#{fhir_version}"
       {
-        'Accept' => mime_types_for(fhir_version)[accept_type] + "; fhirVersion=#{fhir_version}"
+        'Accept' => format_header,
+        'Content-Type' => format_header
       }
     end
 
