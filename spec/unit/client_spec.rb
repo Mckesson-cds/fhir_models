@@ -15,6 +15,64 @@ describe FHIR::Client do
   let(:example_patient_id) { '575577' }
   subject { FHIR::Client.new(iss) }
 
+  context 'custom headers' do
+    let(:custom_headers) do
+      {
+        'Prefer' => 'return=minimal',
+        'X-Foo' => 'bar',
+        'X-Request-ID' => '1234'
+      }
+    end
+
+    it 'only has the FHIR headers by default' do
+      stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
+        .with(headers: fhir_headers)
+        .to_return(body: example_json)
+      response = subject.read(FHIR::Patient, example_patient_id)
+
+      expect(stub).to have_been_requested
+    end
+
+    it 'adds custom headers' do
+      expected_headers = fhir_headers.merge(custom_headers)
+      stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
+        .with(headers: expected_headers)
+        .to_return(body: example_json)
+
+      subject.headers = custom_headers
+      response = subject.read(FHIR::Patient, example_patient_id)
+
+      expect(stub).to have_been_requested
+    end
+
+    it 'adds custom headers via initializer' do
+      expected_headers = fhir_headers.merge(custom_headers)
+      stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
+        .with(headers: expected_headers)
+        .to_return(body: example_json)
+
+      client = FHIR::Client.new(iss, headers: custom_headers)
+      client.headers = custom_headers
+      response = client.read(FHIR::Patient, example_patient_id)
+
+      expect(stub).to have_been_requested
+    end
+
+    context 'with format param' do
+      it 'adds custom headers' do
+        stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}?_format=json")
+          .with(headers: custom_headers)
+          .to_return(body: example_json)
+
+        subject.use_format_param!
+        subject.headers = custom_headers
+        response = subject.read(FHIR::Patient, example_patient_id)
+
+        expect(stub).to have_been_requested
+      end
+    end
+  end
+
   context '#read' do
     it 'constructs a valid FHIR request with the ID' do
       stub_request(:get, "#{iss}/Patient/#{example_patient_id}")

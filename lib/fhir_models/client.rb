@@ -38,12 +38,13 @@ module FHIR
 
     include FHIR::URIHelper
 
-    attr_accessor :iss, :http_client, :fhir_version
+    attr_accessor :iss, :http_client, :fhir_version, :headers
     attr_reader :accept_type
 
-    def initialize(iss)
+    def initialize(iss, headers: {})
       @iss = Addressable::URI.parse(iss)
       @fhir_version = FHIR::VERSION
+      @headers = headers
       use_no_auth!
       use_json!
     end
@@ -193,12 +194,12 @@ module FHIR
     private
 
     def fhir_headers
-      return {} if use_format_param?
+      return headers if use_format_param?
       format_header = mime_types_for(fhir_version)[accept_type] + "; fhirVersion=#{fhir_version}"
-      {
+      headers.merge(
         'Accept' => format_header,
         'Content-Type' => format_header
-      }
+      )
     end
 
     def mime_types_for(fhir_version = @fhir_version)
