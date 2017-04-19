@@ -60,6 +60,26 @@ describe FHIR::Model do
     end
   end
 
+  describe '.update' do
+    it 'performs a PUT request with the params' do
+      resource_hash = {
+        id: '575557',
+        name: [{
+          given: ['Bob'],
+          family: ['Jackson']
+        }],
+        resourceType: 'Patient'
+      }
+      patient = FHIR::Patient.new(resource_hash)
+
+      stub_request(:put, "#{iss}/Patient/575557")
+        .with(headers: fhir_headers, body: resource_hash.to_json)
+        .to_return(status: 200)
+      model = FHIR::Patient.update(patient, client)
+      expect(model).to be_a FHIR::Patient
+    end
+  end
+
   describe '.conditional_update' do
     it 'performs a PUT request with the params' do
       resource_hash = {
@@ -188,6 +208,120 @@ describe FHIR::Model do
           .to_return(status: 201)
 
         expect { patient.create }.to raise_error(FHIR::Operations::MissingClientError)
+
+        expect(stub).not_to have_been_requested
+      end
+    end
+  end
+
+  describe '#update' do
+    let(:resource_hash) do
+      {
+        id: '575557',
+        name: [{
+          family: ['Jackson'],
+          given: ['Bob']
+        }],
+        resourceType: 'Patient'
+      }
+    end
+
+    let(:patient) { FHIR::Patient.new(resource_hash) }
+
+    context 'with a client set on the model' do
+      before do
+        patient.client = client
+      end
+
+      context 'when the response body is empty' do
+        it 'performs a PUT with itself as params using the set client' do
+          stub = stub_request(:put, "#{iss}/Patient/575557")
+            .with(headers: fhir_headers, body: resource_hash.to_json)
+            .to_return(status: 200)
+
+          updated_model = patient.update
+
+          expect(stub).to have_been_requested
+          expect(updated_model).to be patient
+        end
+
+        it 'performs a PUT with itself as params using an override client' do
+          other_iss = 'http://otherfhir.example.com'
+          other_client = FHIR::Client.new(other_iss)
+          stub = stub_request(:put, "#{other_iss}/Patient/575557")
+            .with(headers: fhir_headers, body: resource_hash.to_json)
+            .to_return(status: 200)
+
+          updated_model = patient.update(other_client)
+
+          expect(stub).to have_been_requested
+          expect(updated_model).to be patient
+        end
+      end
+
+      context 'when the response body is present' do
+        it 'performs a PUT with itself as params using the set client' do
+          stub = stub_request(:put, "#{iss}/Patient/575557")
+            .with(headers: fhir_headers, body: resource_hash.to_json)
+            .to_return(status: 200, body: resource_hash.to_json)
+
+          updated_model = patient.update
+
+          expect(stub).to have_been_requested
+          expect(updated_model).not_to be patient
+          expect(updated_model.client).to be client
+        end
+
+        it 'performs a PUT with itself as params using an override client' do
+          other_iss = 'http://otherfhir.example.com'
+          other_client = FHIR::Client.new(other_iss)
+          stub = stub_request(:put, "#{other_iss}/Patient/575557")
+            .with(headers: fhir_headers, body: resource_hash.to_json)
+            .to_return(status: 200, body: resource_hash.to_json)
+
+          updated_model = patient.update(other_client)
+
+          expect(stub).to have_been_requested
+          expect(updated_model).not_to be patient
+          expect(updated_model.client).to be other_client
+        end
+      end
+    end
+
+    context 'with no client set on the model' do
+      context 'when response body is empty' do
+        it 'performs a PUT with itself as params when a client is passed' do
+          stub = stub_request(:put, "#{iss}/Patient/575557")
+            .with(headers: fhir_headers, body: resource_hash.to_json)
+            .to_return(status: 200)
+
+          updated_model = patient.update(client)
+
+          expect(stub).to have_been_requested
+          expect(updated_model).to be patient
+        end
+      end
+
+      context 'when response body is present' do
+        it 'performs a PUT with itself as params when a client is passed' do
+          stub = stub_request(:put, "#{iss}/Patient/575557")
+            .with(headers: fhir_headers, body: resource_hash.to_json)
+            .to_return(status: 200, body: resource_hash.to_json)
+
+          updated_model = patient.update(client)
+
+          expect(stub).to have_been_requested
+          expect(updated_model).not_to be patient
+          expect(updated_model.client).to be client
+        end
+      end
+
+      it 'fails when no client is passed' do
+        stub = stub_request(:put, "#{iss}/Patient/575557")
+          .with(headers: fhir_headers, body: resource_hash.to_json)
+          .to_return(status: 200)
+
+        expect { patient.update }.to raise_error(FHIR::Operations::MissingClientError)
 
         expect(stub).not_to have_been_requested
       end

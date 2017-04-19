@@ -80,6 +80,18 @@ module FHIR
       reply
     end
 
+    def update(resource_class, id, body)
+      path = resource_url(resource_class, id: id)
+
+      reply = ClientReply.new(
+        response: http_client.put(path, body.to_json, fhir_headers),
+        resource_type: resource_class,
+        client: self
+      )
+      raise ClientException, reply unless reply.success?
+      reply
+    end
+
     def conditional_update(resource_class, body, params = {})
       path = resource_url(resource_class, params)
 

@@ -134,6 +134,66 @@ describe FHIR::Client do
     end
   end
 
+  context '#update' do
+    let(:resource_id) { '1234' }
+
+    context 'with valid content' do
+      let(:resource_hash) do
+        {
+          id: resource_id,
+          name: [
+            {
+              family: ['Watson'],
+              given: ['John']
+            }
+          ]
+        }
+      end
+
+      it 'returns a successful status code' do
+        stub_request(:put, "#{iss}/Patient/#{resource_id}")
+          .with(headers: fhir_headers, body: resource_hash.to_json)
+          .to_return(status: 200, body: '')
+
+        response = subject.update(FHIR::Patient, resource_id, resource_hash)
+
+        expect(response).to be_a FHIR::ClientReply
+        expect(response.status).to eq 200
+        expect(response.resource).to be_nil
+        expect(response.client).to eq subject
+      end
+
+      it 'can parse a response from the server' do
+        stub_request(:put, "#{iss}/Patient/#{resource_id}")
+          .with(headers: fhir_headers)
+          .to_return(status: 200, body: example_json)
+
+        response = subject.update(FHIR::Patient, resource_id, resource_hash)
+
+        expect(response).to be_a FHIR::ClientReply
+        expect(response.resource).to be_a FHIR::Patient
+        expect(response.resource.id).to eq 'example'
+      end
+    end
+
+    context 'with invalid content' do
+      it 'returns an exception object' do
+        error_response = '{ "resourceType": "OperationOutcome", "issue": { "diagnostics": "Patient requires field \'name\' to be set." } }'
+        stub_request(:put, "#{iss}/Patient/#{resource_id}")
+          .with(headers: fhir_headers)
+          .to_return(status: 400, body: error_response)
+
+        expect { subject.update(FHIR::Patient, resource_id, {}) }.to raise_error do |error|
+          expect(error).to be_a(FHIR::ClientException)
+          reply = error.client_reply
+          expect(reply.resource).to be_a FHIR::OperationOutcome
+          expect(reply.status).to eq 400
+          expect(reply.body).to eq error_response
+        end
+      end
+    end
+  end
+
   context '#conditional_update' do
     context 'with valid content' do
       let(:resource_hash) do
