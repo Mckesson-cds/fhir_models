@@ -2,6 +2,7 @@ require 'fhir_models/client/uri_helper'
 require 'fhir_models/client'
 require 'fhir_models/client_reply'
 require 'fhir_models/client_exception'
+require 'fhir_models/request_logger'
 require 'addressable/uri'
 require 'oauth2'
 
@@ -149,7 +150,10 @@ module FHIR
     deprecate :use_format_param= => :use_format_param!, deprecator: FHIR::DEPRECATOR
 
     def use_no_auth!
-      @http_client = Faraday.new(iss)
+      @http_client = Faraday.new(iss) do |client|
+        client.use FHIR::RequestLogger, FHIR.logger
+        client.adapter Faraday.default_adapter
+      end
     end
     alias set_no_auth use_no_auth!
     deprecate set_no_auth: :use_no_auth!, deprecator: FHIR::DEPRECATOR

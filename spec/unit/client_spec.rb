@@ -27,8 +27,7 @@ describe FHIR::Client do
     it 'only has the FHIR headers by default' do
       stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
         .with(headers: fhir_headers)
-        .to_return(body: example_json)
-      response = subject.read(FHIR::Patient, example_patient_id)
+      subject.read(FHIR::Patient, example_patient_id)
 
       expect(stub).to have_been_requested
     end
@@ -40,7 +39,7 @@ describe FHIR::Client do
         .to_return(body: example_json)
 
       subject.headers = custom_headers
-      response = subject.read(FHIR::Patient, example_patient_id)
+      subject.read(FHIR::Patient, example_patient_id)
 
       expect(stub).to have_been_requested
     end
@@ -53,7 +52,7 @@ describe FHIR::Client do
 
       client = FHIR::Client.new(iss, headers: custom_headers)
       client.headers = custom_headers
-      response = client.read(FHIR::Patient, example_patient_id)
+      client.read(FHIR::Patient, example_patient_id)
 
       expect(stub).to have_been_requested
     end
