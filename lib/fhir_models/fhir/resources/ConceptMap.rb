@@ -1,9 +1,5 @@
 module FHIR
   class ConceptMap < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'source' => ['uri', 'Reference'],
       'target' => ['uri', 'Reference']
@@ -39,10 +35,6 @@ module FHIR
     }
 
     class Contact < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Contact.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Contact.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -50,19 +42,9 @@ module FHIR
         'name' => {'type'=>'string', 'path'=>'Contact.name', 'min'=>0, 'max'=>1},
         'telecom' => {'type'=>'ContactPoint', 'path'=>'Contact.telecom', 'min'=>0, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :name              # 0-1 string
-      attr_accessor :telecom           # 0-* [ ContactPoint ]
     end
 
     class Group < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Group.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Group.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -75,10 +57,6 @@ module FHIR
       }
 
       class Element < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Element.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Element.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -88,10 +66,6 @@ module FHIR
         }
 
         class Target < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'Target.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'Target.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -104,10 +78,6 @@ module FHIR
           }
 
           class DependsOn < FHIR::Model
-            include FHIR::Hashable
-            include FHIR::Json
-            include FHIR::Xml
-
             METADATA = {
               'id' => {'type'=>'string', 'path'=>'DependsOn.id', 'min'=>0, 'max'=>1},
               'extension' => {'type'=>'Extension', 'path'=>'DependsOn.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -116,71 +86,9 @@ module FHIR
               'system' => {'type'=>'uri', 'path'=>'DependsOn.system', 'min'=>0, 'max'=>1},
               'code' => {'type'=>'string', 'path'=>'DependsOn.code', 'min'=>1, 'max'=>1}
             }
-
-            attr_accessor :id                # 0-1 string
-            attr_accessor :extension         # 0-* [ Extension ]
-            attr_accessor :modifierExtension # 0-* [ Extension ]
-            attr_accessor :property          # 1-1 uri
-            attr_accessor :system            # 0-1 uri
-            attr_accessor :code              # 1-1 string
           end
-
-          attr_accessor :id                # 0-1 string
-          attr_accessor :extension         # 0-* [ Extension ]
-          attr_accessor :modifierExtension # 0-* [ Extension ]
-          attr_accessor :code              # 0-1 code
-          attr_accessor :equivalence       # 0-1 code
-          attr_accessor :comments          # 0-1 string
-          attr_accessor :dependsOn         # 0-* [ ConceptMap::Group::Element::Target::DependsOn ]
-          attr_accessor :product           # 0-* [ ConceptMap::Group::Element::Target::DependsOn ]
         end
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :code              # 0-1 code
-        attr_accessor :target            # 0-* [ ConceptMap::Group::Element::Target ]
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :source            # 1-1 uri
-      attr_accessor :sourceVersion     # 0-1 string
-      attr_accessor :target            # 0-1 uri
-      attr_accessor :targetVersion     # 0-1 string
-      attr_accessor :element           # 1-* [ ConceptMap::Group::Element ]
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :url               # 0-1 uri
-    attr_accessor :identifier        # 0-1 Identifier
-    attr_accessor :version           # 0-1 string
-    attr_accessor :name              # 0-1 string
-    attr_accessor :status            # 1-1 code
-    attr_accessor :experimental      # 0-1 boolean
-    attr_accessor :publisher         # 0-1 string
-    attr_accessor :contact           # 0-* [ ConceptMap::Contact ]
-    attr_accessor :date              # 0-1 dateTime
-    attr_accessor :description       # 0-1 markdown
-    attr_accessor :useContext        # 0-* [ CodeableConcept ]
-    attr_accessor :requirements      # 0-1 markdown
-    attr_accessor :copyright         # 0-1 string
-    attr_accessor :sourceUri         # 1-1 uri
-    attr_accessor :sourceReference   # 1-1 Reference(ValueSet|StructureDefinition)
-    attr_accessor :targetUri         # 1-1 uri
-    attr_accessor :targetReference   # 1-1 Reference(ValueSet|StructureDefinition)
-    attr_accessor :group             # 0-* [ ConceptMap::Group ]
-
-    def resourceType
-      'ConceptMap'
     end
   end
 end

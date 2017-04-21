@@ -1,9 +1,5 @@
 module FHIR
   class EligibilityResponse < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'request' => ['Identifier', 'Reference'],
       'organization' => ['Identifier', 'Reference'],
@@ -43,10 +39,6 @@ module FHIR
     }
 
     class BenefitBalance < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'BenefitBalance.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'BenefitBalance.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -62,10 +54,6 @@ module FHIR
       }
 
       class Financial < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         MULTIPLE_TYPES = {
           'benefit' => ['unsignedInt', 'string', 'Money'],
           'benefitUsed' => ['unsignedInt', 'Money']
@@ -81,80 +69,16 @@ module FHIR
           'benefitUsedUnsignedInt' => {'type'=>'unsignedInt', 'path'=>'Financial.benefitUsed[x]', 'min'=>0, 'max'=>1},
           'benefitUsedMoney' => {'type'=>'Money', 'path'=>'Financial.benefitUsed[x]', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                     # 0-1 string
-        attr_accessor :extension              # 0-* [ Extension ]
-        attr_accessor :modifierExtension      # 0-* [ Extension ]
-        attr_accessor :type                   # 1-1 Coding
-        attr_accessor :benefitUnsignedInt     # 0-1 unsignedInt
-        attr_accessor :benefitString          # 0-1 string
-        attr_accessor :benefitMoney           # 0-1 Money
-        attr_accessor :benefitUsedUnsignedInt # 0-1 unsignedInt
-        attr_accessor :benefitUsedMoney       # 0-1 Money
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :category          # 1-1 Coding
-      attr_accessor :subCategory       # 0-1 Coding
-      attr_accessor :name              # 0-1 string
-      attr_accessor :description       # 0-1 string
-      attr_accessor :network           # 0-1 Coding
-      attr_accessor :unit              # 0-1 Coding
-      attr_accessor :term              # 0-1 Coding
-      attr_accessor :financial         # 0-* [ EligibilityResponse::BenefitBalance::Financial ]
     end
 
     class Error < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Error.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Error.extension', 'min'=>0, 'max'=>Float::INFINITY},
         'modifierExtension' => {'type'=>'Extension', 'path'=>'Error.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
         'code' => {'valid_codes'=>{'http://hl7.org/fhir/adjudication-error'=>['a001', 'a002', 'a001', 'a002']}, 'type'=>'Coding', 'path'=>'Error.code', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/adjudication-error'}}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :code              # 1-1 Coding
-    end
-
-    attr_accessor :id                            # 0-1 id
-    attr_accessor :meta                          # 0-1 Meta
-    attr_accessor :implicitRules                 # 0-1 uri
-    attr_accessor :language                      # 0-1 code
-    attr_accessor :text                          # 0-1 Narrative
-    attr_accessor :contained                     # 0-* [ Resource ]
-    attr_accessor :extension                     # 0-* [ Extension ]
-    attr_accessor :modifierExtension             # 0-* [ Extension ]
-    attr_accessor :identifier                    # 0-* [ Identifier ]
-    attr_accessor :status                        # 1-1 code
-    attr_accessor :requestIdentifier             # 0-1 Identifier
-    attr_accessor :requestReference              # 0-1 Reference(EligibilityRequest)
-    attr_accessor :outcome                       # 0-1 code
-    attr_accessor :disposition                   # 0-1 string
-    attr_accessor :ruleset                       # 0-1 Coding
-    attr_accessor :originalRuleset               # 0-1 Coding
-    attr_accessor :created                       # 0-1 dateTime
-    attr_accessor :organizationIdentifier        # 0-1 Identifier
-    attr_accessor :organizationReference         # 0-1 Reference(Organization)
-    attr_accessor :requestProviderIdentifier     # 0-1 Identifier
-    attr_accessor :requestProviderReference      # 0-1 Reference(Practitioner)
-    attr_accessor :requestOrganizationIdentifier # 0-1 Identifier
-    attr_accessor :requestOrganizationReference  # 0-1 Reference(Organization)
-    attr_accessor :inforce                       # 0-1 boolean
-    attr_accessor :contract                      # 0-1 Reference(Contract)
-    attr_accessor :form                          # 0-1 Coding
-    attr_accessor :benefitBalance                # 0-* [ EligibilityResponse::BenefitBalance ]
-    attr_accessor :error                         # 0-* [ EligibilityResponse::Error ]
-
-    def resourceType
-      'EligibilityResponse'
     end
   end
 end

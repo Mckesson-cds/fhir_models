@@ -1,9 +1,5 @@
 module FHIR
   class GuidanceResponse < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'reason' => ['CodeableConcept', 'Reference']
     }
@@ -35,10 +31,6 @@ module FHIR
     }
 
     class Action < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'timing' => ['dateTime', 'Period', 'Duration', 'Range']
       }
@@ -70,10 +62,6 @@ module FHIR
       }
 
       class RelatedAction < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         MULTIPLE_TYPES = {
           'offset' => ['Duration', 'Range']
         }
@@ -87,69 +75,7 @@ module FHIR
           'offsetRange' => {'type'=>'Range', 'path'=>'RelatedAction.offset[x]', 'min'=>0, 'max'=>1},
           'anchor' => {'valid_codes'=>{'http://hl7.org/fhir/action-relationship-anchor'=>['start', 'end', 'start', 'end']}, 'type'=>'code', 'path'=>'RelatedAction.anchor', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/action-relationship-anchor'}}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :actionIdentifier  # 1-1 Identifier
-        attr_accessor :relationship      # 1-1 code
-        attr_accessor :offsetDuration    # 0-1 Duration
-        attr_accessor :offsetRange       # 0-1 Range
-        attr_accessor :anchor            # 0-1 code
       end
-
-      attr_accessor :id                  # 0-1 string
-      attr_accessor :extension           # 0-* [ Extension ]
-      attr_accessor :modifierExtension   # 0-* [ Extension ]
-      attr_accessor :actionIdentifier    # 0-1 Identifier
-      attr_accessor :label               # 0-1 string
-      attr_accessor :title               # 0-1 string
-      attr_accessor :description         # 0-1 string
-      attr_accessor :textEquivalent      # 0-1 string
-      attr_accessor :concept             # 0-* [ CodeableConcept ]
-      attr_accessor :documentation       # 0-* [ RelatedResource ]
-      attr_accessor :relatedAction       # 0-1 GuidanceResponse::Action::RelatedAction
-      attr_accessor :timingDateTime      # 0-1 dateTime
-      attr_accessor :timingPeriod        # 0-1 Period
-      attr_accessor :timingDuration      # 0-1 Duration
-      attr_accessor :timingRange         # 0-1 Range
-      attr_accessor :participant         # 0-* [ Reference(Patient|Person|Practitioner|RelatedPerson) ]
-      attr_accessor :type                # 0-1 Coding
-      attr_accessor :groupingBehavior    # 0-1 code
-      attr_accessor :selectionBehavior   # 0-1 code
-      attr_accessor :requiredBehavior    # 0-1 code
-      attr_accessor :precheckBehavior    # 0-1 code
-      attr_accessor :cardinalityBehavior # 0-1 code
-      attr_accessor :resource            # 0-1 Reference(Resource)
-      attr_accessor :action              # 0-* [ GuidanceResponse::Action ]
-    end
-
-    attr_accessor :id                    # 0-1 id
-    attr_accessor :meta                  # 0-1 Meta
-    attr_accessor :implicitRules         # 0-1 uri
-    attr_accessor :language              # 0-1 code
-    attr_accessor :text                  # 0-1 Narrative
-    attr_accessor :contained             # 0-* [ Resource ]
-    attr_accessor :extension             # 0-* [ Extension ]
-    attr_accessor :modifierExtension     # 0-* [ Extension ]
-    attr_accessor :requestId             # 0-1 id
-    attr_accessor :identifier            # 0-1 Identifier
-    attr_accessor :module                # 1-1 Reference(DecisionSupportServiceModule)
-    attr_accessor :status                # 1-1 code
-    attr_accessor :subject               # 0-1 Reference(Patient|Group)
-    attr_accessor :context               # 0-1 Reference(Encounter|EpisodeOfCare)
-    attr_accessor :occurrenceDateTime    # 0-1 dateTime
-    attr_accessor :performer             # 0-1 Reference(Device)
-    attr_accessor :reasonCodeableConcept # 0-1 CodeableConcept
-    attr_accessor :reasonReference       # 0-1 Reference(Resource)
-    attr_accessor :note                  # 0-* [ Annotation ]
-    attr_accessor :evaluationMessage     # 0-* [ Reference(OperationOutcome) ]
-    attr_accessor :outputParameters      # 0-1 Reference(Parameters)
-    attr_accessor :action                # 0-* [ GuidanceResponse::Action ]
-    attr_accessor :dataRequirement       # 0-* [ DataRequirement ]
-
-    def resourceType
-      'GuidanceResponse'
     end
   end
 end

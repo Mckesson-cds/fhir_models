@@ -1,9 +1,5 @@
 module FHIR
   class OperationOutcome < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'OperationOutcome.id', 'min'=>0, 'max'=>1},
@@ -18,10 +14,6 @@ module FHIR
     }
 
     class Issue < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Issue.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Issue.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -33,30 +25,6 @@ module FHIR
         'location' => {'type'=>'string', 'path'=>'Issue.location', 'min'=>0, 'max'=>Float::INFINITY},
         'expression' => {'type'=>'string', 'path'=>'Issue.expression', 'min'=>0, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :severity          # 1-1 code
-      attr_accessor :code              # 1-1 code
-      attr_accessor :details           # 0-1 CodeableConcept
-      attr_accessor :diagnostics       # 0-1 string
-      attr_accessor :location          # 0-* [ string ]
-      attr_accessor :expression        # 0-* [ string ]
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :issue             # 1-* [ OperationOutcome::Issue ]
-
-    def resourceType
-      'OperationOutcome'
     end
   end
 end

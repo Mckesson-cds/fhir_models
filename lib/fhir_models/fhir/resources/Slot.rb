@@ -1,9 +1,5 @@
 module FHIR
   class Slot < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["identifier", "schedule", "slot-type", "start", "status"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'Slot.id', 'min'=>0, 'max'=>1},
@@ -26,29 +22,5 @@ module FHIR
       'overbooked' => {'type'=>'boolean', 'path'=>'Slot.overbooked', 'min'=>0, 'max'=>1},
       'comment' => {'type'=>'string', 'path'=>'Slot.comment', 'min'=>0, 'max'=>1}
     }
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :identifier        # 0-* [ Identifier ]
-    attr_accessor :serviceCategory   # 0-1 CodeableConcept
-    attr_accessor :serviceType       # 0-* [ CodeableConcept ]
-    attr_accessor :specialty         # 0-* [ CodeableConcept ]
-    attr_accessor :appointmentType   # 0-1 CodeableConcept
-    attr_accessor :schedule          # 1-1 Reference(Schedule)
-    attr_accessor :status            # 1-1 code
-    attr_accessor :start             # 1-1 instant
-    attr_accessor :end               # 1-1 instant
-    attr_accessor :overbooked        # 0-1 boolean
-    attr_accessor :comment           # 0-1 string
-
-    def resourceType
-      'Slot'
-    end
   end
 end

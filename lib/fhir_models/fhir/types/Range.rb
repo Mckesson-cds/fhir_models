@@ -1,9 +1,5 @@
 module FHIR
   class Range < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'string', 'path'=>'Range.id', 'min'=>0, 'max'=>1},
@@ -12,9 +8,5 @@ module FHIR
       'high' => {'type'=>'Quantity', 'path'=>'Range.high', 'min'=>0, 'max'=>1}
     }
 
-    attr_accessor :id        # 0-1 string
-    attr_accessor :extension # 0-* [ Extension ]
-    attr_accessor :low       # 0-1 Quantity
-    attr_accessor :high      # 0-1 Quantity
   end
 end

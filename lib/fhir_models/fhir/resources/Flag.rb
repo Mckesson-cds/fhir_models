@@ -1,9 +1,5 @@
 module FHIR
   class Flag < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["author", "date", "encounter", "patient", "subject"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'Flag.id', 'min'=>0, 'max'=>1},
@@ -23,26 +19,5 @@ module FHIR
       'author' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Device', 'http://hl7.org/fhir/StructureDefinition/Organization', 'http://hl7.org/fhir/StructureDefinition/Patient', 'http://hl7.org/fhir/StructureDefinition/Practitioner'], 'type'=>'Reference', 'path'=>'Flag.author', 'min'=>0, 'max'=>1},
       'code' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Flag.code', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/flag-code'}}
     }
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :identifier        # 0-* [ Identifier ]
-    attr_accessor :category          # 0-1 CodeableConcept
-    attr_accessor :status            # 1-1 code
-    attr_accessor :period            # 0-1 Period
-    attr_accessor :subject           # 1-1 Reference(Patient|Location|Group|Organization|Practitioner|PlanDefinition|Medication|Procedure)
-    attr_accessor :encounter         # 0-1 Reference(Encounter)
-    attr_accessor :author            # 0-1 Reference(Device|Organization|Patient|Practitioner)
-    attr_accessor :code              # 1-1 CodeableConcept
-
-    def resourceType
-      'Flag'
-    end
   end
 end

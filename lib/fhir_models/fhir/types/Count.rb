@@ -1,9 +1,5 @@
 module FHIR
   class Count < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'string', 'path'=>'Count.id', 'min'=>0, 'max'=>1},
@@ -15,12 +11,5 @@ module FHIR
       'code' => {'type'=>'code', 'path'=>'Count.code', 'min'=>0, 'max'=>1}
     }
 
-    attr_accessor :id         # 0-1 string
-    attr_accessor :extension  # 0-* [ Extension ]
-    attr_accessor :value      # 0-1 decimal
-    attr_accessor :comparator # 0-1 code
-    attr_accessor :unit       # 0-1 string
-    attr_accessor :system     # 0-1 uri
-    attr_accessor :code       # 0-1 code
   end
 end

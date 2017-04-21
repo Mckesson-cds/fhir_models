@@ -1,9 +1,5 @@
 module FHIR
   class CareTeam < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["date", "identifier", "participant", "patient", "status", "subject", "type"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'CareTeam.id', 'min'=>0, 'max'=>1},
@@ -25,10 +21,6 @@ module FHIR
     }
 
     class Participant < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Participant.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Participant.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -37,34 +29,6 @@ module FHIR
         'member' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Practitioner', 'http://hl7.org/fhir/StructureDefinition/RelatedPerson', 'http://hl7.org/fhir/StructureDefinition/Patient', 'http://hl7.org/fhir/StructureDefinition/Organization'], 'type'=>'Reference', 'path'=>'Participant.member', 'min'=>0, 'max'=>1},
         'period' => {'type'=>'Period', 'path'=>'Participant.period', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :role              # 0-1 CodeableConcept
-      attr_accessor :member            # 0-1 Reference(Practitioner|RelatedPerson|Patient|Organization)
-      attr_accessor :period            # 0-1 Period
-    end
-
-    attr_accessor :id                   # 0-1 id
-    attr_accessor :meta                 # 0-1 Meta
-    attr_accessor :implicitRules        # 0-1 uri
-    attr_accessor :language             # 0-1 code
-    attr_accessor :text                 # 0-1 Narrative
-    attr_accessor :contained            # 0-* [ Resource ]
-    attr_accessor :extension            # 0-* [ Extension ]
-    attr_accessor :modifierExtension    # 0-* [ Extension ]
-    attr_accessor :identifier           # 0-* [ Identifier ]
-    attr_accessor :status               # 0-1 CodeableConcept
-    attr_accessor :type                 # 0-* [ CodeableConcept ]
-    attr_accessor :name                 # 0-1 string
-    attr_accessor :subject              # 0-1 Reference(Patient|Group)
-    attr_accessor :period               # 0-1 Period
-    attr_accessor :participant          # 0-* [ CareTeam::Participant ]
-    attr_accessor :managingOrganization # 0-1 Reference(Organization)
-
-    def resourceType
-      'CareTeam'
     end
   end
 end

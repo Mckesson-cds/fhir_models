@@ -1,9 +1,5 @@
 module FHIR
   class DataRequirement < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'string', 'path'=>'DataRequirement.id', 'min'=>0, 'max'=>1},
@@ -16,10 +12,6 @@ module FHIR
     }
 
     class CodeFilter < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'valueSet' => ['string', 'Reference']
       }
@@ -34,21 +26,9 @@ module FHIR
         'valueCodeableConcept' => {'type'=>'CodeableConcept', 'path'=>'CodeFilter.valueCodeableConcept', 'min'=>0, 'max'=>Float::INFINITY}
       }
 
-      attr_accessor :id                   # 0-1 string
-      attr_accessor :extension            # 0-* [ Extension ]
-      attr_accessor :path                 # 1-1 string
-      attr_accessor :valueSetString       # 0-1 string
-      attr_accessor :valueSetReference    # 0-1 Reference(ValueSet)
-      attr_accessor :valueCode            # 0-* [ code ]
-      attr_accessor :valueCoding          # 0-* [ Coding ]
-      attr_accessor :valueCodeableConcept # 0-* [ CodeableConcept ]
     end
 
     class DateFilter < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'value' => ['dateTime', 'Period', 'Duration']
       }
@@ -61,20 +41,7 @@ module FHIR
         'valueDuration' => {'type'=>'Duration', 'path'=>'DateFilter.value[x]', 'min'=>0, 'max'=>1}
       }
 
-      attr_accessor :id            # 0-1 string
-      attr_accessor :extension     # 0-* [ Extension ]
-      attr_accessor :path          # 1-1 string
-      attr_accessor :valueDateTime # 0-1 dateTime
-      attr_accessor :valuePeriod   # 0-1 Period
-      attr_accessor :valueDuration # 0-1 Duration
     end
 
-    attr_accessor :id          # 0-1 string
-    attr_accessor :extension   # 0-* [ Extension ]
-    attr_accessor :type        # 1-1 code
-    attr_accessor :profile     # 0-* [ Reference(StructureDefinition) ]
-    attr_accessor :mustSupport # 0-* [ string ]
-    attr_accessor :codeFilter  # 0-* [ DataRequirement::CodeFilter ]
-    attr_accessor :dateFilter  # 0-* [ DataRequirement::DateFilter ]
   end
 end

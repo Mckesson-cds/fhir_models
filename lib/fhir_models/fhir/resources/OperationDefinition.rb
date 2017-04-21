@@ -1,9 +1,5 @@
 module FHIR
   class OperationDefinition < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["base", "code", "context", "date", "instance", "kind", "name", "paramprofile", "publisher", "status", "system", "type", "url", "version"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'OperationDefinition.id', 'min'=>0, 'max'=>1},
@@ -37,10 +33,6 @@ module FHIR
     }
 
     class Contact < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Contact.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Contact.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -48,19 +40,9 @@ module FHIR
         'name' => {'type'=>'string', 'path'=>'Contact.name', 'min'=>0, 'max'=>1},
         'telecom' => {'type'=>'ContactPoint', 'path'=>'Contact.telecom', 'min'=>0, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :name              # 0-1 string
-      attr_accessor :telecom           # 0-* [ ContactPoint ]
     end
 
     class Parameter < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Parameter.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Parameter.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -78,10 +60,6 @@ module FHIR
       }
 
       class Binding < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         MULTIPLE_TYPES = {
           'valueSet' => ['uri', 'Reference']
         }
@@ -93,61 +71,7 @@ module FHIR
           'valueSetUri' => {'type'=>'uri', 'path'=>'Binding.valueSet[x]', 'min'=>1, 'max'=>1},
           'valueSetReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/ValueSet'], 'type'=>'Reference', 'path'=>'Binding.valueSet[x]', 'min'=>1, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :strength          # 1-1 code
-        attr_accessor :valueSetUri       # 1-1 uri
-        attr_accessor :valueSetReference # 1-1 Reference(ValueSet)
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :name              # 1-1 code
-      attr_accessor :use               # 1-1 code
-      attr_accessor :min               # 1-1 integer
-      attr_accessor :max               # 1-1 string
-      attr_accessor :documentation     # 0-1 string
-      attr_accessor :type              # 0-1 code
-      attr_accessor :searchType        # 0-1 code
-      attr_accessor :profile           # 0-1 Reference(StructureDefinition)
-      attr_accessor :binding           # 0-1 OperationDefinition::Parameter::Binding
-      attr_accessor :part              # 0-* [ OperationDefinition::Parameter ]
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :url               # 0-1 uri
-    attr_accessor :version           # 0-1 string
-    attr_accessor :name              # 1-1 string
-    attr_accessor :status            # 1-1 code
-    attr_accessor :kind              # 1-1 code
-    attr_accessor :experimental      # 0-1 boolean
-    attr_accessor :date              # 0-1 dateTime
-    attr_accessor :publisher         # 0-1 string
-    attr_accessor :contact           # 0-* [ OperationDefinition::Contact ]
-    attr_accessor :description       # 0-1 markdown
-    attr_accessor :useContext        # 0-* [ CodeableConcept ]
-    attr_accessor :requirements      # 0-1 markdown
-    attr_accessor :idempotent        # 0-1 boolean
-    attr_accessor :code              # 1-1 code
-    attr_accessor :comment           # 0-1 string
-    attr_accessor :base              # 0-1 Reference(OperationDefinition)
-    attr_accessor :system            # 1-1 boolean
-    attr_accessor :type              # 0-* [ code ]
-    attr_accessor :instance          # 1-1 boolean
-    attr_accessor :parameter         # 0-* [ OperationDefinition::Parameter ]
-
-    def resourceType
-      'OperationDefinition'
     end
   end
 end

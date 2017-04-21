@@ -1,9 +1,5 @@
 module FHIR
   class Address < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'string', 'path'=>'Address.id', 'min'=>0, 'max'=>1},
@@ -20,17 +16,5 @@ module FHIR
       'period' => {'type'=>'Period', 'path'=>'Address.period', 'min'=>0, 'max'=>1}
     }
 
-    attr_accessor :id         # 0-1 string
-    attr_accessor :extension  # 0-* [ Extension ]
-    attr_accessor :use        # 0-1 code
-    attr_accessor :type       # 0-1 code
-    attr_accessor :text       # 0-1 string
-    attr_accessor :line       # 0-* [ string ]
-    attr_accessor :city       # 0-1 string
-    attr_accessor :district   # 0-1 string
-    attr_accessor :state      # 0-1 string
-    attr_accessor :postalCode # 0-1 string
-    attr_accessor :country    # 0-1 string
-    attr_accessor :period     # 0-1 Period
   end
 end

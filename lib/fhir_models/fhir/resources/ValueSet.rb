@@ -1,9 +1,5 @@
 module FHIR
   class ValueSet < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["context", "date", "description", "expansion", "identifier", "name", "publisher", "reference", "status", "url", "version"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'ValueSet.id', 'min'=>0, 'max'=>1},
@@ -35,10 +31,6 @@ module FHIR
     }
 
     class Contact < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Contact.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Contact.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -46,19 +38,9 @@ module FHIR
         'name' => {'type'=>'string', 'path'=>'Contact.name', 'min'=>0, 'max'=>1},
         'telecom' => {'type'=>'ContactPoint', 'path'=>'Contact.telecom', 'min'=>0, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :name              # 0-1 string
-      attr_accessor :telecom           # 0-* [ ContactPoint ]
     end
 
     class Compose < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Compose.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Compose.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -69,10 +51,6 @@ module FHIR
       }
 
       class Include < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Include.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Include.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -84,10 +62,6 @@ module FHIR
         }
 
         class Concept < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'Concept.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'Concept.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -98,10 +72,6 @@ module FHIR
           }
 
           class Designation < FHIR::Model
-            include FHIR::Hashable
-            include FHIR::Json
-            include FHIR::Xml
-
             METADATA = {
               'id' => {'type'=>'string', 'path'=>'Designation.id', 'min'=>0, 'max'=>1},
               'extension' => {'type'=>'Extension', 'path'=>'Designation.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -110,28 +80,10 @@ module FHIR
               'use' => {'valid_codes'=>{'http://snomed.info/sct'=>['900000000000003001', '900000000000013009', '900000000000550004']}, 'type'=>'Coding', 'path'=>'Designation.use', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'extensible', 'uri'=>'http://hl7.org/fhir/ValueSet/designation-use'}},
               'value' => {'type'=>'string', 'path'=>'Designation.value', 'min'=>1, 'max'=>1}
             }
-
-            attr_accessor :id                # 0-1 string
-            attr_accessor :extension         # 0-* [ Extension ]
-            attr_accessor :modifierExtension # 0-* [ Extension ]
-            attr_accessor :language          # 0-1 code
-            attr_accessor :use               # 0-1 Coding
-            attr_accessor :value             # 1-1 string
           end
-
-          attr_accessor :id                # 0-1 string
-          attr_accessor :extension         # 0-* [ Extension ]
-          attr_accessor :modifierExtension # 0-* [ Extension ]
-          attr_accessor :code              # 1-1 code
-          attr_accessor :display           # 0-1 string
-          attr_accessor :designation       # 0-* [ ValueSet::Compose::Include::Concept::Designation ]
         end
 
         class Filter < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'Filter.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'Filter.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -140,37 +92,11 @@ module FHIR
             'op' => {'valid_codes'=>{'http://hl7.org/fhir/filter-operator'=>['=', 'is-a', 'is-not-a', 'regex', 'in', 'not-in', 'generalizes', '=', 'is-a', 'is-not-a', 'regex', 'in', 'not-in', 'generalizes']}, 'type'=>'code', 'path'=>'Filter.op', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/filter-operator'}},
             'value' => {'type'=>'code', 'path'=>'Filter.value', 'min'=>1, 'max'=>1}
           }
-
-          attr_accessor :id                # 0-1 string
-          attr_accessor :extension         # 0-* [ Extension ]
-          attr_accessor :modifierExtension # 0-* [ Extension ]
-          attr_accessor :property          # 1-1 code
-          attr_accessor :op                # 1-1 code
-          attr_accessor :value             # 1-1 code
         end
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :system            # 1-1 uri
-        attr_accessor :version           # 0-1 string
-        attr_accessor :concept           # 0-* [ ValueSet::Compose::Include::Concept ]
-        attr_accessor :filter            # 0-* [ ValueSet::Compose::Include::Filter ]
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :import            # 0-* [ uri ]
-      attr_accessor :include           # 0-* [ ValueSet::Compose::Include ]
-      attr_accessor :exclude           # 0-* [ ValueSet::Compose::Include ]
     end
 
     class Expansion < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Expansion.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Expansion.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -184,10 +110,6 @@ module FHIR
       }
 
       class Parameter < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         MULTIPLE_TYPES = {
           'value' => ['string', 'boolean', 'integer', 'decimal', 'uri', 'code']
         }
@@ -203,24 +125,9 @@ module FHIR
           'valueUri' => {'type'=>'uri', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1},
           'valueCode' => {'type'=>'code', 'path'=>'Parameter.value[x]', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :name              # 1-1 string
-        attr_accessor :valueString       # 0-1 string
-        attr_accessor :valueBoolean      # 0-1 boolean
-        attr_accessor :valueInteger      # 0-1 integer
-        attr_accessor :valueDecimal      # 0-1 decimal
-        attr_accessor :valueUri          # 0-1 uri
-        attr_accessor :valueCode         # 0-1 code
       end
 
       class Contains < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Contains.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Contains.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -232,58 +139,7 @@ module FHIR
           'display' => {'type'=>'string', 'path'=>'Contains.display', 'min'=>0, 'max'=>1},
           'contains' => {'type'=>'ValueSet::Expansion::Contains', 'path'=>'Contains.contains', 'min'=>0, 'max'=>Float::INFINITY}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :system            # 0-1 uri
-        attr_accessor :abstract          # 0-1 boolean
-        attr_accessor :version           # 0-1 string
-        attr_accessor :code              # 0-1 code
-        attr_accessor :display           # 0-1 string
-        attr_accessor :contains          # 0-* [ ValueSet::Expansion::Contains ]
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :identifier        # 1-1 uri
-      attr_accessor :timestamp         # 1-1 dateTime
-      attr_accessor :total             # 0-1 integer
-      attr_accessor :offset            # 0-1 integer
-      attr_accessor :parameter         # 0-* [ ValueSet::Expansion::Parameter ]
-      attr_accessor :contains          # 0-* [ ValueSet::Expansion::Contains ]
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :url               # 0-1 uri
-    attr_accessor :identifier        # 0-* [ Identifier ]
-    attr_accessor :version           # 0-1 string
-    attr_accessor :name              # 0-1 string
-    attr_accessor :status            # 1-1 code
-    attr_accessor :experimental      # 0-1 boolean
-    attr_accessor :publisher         # 0-1 string
-    attr_accessor :contact           # 0-* [ ValueSet::Contact ]
-    attr_accessor :date              # 0-1 dateTime
-    attr_accessor :lockedDate        # 0-1 date
-    attr_accessor :description       # 0-1 markdown
-    attr_accessor :useContext        # 0-* [ CodeableConcept ]
-    attr_accessor :immutable         # 0-1 boolean
-    attr_accessor :requirements      # 0-1 markdown
-    attr_accessor :copyright         # 0-1 string
-    attr_accessor :extensible        # 0-1 boolean
-    attr_accessor :compose           # 0-1 ValueSet::Compose
-    attr_accessor :expansion         # 0-1 ValueSet::Expansion
-
-    def resourceType
-      'ValueSet'
     end
   end
 end

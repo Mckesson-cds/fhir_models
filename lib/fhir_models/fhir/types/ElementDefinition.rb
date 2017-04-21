@@ -1,9 +1,5 @@
 module FHIR
   class ElementDefinition < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'defaultValue' => ['base64Binary', 'boolean', 'code', 'date', 'dateTime', 'decimal', 'id', 'instant', 'integer', 'markdown', 'oid', 'positiveInt', 'string', 'time', 'unsignedInt', 'uri', 'Address', 'Age', 'Annotation', 'Attachment', 'CodeableConcept', 'Coding', 'ContactPoint', 'Count', 'Distance', 'Duration', 'HumanName', 'Identifier', 'Money', 'Period', 'Quantity', 'Range', 'Ratio', 'Reference', 'SampledData', 'Signature', 'Timing', 'Meta'],
       'fixed' => ['base64Binary', 'boolean', 'code', 'date', 'dateTime', 'decimal', 'id', 'instant', 'integer', 'markdown', 'oid', 'positiveInt', 'string', 'time', 'unsignedInt', 'uri', 'Address', 'Age', 'Annotation', 'Attachment', 'CodeableConcept', 'Coding', 'ContactPoint', 'Count', 'Distance', 'Duration', 'HumanName', 'Identifier', 'Money', 'Period', 'Quantity', 'Range', 'Ratio', 'Reference', 'SampledData', 'Signature', 'Timing', 'Meta'],
@@ -214,10 +210,6 @@ module FHIR
     }
 
     class Slicing < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Slicing.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Slicing.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -227,19 +219,9 @@ module FHIR
         'rules' => {'valid_codes'=>{'http://hl7.org/fhir/resource-slicing-rules'=>['closed', 'open', 'openAtEnd', 'closed', 'open', 'openAtEnd']}, 'type'=>'code', 'path'=>'Slicing.rules', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/resource-slicing-rules'}}
       }
 
-      attr_accessor :id            # 0-1 string
-      attr_accessor :extension     # 0-* [ Extension ]
-      attr_accessor :discriminator # 0-* [ string ]
-      attr_accessor :description   # 0-1 string
-      attr_accessor :ordered       # 0-1 boolean
-      attr_accessor :rules         # 1-1 code
     end
 
     class Base < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Base.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Base.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -248,18 +230,9 @@ module FHIR
         'max' => {'type'=>'string', 'path'=>'Base.max', 'min'=>1, 'max'=>1}
       }
 
-      attr_accessor :id        # 0-1 string
-      attr_accessor :extension # 0-* [ Extension ]
-      attr_accessor :path      # 1-1 string
-      attr_accessor :min       # 1-1 integer
-      attr_accessor :max       # 1-1 string
     end
 
     class Type < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Type.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Type.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -270,20 +243,9 @@ module FHIR
         'versioning' => {'valid_codes'=>{'http://hl7.org/fhir/reference-version-rules'=>['either', 'independent', 'specific', 'either', 'independent', 'specific']}, 'type'=>'code', 'path'=>'Type.versioning', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/reference-version-rules'}}
       }
 
-      attr_accessor :id            # 0-1 string
-      attr_accessor :extension     # 0-* [ Extension ]
-      attr_accessor :code          # 1-1 code
-      attr_accessor :profile       # 0-1 uri
-      attr_accessor :targetProfile # 0-1 uri
-      attr_accessor :aggregation   # 0-* [ code ]
-      attr_accessor :versioning    # 0-1 code
     end
 
     class Constraint < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Constraint.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Constraint.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -295,21 +257,9 @@ module FHIR
         'xpath' => {'type'=>'string', 'path'=>'Constraint.xpath', 'min'=>1, 'max'=>1}
       }
 
-      attr_accessor :id           # 0-1 string
-      attr_accessor :extension    # 0-* [ Extension ]
-      attr_accessor :key          # 1-1 id
-      attr_accessor :requirements # 0-1 string
-      attr_accessor :severity     # 1-1 code
-      attr_accessor :human        # 1-1 string
-      attr_accessor :expression   # 0-1 string
-      attr_accessor :xpath        # 1-1 string
     end
 
     class Binding < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'valueSet' => ['uri', 'Reference']
       }
@@ -322,19 +272,9 @@ module FHIR
         'valueSetReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/ValueSet'], 'type'=>'Reference', 'path'=>'Binding.valueSet[x]', 'min'=>0, 'max'=>1}
       }
 
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :strength          # 1-1 code
-      attr_accessor :description       # 0-1 string
-      attr_accessor :valueSetUri       # 0-1 uri
-      attr_accessor :valueSetReference # 0-1 Reference(ValueSet)
     end
 
     class Mapping < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Mapping.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Mapping.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -343,209 +283,7 @@ module FHIR
         'map' => {'type'=>'string', 'path'=>'Mapping.map', 'min'=>1, 'max'=>1}
       }
 
-      attr_accessor :id        # 0-1 string
-      attr_accessor :extension # 0-* [ Extension ]
-      attr_accessor :identity  # 1-1 id
-      attr_accessor :language  # 0-1 code
-      attr_accessor :map       # 1-1 string
     end
 
-    attr_accessor :id                          # 0-1 string
-    attr_accessor :extension                   # 0-* [ Extension ]
-    attr_accessor :path                        # 1-1 string
-    attr_accessor :representation              # 0-* [ code ]
-    attr_accessor :name                        # 0-1 string
-    attr_accessor :label                       # 0-1 string
-    attr_accessor :code                        # 0-* [ Coding ]
-    attr_accessor :slicing                     # 0-1 ElementDefinition::Slicing
-    attr_accessor :short                       # 0-1 string
-    attr_accessor :definition                  # 0-1 markdown
-    attr_accessor :comments                    # 0-1 markdown
-    attr_accessor :requirements                # 0-1 markdown
-    attr_accessor :alias                       # 0-* [ string ]
-    attr_accessor :min                         # 0-1 integer
-    attr_accessor :max                         # 0-1 string
-    attr_accessor :base                        # 0-1 ElementDefinition::Base
-    attr_accessor :contentReference            # 0-1 uri
-    attr_accessor :type                        # 0-* [ ElementDefinition::Type ]
-    attr_accessor :defaultValueBase64Binary    # 0-1 base64Binary
-    attr_accessor :defaultValueBoolean         # 0-1 boolean
-    attr_accessor :defaultValueCode            # 0-1 code
-    attr_accessor :defaultValueDate            # 0-1 date
-    attr_accessor :defaultValueDateTime        # 0-1 dateTime
-    attr_accessor :defaultValueDecimal         # 0-1 decimal
-    attr_accessor :defaultValueId              # 0-1 id
-    attr_accessor :defaultValueInstant         # 0-1 instant
-    attr_accessor :defaultValueInteger         # 0-1 integer
-    attr_accessor :defaultValueMarkdown        # 0-1 markdown
-    attr_accessor :defaultValueOid             # 0-1 oid
-    attr_accessor :defaultValuePositiveInt     # 0-1 positiveInt
-    attr_accessor :defaultValueString          # 0-1 string
-    attr_accessor :defaultValueTime            # 0-1 time
-    attr_accessor :defaultValueUnsignedInt     # 0-1 unsignedInt
-    attr_accessor :defaultValueUri             # 0-1 uri
-    attr_accessor :defaultValueAddress         # 0-1 Address
-    attr_accessor :defaultValueAge             # 0-1 Age
-    attr_accessor :defaultValueAnnotation      # 0-1 Annotation
-    attr_accessor :defaultValueAttachment      # 0-1 Attachment
-    attr_accessor :defaultValueCodeableConcept # 0-1 CodeableConcept
-    attr_accessor :defaultValueCoding          # 0-1 Coding
-    attr_accessor :defaultValueContactPoint    # 0-1 ContactPoint
-    attr_accessor :defaultValueCount           # 0-1 Count
-    attr_accessor :defaultValueDistance        # 0-1 Distance
-    attr_accessor :defaultValueDuration        # 0-1 Duration
-    attr_accessor :defaultValueHumanName       # 0-1 HumanName
-    attr_accessor :defaultValueIdentifier      # 0-1 Identifier
-    attr_accessor :defaultValueMoney           # 0-1 Money
-    attr_accessor :defaultValuePeriod          # 0-1 Period
-    attr_accessor :defaultValueQuantity        # 0-1 Quantity
-    attr_accessor :defaultValueRange           # 0-1 Range
-    attr_accessor :defaultValueRatio           # 0-1 Ratio
-    attr_accessor :defaultValueReference       # 0-1 Reference()
-    attr_accessor :defaultValueSampledData     # 0-1 SampledData
-    attr_accessor :defaultValueSignature       # 0-1 Signature
-    attr_accessor :defaultValueTiming          # 0-1 Timing
-    attr_accessor :defaultValueMeta            # 0-1 Meta
-    attr_accessor :meaningWhenMissing          # 0-1 markdown
-    attr_accessor :fixedBase64Binary           # 0-1 base64Binary
-    attr_accessor :fixedBoolean                # 0-1 boolean
-    attr_accessor :fixedCode                   # 0-1 code
-    attr_accessor :fixedDate                   # 0-1 date
-    attr_accessor :fixedDateTime               # 0-1 dateTime
-    attr_accessor :fixedDecimal                # 0-1 decimal
-    attr_accessor :fixedId                     # 0-1 id
-    attr_accessor :fixedInstant                # 0-1 instant
-    attr_accessor :fixedInteger                # 0-1 integer
-    attr_accessor :fixedMarkdown               # 0-1 markdown
-    attr_accessor :fixedOid                    # 0-1 oid
-    attr_accessor :fixedPositiveInt            # 0-1 positiveInt
-    attr_accessor :fixedString                 # 0-1 string
-    attr_accessor :fixedTime                   # 0-1 time
-    attr_accessor :fixedUnsignedInt            # 0-1 unsignedInt
-    attr_accessor :fixedUri                    # 0-1 uri
-    attr_accessor :fixedAddress                # 0-1 Address
-    attr_accessor :fixedAge                    # 0-1 Age
-    attr_accessor :fixedAnnotation             # 0-1 Annotation
-    attr_accessor :fixedAttachment             # 0-1 Attachment
-    attr_accessor :fixedCodeableConcept        # 0-1 CodeableConcept
-    attr_accessor :fixedCoding                 # 0-1 Coding
-    attr_accessor :fixedContactPoint           # 0-1 ContactPoint
-    attr_accessor :fixedCount                  # 0-1 Count
-    attr_accessor :fixedDistance               # 0-1 Distance
-    attr_accessor :fixedDuration               # 0-1 Duration
-    attr_accessor :fixedHumanName              # 0-1 HumanName
-    attr_accessor :fixedIdentifier             # 0-1 Identifier
-    attr_accessor :fixedMoney                  # 0-1 Money
-    attr_accessor :fixedPeriod                 # 0-1 Period
-    attr_accessor :fixedQuantity               # 0-1 Quantity
-    attr_accessor :fixedRange                  # 0-1 Range
-    attr_accessor :fixedRatio                  # 0-1 Ratio
-    attr_accessor :fixedReference              # 0-1 Reference()
-    attr_accessor :fixedSampledData            # 0-1 SampledData
-    attr_accessor :fixedSignature              # 0-1 Signature
-    attr_accessor :fixedTiming                 # 0-1 Timing
-    attr_accessor :fixedMeta                   # 0-1 Meta
-    attr_accessor :patternBase64Binary         # 0-1 base64Binary
-    attr_accessor :patternBoolean              # 0-1 boolean
-    attr_accessor :patternCode                 # 0-1 code
-    attr_accessor :patternDate                 # 0-1 date
-    attr_accessor :patternDateTime             # 0-1 dateTime
-    attr_accessor :patternDecimal              # 0-1 decimal
-    attr_accessor :patternId                   # 0-1 id
-    attr_accessor :patternInstant              # 0-1 instant
-    attr_accessor :patternInteger              # 0-1 integer
-    attr_accessor :patternMarkdown             # 0-1 markdown
-    attr_accessor :patternOid                  # 0-1 oid
-    attr_accessor :patternPositiveInt          # 0-1 positiveInt
-    attr_accessor :patternString               # 0-1 string
-    attr_accessor :patternTime                 # 0-1 time
-    attr_accessor :patternUnsignedInt          # 0-1 unsignedInt
-    attr_accessor :patternUri                  # 0-1 uri
-    attr_accessor :patternAddress              # 0-1 Address
-    attr_accessor :patternAge                  # 0-1 Age
-    attr_accessor :patternAnnotation           # 0-1 Annotation
-    attr_accessor :patternAttachment           # 0-1 Attachment
-    attr_accessor :patternCodeableConcept      # 0-1 CodeableConcept
-    attr_accessor :patternCoding               # 0-1 Coding
-    attr_accessor :patternContactPoint         # 0-1 ContactPoint
-    attr_accessor :patternCount                # 0-1 Count
-    attr_accessor :patternDistance             # 0-1 Distance
-    attr_accessor :patternDuration             # 0-1 Duration
-    attr_accessor :patternHumanName            # 0-1 HumanName
-    attr_accessor :patternIdentifier           # 0-1 Identifier
-    attr_accessor :patternMoney                # 0-1 Money
-    attr_accessor :patternPeriod               # 0-1 Period
-    attr_accessor :patternQuantity             # 0-1 Quantity
-    attr_accessor :patternRange                # 0-1 Range
-    attr_accessor :patternRatio                # 0-1 Ratio
-    attr_accessor :patternReference            # 0-1 Reference()
-    attr_accessor :patternSampledData          # 0-1 SampledData
-    attr_accessor :patternSignature            # 0-1 Signature
-    attr_accessor :patternTiming               # 0-1 Timing
-    attr_accessor :patternMeta                 # 0-1 Meta
-    attr_accessor :exampleBase64Binary         # 0-1 base64Binary
-    attr_accessor :exampleBoolean              # 0-1 boolean
-    attr_accessor :exampleCode                 # 0-1 code
-    attr_accessor :exampleDate                 # 0-1 date
-    attr_accessor :exampleDateTime             # 0-1 dateTime
-    attr_accessor :exampleDecimal              # 0-1 decimal
-    attr_accessor :exampleId                   # 0-1 id
-    attr_accessor :exampleInstant              # 0-1 instant
-    attr_accessor :exampleInteger              # 0-1 integer
-    attr_accessor :exampleMarkdown             # 0-1 markdown
-    attr_accessor :exampleOid                  # 0-1 oid
-    attr_accessor :examplePositiveInt          # 0-1 positiveInt
-    attr_accessor :exampleString               # 0-1 string
-    attr_accessor :exampleTime                 # 0-1 time
-    attr_accessor :exampleUnsignedInt          # 0-1 unsignedInt
-    attr_accessor :exampleUri                  # 0-1 uri
-    attr_accessor :exampleAddress              # 0-1 Address
-    attr_accessor :exampleAge                  # 0-1 Age
-    attr_accessor :exampleAnnotation           # 0-1 Annotation
-    attr_accessor :exampleAttachment           # 0-1 Attachment
-    attr_accessor :exampleCodeableConcept      # 0-1 CodeableConcept
-    attr_accessor :exampleCoding               # 0-1 Coding
-    attr_accessor :exampleContactPoint         # 0-1 ContactPoint
-    attr_accessor :exampleCount                # 0-1 Count
-    attr_accessor :exampleDistance             # 0-1 Distance
-    attr_accessor :exampleDuration             # 0-1 Duration
-    attr_accessor :exampleHumanName            # 0-1 HumanName
-    attr_accessor :exampleIdentifier           # 0-1 Identifier
-    attr_accessor :exampleMoney                # 0-1 Money
-    attr_accessor :examplePeriod               # 0-1 Period
-    attr_accessor :exampleQuantity             # 0-1 Quantity
-    attr_accessor :exampleRange                # 0-1 Range
-    attr_accessor :exampleRatio                # 0-1 Ratio
-    attr_accessor :exampleReference            # 0-1 Reference()
-    attr_accessor :exampleSampledData          # 0-1 SampledData
-    attr_accessor :exampleSignature            # 0-1 Signature
-    attr_accessor :exampleTiming               # 0-1 Timing
-    attr_accessor :exampleMeta                 # 0-1 Meta
-    attr_accessor :minValueDate                # 0-1 date
-    attr_accessor :minValueDateTime            # 0-1 dateTime
-    attr_accessor :minValueInstant             # 0-1 instant
-    attr_accessor :minValueTime                # 0-1 time
-    attr_accessor :minValueDecimal             # 0-1 decimal
-    attr_accessor :minValueInteger             # 0-1 integer
-    attr_accessor :minValuePositiveInt         # 0-1 positiveInt
-    attr_accessor :minValueUnsignedInt         # 0-1 unsignedInt
-    attr_accessor :minValueQuantity            # 0-1 Quantity
-    attr_accessor :maxValueDate                # 0-1 date
-    attr_accessor :maxValueDateTime            # 0-1 dateTime
-    attr_accessor :maxValueInstant             # 0-1 instant
-    attr_accessor :maxValueTime                # 0-1 time
-    attr_accessor :maxValueDecimal             # 0-1 decimal
-    attr_accessor :maxValueInteger             # 0-1 integer
-    attr_accessor :maxValuePositiveInt         # 0-1 positiveInt
-    attr_accessor :maxValueUnsignedInt         # 0-1 unsignedInt
-    attr_accessor :maxValueQuantity            # 0-1 Quantity
-    attr_accessor :maxLength                   # 0-1 integer
-    attr_accessor :condition                   # 0-* [ id ]
-    attr_accessor :constraint                  # 0-* [ ElementDefinition::Constraint ]
-    attr_accessor :mustSupport                 # 0-1 boolean
-    attr_accessor :isModifier                  # 0-1 boolean
-    attr_accessor :isSummary                   # 0-1 boolean
-    attr_accessor :binding                     # 0-1 ElementDefinition::Binding
-    attr_accessor :mapping                     # 0-* [ ElementDefinition::Mapping ]
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class UsageContext < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'string', 'path'=>'UsageContext.id', 'min'=>0, 'max'=>1},
@@ -18,15 +14,5 @@ module FHIR
       'jurisdiction' => {'type'=>'CodeableConcept', 'path'=>'UsageContext.jurisdiction', 'min'=>0, 'max'=>Float::INFINITY}
     }
 
-    attr_accessor :id              # 0-1 string
-    attr_accessor :extension       # 0-* [ Extension ]
-    attr_accessor :patientGender   # 0-* [ CodeableConcept ]
-    attr_accessor :patientAgeGroup # 0-* [ CodeableConcept ]
-    attr_accessor :clinicalFocus   # 0-* [ CodeableConcept ]
-    attr_accessor :targetUser      # 0-* [ CodeableConcept ]
-    attr_accessor :workflowSetting # 0-* [ CodeableConcept ]
-    attr_accessor :workflowTask    # 0-* [ CodeableConcept ]
-    attr_accessor :clinicalVenue   # 0-* [ CodeableConcept ]
-    attr_accessor :jurisdiction    # 0-* [ CodeableConcept ]
   end
 end

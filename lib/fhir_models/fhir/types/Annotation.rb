@@ -13,11 +13,5 @@ module FHIR
       'text' => {'type'=>'string', 'path'=>'Annotation.text', 'min'=>1, 'max'=>1}
     }
 
-    attr_accessor :id              # 0-1 string
-    attr_accessor :extension       # 0-* [ Extension ]
-    attr_accessor :authorReference # 0-1 Reference(Practitioner|Patient|RelatedPerson)
-    attr_accessor :authorString    # 0-1 string
-    attr_accessor :time            # 0-1 dateTime
-    attr_accessor :text            # 1-1 string
   end
 end

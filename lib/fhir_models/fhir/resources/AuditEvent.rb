@@ -1,9 +1,5 @@
 module FHIR
   class AuditEvent < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["action", "address", "agent", "agent-name", "altid", "date", "entity", "entity-id", "entity-name", "entity-type", "outcome", "patient", "policy", "role", "site", "source", "subtype", "type", "user"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'AuditEvent.id', 'min'=>0, 'max'=>1},
@@ -27,10 +23,6 @@ module FHIR
     }
 
     class Agent < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Agent.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Agent.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -49,10 +41,6 @@ module FHIR
       }
 
       class Network < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Network.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Network.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -60,35 +48,10 @@ module FHIR
           'address' => {'type'=>'string', 'path'=>'Network.address', 'min'=>0, 'max'=>1},
           'type' => {'valid_codes'=>{'http://hl7.org/fhir/network-type'=>['1', '2', '3', '4', '5', '1', '2', '3', '4', '5']}, 'type'=>'code', 'path'=>'Network.type', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/network-type'}}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :address           # 0-1 string
-        attr_accessor :type              # 0-1 code
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :role              # 0-* [ CodeableConcept ]
-      attr_accessor :reference         # 0-1 Reference(Practitioner|Organization|Device|Patient|RelatedPerson)
-      attr_accessor :userId            # 0-1 Identifier
-      attr_accessor :altId             # 0-1 string
-      attr_accessor :name              # 0-1 string
-      attr_accessor :requestor         # 1-1 boolean
-      attr_accessor :location          # 0-1 Reference(Location)
-      attr_accessor :policy            # 0-* [ uri ]
-      attr_accessor :media             # 0-1 Coding
-      attr_accessor :network           # 0-1 AuditEvent::Agent::Network
-      attr_accessor :purposeOfUse      # 0-* [ Coding ]
     end
 
     class Source < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Source.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Source.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -97,20 +60,9 @@ module FHIR
         'identifier' => {'type'=>'Identifier', 'path'=>'Source.identifier', 'min'=>1, 'max'=>1},
         'type' => {'valid_codes'=>{'http://hl7.org/fhir/security-source-type'=>['1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3', '4', '5', '6', '7', '8', '9']}, 'type'=>'Coding', 'path'=>'Source.type', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'extensible', 'uri'=>'http://hl7.org/fhir/ValueSet/audit-source-type'}}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :site              # 0-1 string
-      attr_accessor :identifier        # 1-1 Identifier
-      attr_accessor :type              # 0-* [ Coding ]
     end
 
     class Entity < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Entity.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Entity.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -128,10 +80,6 @@ module FHIR
       }
 
       class Detail < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Detail.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Detail.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -139,50 +87,7 @@ module FHIR
           'type' => {'type'=>'string', 'path'=>'Detail.type', 'min'=>1, 'max'=>1},
           'value' => {'type'=>'base64Binary', 'path'=>'Detail.value', 'min'=>1, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :type              # 1-1 string
-        attr_accessor :value             # 1-1 base64Binary
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :identifier        # 0-1 Identifier
-      attr_accessor :reference         # 0-1 Reference(Resource)
-      attr_accessor :type              # 0-1 Coding
-      attr_accessor :role              # 0-1 Coding
-      attr_accessor :lifecycle         # 0-1 Coding
-      attr_accessor :securityLabel     # 0-* [ Coding ]
-      attr_accessor :name              # 0-1 string
-      attr_accessor :description       # 0-1 string
-      attr_accessor :query             # 0-1 base64Binary
-      attr_accessor :detail            # 0-* [ AuditEvent::Entity::Detail ]
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :type              # 1-1 Coding
-    attr_accessor :subtype           # 0-* [ Coding ]
-    attr_accessor :action            # 0-1 code
-    attr_accessor :recorded          # 1-1 instant
-    attr_accessor :outcome           # 0-1 code
-    attr_accessor :outcomeDesc       # 0-1 string
-    attr_accessor :purposeOfEvent    # 0-* [ Coding ]
-    attr_accessor :agent             # 1-* [ AuditEvent::Agent ]
-    attr_accessor :source            # 1-1 AuditEvent::Source
-    attr_accessor :entity            # 0-* [ AuditEvent::Entity ]
-
-    def resourceType
-      'AuditEvent'
     end
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class Claim < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'insurer' => ['Identifier', 'Reference'],
       'provider' => ['Identifier', 'Reference'],
@@ -69,10 +65,6 @@ module FHIR
     }
 
     class Related < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'claim' => ['Identifier', 'Reference']
       }
@@ -85,21 +77,9 @@ module FHIR
         'relationship' => {'valid_codes'=>{'http://hl7.org/fhir/ex-relatedclaimrelationship'=>['prior', 'associated', 'prior', 'associated']}, 'type'=>'Coding', 'path'=>'Related.relationship', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/related-claim-relationship'}},
         'reference' => {'type'=>'Identifier', 'path'=>'Related.reference', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :claimIdentifier   # 0-1 Identifier
-      attr_accessor :claimReference    # 0-1 Reference(Claim)
-      attr_accessor :relationship      # 0-1 Coding
-      attr_accessor :reference         # 0-1 Identifier
     end
 
     class Payee < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'party' => ['Identifier', 'Reference']
       }
@@ -112,21 +92,9 @@ module FHIR
         'partyIdentifier' => {'type'=>'Identifier', 'path'=>'Payee.party[x]', 'min'=>0, 'max'=>1},
         'partyReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Practitioner', 'http://hl7.org/fhir/StructureDefinition/Organization', 'http://hl7.org/fhir/StructureDefinition/Patient', 'http://hl7.org/fhir/StructureDefinition/RelatedPerson'], 'type'=>'Reference', 'path'=>'Payee.party[x]', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                 # 0-1 string
-      attr_accessor :extension          # 0-* [ Extension ]
-      attr_accessor :modifierExtension  # 0-* [ Extension ]
-      attr_accessor :type               # 1-1 Coding
-      attr_accessor :local_resourceType # 0-1 Coding
-      attr_accessor :partyIdentifier    # 0-1 Identifier
-      attr_accessor :partyReference     # 0-1 Reference(Practitioner|Organization|Patient|RelatedPerson)
     end
 
     class Information < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'timing' => ['date', 'Period'],
         'value' => ['string', 'Quantity']
@@ -142,23 +110,9 @@ module FHIR
         'valueString' => {'type'=>'string', 'path'=>'Information.value[x]', 'min'=>0, 'max'=>1},
         'valueQuantity' => {'type'=>'Quantity', 'path'=>'Information.value[x]', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :category          # 1-1 Coding
-      attr_accessor :code              # 0-1 Coding
-      attr_accessor :timingDate        # 0-1 date
-      attr_accessor :timingPeriod      # 0-1 Period
-      attr_accessor :valueString       # 0-1 string
-      attr_accessor :valueQuantity     # 0-1 Quantity
     end
 
     class Diagnosis < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Diagnosis.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Diagnosis.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -168,21 +122,9 @@ module FHIR
         'type' => {'valid_codes'=>{'http://hl7.org/fhir/ex-diagnosistype'=>['admitting', 'clinical', 'differential', 'discharge', 'laboratory', 'nursing', 'prenatal', 'principal', 'radiology', 'remote', 'retrospective', 'self', 'admitting', 'clinical', 'differential', 'discharge', 'laboratory', 'nursing', 'prenatal', 'principal', 'radiology', 'remote', 'retrospective', 'self']}, 'type'=>'Coding', 'path'=>'Diagnosis.type', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/ex-diagnosistype'}},
         'drg' => {'valid_codes'=>{'http://hl7.org/fhir/ex-diagnosisrelatedgroup'=>['100', '101', '300', '100', '101', '300']}, 'type'=>'Coding', 'path'=>'Diagnosis.drg', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/ex-diagnosisrelatedgroup'}}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :sequence          # 1-1 positiveInt
-      attr_accessor :diagnosis         # 1-1 Coding
-      attr_accessor :type              # 0-* [ Coding ]
-      attr_accessor :drg               # 0-1 Coding
     end
 
     class Procedure < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'procedure' => ['Coding', 'Reference']
       }
@@ -195,21 +137,9 @@ module FHIR
         'procedureCoding' => {'valid_codes'=>{'http://hl7.org/fhir/sid/ex-icd-10-procedures'=>['123001', '123002', '123003', '123001', '123002', '123003']}, 'type'=>'Coding', 'path'=>'Procedure.procedure[x]', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/icd-10-procedures'}},
         'procedureReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Procedure'], 'type'=>'Reference', 'path'=>'Procedure.procedure[x]', 'min'=>1, 'max'=>1}
       }
-
-      attr_accessor :id                 # 0-1 string
-      attr_accessor :extension          # 0-* [ Extension ]
-      attr_accessor :modifierExtension  # 0-* [ Extension ]
-      attr_accessor :sequence           # 1-1 positiveInt
-      attr_accessor :date               # 0-1 dateTime
-      attr_accessor :procedureCoding    # 1-1 Coding
-      attr_accessor :procedureReference # 1-1 Reference(Procedure)
     end
 
     class Coverage < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'coverage' => ['Identifier', 'Reference']
       }
@@ -226,25 +156,9 @@ module FHIR
         'claimResponse' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/ClaimResponse'], 'type'=>'Reference', 'path'=>'Coverage.claimResponse', 'min'=>0, 'max'=>1},
         'originalRuleset' => {'valid_codes'=>{'http://hl7.org/fhir/ruleset'=>['x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3', 'x12-4010', 'x12-5010', 'x12-7010', 'cdanet-v2', 'cdanet-v4', 'cpha-3']}, 'type'=>'Coding', 'path'=>'Coverage.originalRuleset', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/ruleset'}}
       }
-
-      attr_accessor :id                  # 0-1 string
-      attr_accessor :extension           # 0-* [ Extension ]
-      attr_accessor :modifierExtension   # 0-* [ Extension ]
-      attr_accessor :sequence            # 1-1 positiveInt
-      attr_accessor :focal               # 1-1 boolean
-      attr_accessor :coverageIdentifier  # 1-1 Identifier
-      attr_accessor :coverageReference   # 1-1 Reference(Coverage)
-      attr_accessor :businessArrangement # 0-1 string
-      attr_accessor :preAuthRef          # 0-* [ string ]
-      attr_accessor :claimResponse       # 0-1 Reference(ClaimResponse)
-      attr_accessor :originalRuleset     # 0-1 Coding
     end
 
     class Accident < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'location' => ['Address', 'Reference']
       }
@@ -257,21 +171,9 @@ module FHIR
         'locationAddress' => {'type'=>'Address', 'path'=>'Accident.location[x]', 'min'=>0, 'max'=>1},
         'locationReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Location'], 'type'=>'Reference', 'path'=>'Accident.location[x]', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :date              # 1-1 date
-      attr_accessor :type              # 0-1 Coding
-      attr_accessor :locationAddress   # 0-1 Address
-      attr_accessor :locationReference # 0-1 Reference(Location)
     end
 
     class Item < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'serviced' => ['date', 'Period'],
         'location' => ['Coding', 'Address', 'Reference']
@@ -306,10 +208,6 @@ module FHIR
       }
 
       class CareTeam < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         MULTIPLE_TYPES = {
           'provider' => ['Identifier', 'Reference']
         }
@@ -323,22 +221,9 @@ module FHIR
           'role' => {'valid_codes'=>{'http://hl7.org/fhir/claimcareteamrole'=>['primary', 'assist', 'supervisor', 'other', 'primary', 'assist', 'supervisor', 'other']}, 'type'=>'Coding', 'path'=>'CareTeam.role', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/claim-careteamrole'}},
           'qualification' => {'valid_codes'=>{'http://hl7.org/fhir/ex-providerqualification'=>['311405', '604215', '604210', '311405', '604215', '604210']}, 'type'=>'Coding', 'path'=>'CareTeam.qualification', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/provider-qualification'}}
         }
-
-        attr_accessor :id                 # 0-1 string
-        attr_accessor :extension          # 0-* [ Extension ]
-        attr_accessor :modifierExtension  # 0-* [ Extension ]
-        attr_accessor :providerIdentifier # 1-1 Identifier
-        attr_accessor :providerReference  # 1-1 Reference(Practitioner|Organization)
-        attr_accessor :responsible        # 0-1 boolean
-        attr_accessor :role               # 0-1 Coding
-        attr_accessor :qualification      # 0-1 Coding
       end
 
       class Detail < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Detail.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Detail.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -359,10 +244,6 @@ module FHIR
         }
 
         class SubDetail < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'SubDetail.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'SubDetail.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -380,47 +261,10 @@ module FHIR
             'net' => {'type'=>'Money', 'path'=>'SubDetail.net', 'min'=>0, 'max'=>1},
             'udi' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Device'], 'type'=>'Reference', 'path'=>'SubDetail.udi', 'min'=>0, 'max'=>Float::INFINITY}
           }
-
-          attr_accessor :id                # 0-1 string
-          attr_accessor :extension         # 0-* [ Extension ]
-          attr_accessor :modifierExtension # 0-* [ Extension ]
-          attr_accessor :sequence          # 1-1 positiveInt
-          attr_accessor :revenue           # 0-1 Coding
-          attr_accessor :category          # 0-1 Coding
-          attr_accessor :service           # 0-1 Coding
-          attr_accessor :modifier          # 0-* [ Coding ]
-          attr_accessor :programCode       # 0-* [ Coding ]
-          attr_accessor :quantity          # 0-1 Quantity
-          attr_accessor :unitPrice         # 0-1 Money
-          attr_accessor :factor            # 0-1 decimal
-          attr_accessor :points            # 0-1 decimal
-          attr_accessor :net               # 0-1 Money
-          attr_accessor :udi               # 0-* [ Reference(Device) ]
         end
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :sequence          # 1-1 positiveInt
-        attr_accessor :revenue           # 0-1 Coding
-        attr_accessor :category          # 0-1 Coding
-        attr_accessor :service           # 0-1 Coding
-        attr_accessor :modifier          # 0-* [ Coding ]
-        attr_accessor :programCode       # 0-* [ Coding ]
-        attr_accessor :quantity          # 0-1 Quantity
-        attr_accessor :unitPrice         # 0-1 Money
-        attr_accessor :factor            # 0-1 decimal
-        attr_accessor :points            # 0-1 decimal
-        attr_accessor :net               # 0-1 Money
-        attr_accessor :udi               # 0-* [ Reference(Device) ]
-        attr_accessor :subDetail         # 0-* [ Claim::Item::Detail::SubDetail ]
       end
 
       class Prosthesis < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Prosthesis.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Prosthesis.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -429,48 +273,10 @@ module FHIR
           'priorDate' => {'type'=>'date', 'path'=>'Prosthesis.priorDate', 'min'=>0, 'max'=>1},
           'priorMaterial' => {'valid_codes'=>{'http://hl7.org/fhir/ex-oralprostho'=>['1', '2', '3', '4', '1', '2', '3', '4']}, 'type'=>'Coding', 'path'=>'Prosthesis.priorMaterial', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/oral-prosthodontic-material'}}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :initial           # 0-1 boolean
-        attr_accessor :priorDate         # 0-1 date
-        attr_accessor :priorMaterial     # 0-1 Coding
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :sequence          # 1-1 positiveInt
-      attr_accessor :careTeam          # 0-* [ Claim::Item::CareTeam ]
-      attr_accessor :diagnosisLinkId   # 0-* [ positiveInt ]
-      attr_accessor :revenue           # 0-1 Coding
-      attr_accessor :category          # 0-1 Coding
-      attr_accessor :service           # 0-1 Coding
-      attr_accessor :modifier          # 0-* [ Coding ]
-      attr_accessor :programCode       # 0-* [ Coding ]
-      attr_accessor :servicedDate      # 0-1 date
-      attr_accessor :servicedPeriod    # 0-1 Period
-      attr_accessor :locationCoding    # 0-1 Coding
-      attr_accessor :locationAddress   # 0-1 Address
-      attr_accessor :locationReference # 0-1 Reference(Location)
-      attr_accessor :quantity          # 0-1 Quantity
-      attr_accessor :unitPrice         # 0-1 Money
-      attr_accessor :factor            # 0-1 decimal
-      attr_accessor :points            # 0-1 decimal
-      attr_accessor :net               # 0-1 Money
-      attr_accessor :udi               # 0-* [ Reference(Device) ]
-      attr_accessor :bodySite          # 0-1 Coding
-      attr_accessor :subSite           # 0-* [ Coding ]
-      attr_accessor :detail            # 0-* [ Claim::Item::Detail ]
-      attr_accessor :prosthesis        # 0-1 Claim::Item::Prosthesis
     end
 
     class MissingTeeth < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'MissingTeeth.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'MissingTeeth.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -479,67 +285,6 @@ module FHIR
         'reason' => {'valid_codes'=>{'http://hl7.org/fhir/missingtoothreason'=>['e', 'c', 'u', 'o', 'e', 'c', 'u', 'o']}, 'type'=>'Coding', 'path'=>'MissingTeeth.reason', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/missing-tooth-reason'}},
         'extractionDate' => {'type'=>'date', 'path'=>'MissingTeeth.extractionDate', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :tooth             # 1-1 Coding
-      attr_accessor :reason            # 0-1 Coding
-      attr_accessor :extractionDate    # 0-1 date
-    end
-
-    attr_accessor :id                             # 0-1 id
-    attr_accessor :meta                           # 0-1 Meta
-    attr_accessor :implicitRules                  # 0-1 uri
-    attr_accessor :language                       # 0-1 code
-    attr_accessor :text                           # 0-1 Narrative
-    attr_accessor :contained                      # 0-* [ Resource ]
-    attr_accessor :extension                      # 0-* [ Extension ]
-    attr_accessor :modifierExtension              # 0-* [ Extension ]
-    attr_accessor :identifier                     # 0-* [ Identifier ]
-    attr_accessor :status                         # 1-1 code
-    attr_accessor :type                           # 1-1 Coding
-    attr_accessor :subType                        # 0-* [ Coding ]
-    attr_accessor :ruleset                        # 0-1 Coding
-    attr_accessor :originalRuleset                # 0-1 Coding
-    attr_accessor :created                        # 0-1 dateTime
-    attr_accessor :billablePeriod                 # 0-1 Period
-    attr_accessor :insurerIdentifier              # 0-1 Identifier
-    attr_accessor :insurerReference               # 0-1 Reference(Organization)
-    attr_accessor :providerIdentifier             # 0-1 Identifier
-    attr_accessor :providerReference              # 0-1 Reference(Practitioner)
-    attr_accessor :organizationIdentifier         # 0-1 Identifier
-    attr_accessor :organizationReference          # 0-1 Reference(Organization)
-    attr_accessor :use                            # 0-1 code
-    attr_accessor :priority                       # 0-1 Coding
-    attr_accessor :fundsReserve                   # 0-1 Coding
-    attr_accessor :entererIdentifier              # 0-1 Identifier
-    attr_accessor :entererReference               # 0-1 Reference(Practitioner)
-    attr_accessor :facilityIdentifier             # 0-1 Identifier
-    attr_accessor :facilityReference              # 0-1 Reference(Location)
-    attr_accessor :related                        # 0-* [ Claim::Related ]
-    attr_accessor :prescriptionIdentifier         # 0-1 Identifier
-    attr_accessor :prescriptionReference          # 0-1 Reference(MedicationOrder|VisionPrescription)
-    attr_accessor :originalPrescriptionIdentifier # 0-1 Identifier
-    attr_accessor :originalPrescriptionReference  # 0-1 Reference(MedicationOrder)
-    attr_accessor :payee                          # 0-1 Claim::Payee
-    attr_accessor :referralIdentifier             # 0-1 Identifier
-    attr_accessor :referralReference              # 0-1 Reference(ReferralRequest)
-    attr_accessor :information                    # 0-* [ Claim::Information ]
-    attr_accessor :diagnosis                      # 0-* [ Claim::Diagnosis ]
-    attr_accessor :procedure                      # 0-* [ Claim::Procedure ]
-    attr_accessor :patientIdentifier              # 1-1 Identifier
-    attr_accessor :patientReference               # 1-1 Reference(Patient)
-    attr_accessor :coverage                       # 0-* [ Claim::Coverage ]
-    attr_accessor :accident                       # 0-1 Claim::Accident
-    attr_accessor :employmentImpacted             # 0-1 Period
-    attr_accessor :hospitalization                # 0-1 Period
-    attr_accessor :item                           # 0-* [ Claim::Item ]
-    attr_accessor :total                          # 0-1 Money
-    attr_accessor :missingTeeth                   # 0-* [ Claim::MissingTeeth ]
-
-    def resourceType
-      'Claim'
     end
   end
 end

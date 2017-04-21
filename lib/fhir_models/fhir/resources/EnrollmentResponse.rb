@@ -1,9 +1,5 @@
 module FHIR
   class EnrollmentResponse < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'request' => ['Identifier', 'Reference'],
       'organization' => ['Identifier', 'Reference'],
@@ -36,33 +32,5 @@ module FHIR
       'requestOrganizationIdentifier' => {'type'=>'Identifier', 'path'=>'EnrollmentResponse.requestOrganization[x]', 'min'=>0, 'max'=>1},
       'requestOrganizationReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Organization'], 'type'=>'Reference', 'path'=>'EnrollmentResponse.requestOrganization[x]', 'min'=>0, 'max'=>1}
     }
-
-    attr_accessor :id                            # 0-1 id
-    attr_accessor :meta                          # 0-1 Meta
-    attr_accessor :implicitRules                 # 0-1 uri
-    attr_accessor :language                      # 0-1 code
-    attr_accessor :text                          # 0-1 Narrative
-    attr_accessor :contained                     # 0-* [ Resource ]
-    attr_accessor :extension                     # 0-* [ Extension ]
-    attr_accessor :modifierExtension             # 0-* [ Extension ]
-    attr_accessor :identifier                    # 0-* [ Identifier ]
-    attr_accessor :status                        # 1-1 code
-    attr_accessor :requestIdentifier             # 0-1 Identifier
-    attr_accessor :requestReference              # 0-1 Reference(EnrollmentRequest)
-    attr_accessor :outcome                       # 0-1 code
-    attr_accessor :disposition                   # 0-1 string
-    attr_accessor :ruleset                       # 0-1 Coding
-    attr_accessor :originalRuleset               # 0-1 Coding
-    attr_accessor :created                       # 0-1 dateTime
-    attr_accessor :organizationIdentifier        # 0-1 Identifier
-    attr_accessor :organizationReference         # 0-1 Reference(Organization)
-    attr_accessor :requestProviderIdentifier     # 0-1 Identifier
-    attr_accessor :requestProviderReference      # 0-1 Reference(Practitioner)
-    attr_accessor :requestOrganizationIdentifier # 0-1 Identifier
-    attr_accessor :requestOrganizationReference  # 0-1 Reference(Organization)
-
-    def resourceType
-      'EnrollmentResponse'
-    end
   end
 end

@@ -18,15 +18,5 @@ module FHIR
       'blob' => {'type'=>'base64Binary', 'path'=>'Signature.blob', 'min'=>0, 'max'=>1}
     }
 
-    attr_accessor :id                  # 0-1 string
-    attr_accessor :extension           # 0-* [ Extension ]
-    attr_accessor :type                # 1-* [ Coding ]
-    attr_accessor :when                # 1-1 instant
-    attr_accessor :whoUri              # 1-1 uri
-    attr_accessor :whoReference        # 1-1 Reference(Practitioner|RelatedPerson|Patient|Device|Organization)
-    attr_accessor :onBehalfOfUri       # 0-1 uri
-    attr_accessor :onBehalfOfReference # 0-1 Reference(Practitioner|RelatedPerson|Patient|Device|Organization)
-    attr_accessor :contentType         # 0-1 code
-    attr_accessor :blob                # 0-1 base64Binary
   end
 end

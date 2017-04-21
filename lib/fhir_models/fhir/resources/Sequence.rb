@@ -1,9 +1,5 @@
 module FHIR
   class Sequence < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["chromosome", "end", "patient", "start", "type"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'Sequence.id', 'min'=>0, 'max'=>1},
@@ -32,10 +28,6 @@ module FHIR
     }
 
     class ReferenceSeq < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'ReferenceSeq.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'ReferenceSeq.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -49,25 +41,9 @@ module FHIR
         'windowStart' => {'type'=>'integer', 'path'=>'ReferenceSeq.windowStart', 'min'=>1, 'max'=>1},
         'windowEnd' => {'type'=>'integer', 'path'=>'ReferenceSeq.windowEnd', 'min'=>1, 'max'=>1}
       }
-
-      attr_accessor :id                  # 0-1 string
-      attr_accessor :extension           # 0-* [ Extension ]
-      attr_accessor :modifierExtension   # 0-* [ Extension ]
-      attr_accessor :chromosome          # 0-1 CodeableConcept
-      attr_accessor :genomeBuild         # 0-1 string
-      attr_accessor :referenceSeqId      # 1-1 CodeableConcept
-      attr_accessor :referenceSeqPointer # 0-1 Reference(Sequence)
-      attr_accessor :referenceSeqString  # 0-1 string
-      attr_accessor :strand              # 1-1 integer
-      attr_accessor :windowStart         # 1-1 integer
-      attr_accessor :windowEnd           # 1-1 integer
     end
 
     class Variant < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Variant.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Variant.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -79,23 +55,9 @@ module FHIR
         'cigar' => {'type'=>'string', 'path'=>'Variant.cigar', 'min'=>0, 'max'=>1},
         'variantPointer' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Observation'], 'type'=>'Reference', 'path'=>'Variant.variantPointer', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :start             # 0-1 integer
-      attr_accessor :end               # 0-1 integer
-      attr_accessor :observedAllele    # 0-1 string
-      attr_accessor :referenceAllele   # 0-1 string
-      attr_accessor :cigar             # 0-1 string
-      attr_accessor :variantPointer    # 0-1 Reference(Observation)
     end
 
     class Quality < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Quality.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Quality.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -114,30 +76,9 @@ module FHIR
         'recall' => {'type'=>'decimal', 'path'=>'Quality.recall', 'min'=>0, 'max'=>1},
         'fScore' => {'type'=>'decimal', 'path'=>'Quality.fScore', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :standardSequence  # 0-1 CodeableConcept
-      attr_accessor :start             # 0-1 integer
-      attr_accessor :end               # 0-1 integer
-      attr_accessor :score             # 0-1 Quantity
-      attr_accessor :local_method      # 0-1 CodeableConcept
-      attr_accessor :truthTP           # 0-1 decimal
-      attr_accessor :queryTP           # 0-1 decimal
-      attr_accessor :truthFN           # 0-1 decimal
-      attr_accessor :queryFP           # 0-1 decimal
-      attr_accessor :gtFP              # 0-1 decimal
-      attr_accessor :precision         # 0-1 decimal
-      attr_accessor :recall            # 0-1 decimal
-      attr_accessor :fScore            # 0-1 decimal
     end
 
     class Repository < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Repository.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Repository.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -147,21 +88,9 @@ module FHIR
         'variantId' => {'type'=>'string', 'path'=>'Repository.variantId', 'min'=>0, 'max'=>1},
         'readId' => {'type'=>'string', 'path'=>'Repository.readId', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :url               # 0-1 uri
-      attr_accessor :name              # 0-1 string
-      attr_accessor :variantId         # 0-1 string
-      attr_accessor :readId            # 0-1 string
     end
 
     class StructureVariant < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'StructureVariant.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'StructureVariant.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -174,10 +103,6 @@ module FHIR
       }
 
       class Outer < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Outer.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Outer.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -185,19 +110,9 @@ module FHIR
           'start' => {'type'=>'integer', 'path'=>'Outer.start', 'min'=>0, 'max'=>1},
           'end' => {'type'=>'integer', 'path'=>'Outer.end', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :start             # 0-1 integer
-        attr_accessor :end               # 0-1 integer
       end
 
       class Inner < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Inner.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Inner.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -205,50 +120,7 @@ module FHIR
           'start' => {'type'=>'integer', 'path'=>'Inner.start', 'min'=>0, 'max'=>1},
           'end' => {'type'=>'integer', 'path'=>'Inner.end', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :start             # 0-1 integer
-        attr_accessor :end               # 0-1 integer
       end
-
-      attr_accessor :id                    # 0-1 string
-      attr_accessor :extension             # 0-* [ Extension ]
-      attr_accessor :modifierExtension     # 0-* [ Extension ]
-      attr_accessor :precisionOfBoundaries # 0-1 string
-      attr_accessor :reportedaCGHRatio     # 0-1 decimal
-      attr_accessor :length                # 0-1 integer
-      attr_accessor :outer                 # 0-1 Sequence::StructureVariant::Outer
-      attr_accessor :inner                 # 0-1 Sequence::StructureVariant::Inner
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :identifier        # 0-* [ Identifier ]
-    attr_accessor :type              # 1-1 code
-    attr_accessor :coordinateSystem  # 1-1 integer
-    attr_accessor :patient           # 0-1 Reference(Patient)
-    attr_accessor :specimen          # 0-1 Reference(Specimen)
-    attr_accessor :device            # 0-1 Reference(Device)
-    attr_accessor :quantity          # 0-1 Quantity
-    attr_accessor :referenceSeq      # 0-1 Sequence::ReferenceSeq
-    attr_accessor :variant           # 0-* [ Sequence::Variant ]
-    attr_accessor :observedSeq       # 0-1 string
-    attr_accessor :quality           # 0-* [ Sequence::Quality ]
-    attr_accessor :readCoverage      # 0-1 integer
-    attr_accessor :repository        # 0-* [ Sequence::Repository ]
-    attr_accessor :pointer           # 0-* [ Reference(Sequence) ]
-    attr_accessor :structureVariant  # 0-* [ Sequence::StructureVariant ]
-
-    def resourceType
-      'Sequence'
     end
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class DocumentManifest < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["author", "content-ref", "created", "description", "identifier", "patient", "recipient", "related-id", "related-ref", "source", "status", "subject", "type"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'DocumentManifest.id', 'min'=>0, 'max'=>1},
@@ -29,10 +25,6 @@ module FHIR
     }
 
     class Content < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'p' => ['Attachment', 'Reference']
       }
@@ -43,19 +35,9 @@ module FHIR
         'pAttachment' => {'type'=>'Attachment', 'path'=>'Content.p[x]', 'min'=>1, 'max'=>1},
         'pReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Resource'], 'type'=>'Reference', 'path'=>'Content.p[x]', 'min'=>1, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :pAttachment       # 1-1 Attachment
-      attr_accessor :pReference        # 1-1 Reference(Resource)
     end
 
     class Related < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Related.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Related.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -63,37 +45,6 @@ module FHIR
         'identifier' => {'type'=>'Identifier', 'path'=>'Related.identifier', 'min'=>0, 'max'=>1},
         'ref' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Resource'], 'type'=>'Reference', 'path'=>'Related.ref', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :identifier        # 0-1 Identifier
-      attr_accessor :ref               # 0-1 Reference(Resource)
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :masterIdentifier  # 0-1 Identifier
-    attr_accessor :identifier        # 0-* [ Identifier ]
-    attr_accessor :subject           # 0-1 Reference(Patient|Practitioner|Group|Device)
-    attr_accessor :recipient         # 0-* [ Reference(Patient|Practitioner|RelatedPerson|Organization) ]
-    attr_accessor :type              # 0-1 CodeableConcept
-    attr_accessor :author            # 0-* [ Reference(Practitioner|Organization|Device|Patient|RelatedPerson) ]
-    attr_accessor :created           # 0-1 dateTime
-    attr_accessor :source            # 0-1 uri
-    attr_accessor :status            # 1-1 code
-    attr_accessor :description       # 0-1 string
-    attr_accessor :content           # 1-* [ DocumentManifest::Content ]
-    attr_accessor :related           # 0-* [ DocumentManifest::Related ]
-
-    def resourceType
-      'DocumentManifest'
     end
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class Condition < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'onset' => ['dateTime', 'Age', 'Period', 'Range', 'string'],
       'abatement' => ['dateTime', 'Age', 'boolean', 'Period', 'Range', 'string']
@@ -46,10 +42,6 @@ module FHIR
     }
 
     class Stage < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Stage.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Stage.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -57,19 +49,9 @@ module FHIR
         'summary' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Stage.summary', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/condition-stage'}},
         'assessment' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/ClinicalImpression', 'http://hl7.org/fhir/StructureDefinition/DiagnosticReport', 'http://hl7.org/fhir/StructureDefinition/Observation'], 'type'=>'Reference', 'path'=>'Stage.assessment', 'min'=>0, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :summary           # 0-1 CodeableConcept
-      attr_accessor :assessment        # 0-* [ Reference(ClinicalImpression|DiagnosticReport|Observation) ]
     end
 
     class Evidence < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Evidence.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Evidence.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -77,50 +59,6 @@ module FHIR
         'code' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Evidence.code', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/manifestation-or-symptom'}},
         'detail' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Resource'], 'type'=>'Reference', 'path'=>'Evidence.detail', 'min'=>0, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :code              # 0-1 CodeableConcept
-      attr_accessor :detail            # 0-* [ Reference(Resource) ]
-    end
-
-    attr_accessor :id                 # 0-1 id
-    attr_accessor :meta               # 0-1 Meta
-    attr_accessor :implicitRules      # 0-1 uri
-    attr_accessor :language           # 0-1 code
-    attr_accessor :text               # 0-1 Narrative
-    attr_accessor :contained          # 0-* [ Resource ]
-    attr_accessor :extension          # 0-* [ Extension ]
-    attr_accessor :modifierExtension  # 0-* [ Extension ]
-    attr_accessor :identifier         # 0-* [ Identifier ]
-    attr_accessor :clinicalStatus     # 0-1 code
-    attr_accessor :verificationStatus # 1-1 code
-    attr_accessor :category           # 0-1 CodeableConcept
-    attr_accessor :severity           # 0-1 CodeableConcept
-    attr_accessor :code               # 1-1 CodeableConcept
-    attr_accessor :bodySite           # 0-* [ CodeableConcept ]
-    attr_accessor :subject            # 1-1 Reference(Patient|Group)
-    attr_accessor :context            # 0-1 Reference(Encounter|EpisodeOfCare)
-    attr_accessor :onsetDateTime      # 0-1 dateTime
-    attr_accessor :onsetAge           # 0-1 Age
-    attr_accessor :onsetPeriod        # 0-1 Period
-    attr_accessor :onsetRange         # 0-1 Range
-    attr_accessor :onsetString        # 0-1 string
-    attr_accessor :abatementDateTime  # 0-1 dateTime
-    attr_accessor :abatementAge       # 0-1 Age
-    attr_accessor :abatementBoolean   # 0-1 boolean
-    attr_accessor :abatementPeriod    # 0-1 Period
-    attr_accessor :abatementRange     # 0-1 Range
-    attr_accessor :abatementString    # 0-1 string
-    attr_accessor :dateRecorded       # 0-1 date
-    attr_accessor :asserter           # 0-1 Reference(Practitioner|Patient)
-    attr_accessor :stage              # 0-1 Condition::Stage
-    attr_accessor :evidence           # 0-* [ Condition::Evidence ]
-    attr_accessor :note               # 0-* [ Annotation ]
-
-    def resourceType
-      'Condition'
     end
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class ClinicalImpression < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'effective' => ['dateTime', 'Period']
     }
@@ -41,10 +37,6 @@ module FHIR
     }
 
     class Investigations < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Investigations.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Investigations.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -52,19 +44,9 @@ module FHIR
         'code' => {'valid_codes'=>{'http://snomed.info/sct'=>['271336007', '160237006']}, 'type'=>'CodeableConcept', 'path'=>'Investigations.code', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/investigation-sets'}},
         'item' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Observation', 'http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse', 'http://hl7.org/fhir/StructureDefinition/FamilyMemberHistory', 'http://hl7.org/fhir/StructureDefinition/DiagnosticReport', 'http://hl7.org/fhir/StructureDefinition/RiskAssessment', 'http://hl7.org/fhir/StructureDefinition/ImagingStudy'], 'type'=>'Reference', 'path'=>'Investigations.item', 'min'=>0, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :code              # 1-1 CodeableConcept
-      attr_accessor :item              # 0-* [ Reference(Observation|QuestionnaireResponse|FamilyMemberHistory|DiagnosticReport|RiskAssessment|ImagingStudy) ]
     end
 
     class Finding < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'item' => ['CodeableConcept', 'Reference']
       }
@@ -76,47 +58,6 @@ module FHIR
         'itemReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Condition', 'http://hl7.org/fhir/StructureDefinition/Observation'], 'type'=>'Reference', 'path'=>'Finding.item[x]', 'min'=>1, 'max'=>1},
         'cause' => {'type'=>'string', 'path'=>'Finding.cause', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                  # 0-1 string
-      attr_accessor :extension           # 0-* [ Extension ]
-      attr_accessor :modifierExtension   # 0-* [ Extension ]
-      attr_accessor :itemCodeableConcept # 1-1 CodeableConcept
-      attr_accessor :itemReference       # 1-1 Reference(Condition|Observation)
-      attr_accessor :cause               # 0-1 string
-    end
-
-    attr_accessor :id                       # 0-1 id
-    attr_accessor :meta                     # 0-1 Meta
-    attr_accessor :implicitRules            # 0-1 uri
-    attr_accessor :language                 # 0-1 code
-    attr_accessor :text                     # 0-1 Narrative
-    attr_accessor :contained                # 0-* [ Resource ]
-    attr_accessor :extension                # 0-* [ Extension ]
-    attr_accessor :modifierExtension        # 0-* [ Extension ]
-    attr_accessor :identifier               # 0-* [ Identifier ]
-    attr_accessor :status                   # 1-1 code
-    attr_accessor :code                     # 0-1 CodeableConcept
-    attr_accessor :description              # 0-1 string
-    attr_accessor :subject                  # 1-1 Reference(Patient|Group)
-    attr_accessor :assessor                 # 0-1 Reference(Practitioner)
-    attr_accessor :date                     # 0-1 dateTime
-    attr_accessor :effectiveDateTime        # 0-1 dateTime
-    attr_accessor :effectivePeriod          # 0-1 Period
-    attr_accessor :context                  # 0-1 Reference(Encounter|EpisodeOfCare)
-    attr_accessor :previous                 # 0-1 Reference(ClinicalImpression)
-    attr_accessor :problem                  # 0-* [ Reference(Condition|AllergyIntolerance) ]
-    attr_accessor :investigations           # 0-* [ ClinicalImpression::Investigations ]
-    attr_accessor :protocol                 # 0-* [ uri ]
-    attr_accessor :summary                  # 0-1 string
-    attr_accessor :finding                  # 0-* [ ClinicalImpression::Finding ]
-    attr_accessor :prognosisCodeableConcept # 0-* [ CodeableConcept ]
-    attr_accessor :prognosisReference       # 0-* [ Reference(RiskAssessment) ]
-    attr_accessor :plan                     # 0-* [ Reference(CarePlan|Appointment|CommunicationRequest|DeviceUseRequest|DiagnosticRequest|MedicationOrder|NutritionRequest|ProcedureRequest|ProcessRequest|ReferralRequest|SupplyRequest|VisionPrescription) ]
-    attr_accessor :action                   # 0-* [ Reference(ReferralRequest|ProcedureRequest|Procedure|MedicationOrder|DiagnosticRequest|NutritionRequest|SupplyRequest|Appointment) ]
-    attr_accessor :note                     # 0-* [ Annotation ]
-
-    def resourceType
-      'ClinicalImpression'
     end
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class PlanDefinition < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["description", "identifier", "status", "title", "topic", "version"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'PlanDefinition.id', 'min'=>0, 'max'=>1},
@@ -40,10 +36,6 @@ module FHIR
     }
 
     class ActionDefinition < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'timing' => ['dateTime', 'Period', 'Duration', 'Range', 'Timing']
       }
@@ -80,10 +72,6 @@ module FHIR
       }
 
       class Condition < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Condition.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Condition.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -92,20 +80,9 @@ module FHIR
           'language' => {'type'=>'string', 'path'=>'Condition.language', 'min'=>0, 'max'=>1},
           'expression' => {'type'=>'string', 'path'=>'Condition.expression', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :description       # 0-1 string
-        attr_accessor :language          # 0-1 string
-        attr_accessor :expression        # 0-1 string
       end
 
       class RelatedAction < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         MULTIPLE_TYPES = {
           'offset' => ['Duration', 'Range']
         }
@@ -119,22 +96,9 @@ module FHIR
           'offsetRange' => {'type'=>'Range', 'path'=>'RelatedAction.offset[x]', 'min'=>0, 'max'=>1},
           'anchor' => {'valid_codes'=>{'http://hl7.org/fhir/action-relationship-anchor'=>['start', 'end', 'start', 'end']}, 'type'=>'code', 'path'=>'RelatedAction.anchor', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/action-relationship-anchor'}}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :actionIdentifier  # 1-1 Identifier
-        attr_accessor :relationship      # 1-1 code
-        attr_accessor :offsetDuration    # 0-1 Duration
-        attr_accessor :offsetRange       # 0-1 Range
-        attr_accessor :anchor            # 0-1 code
       end
 
       class DynamicValue < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'DynamicValue.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'DynamicValue.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -144,81 +108,7 @@ module FHIR
           'language' => {'type'=>'string', 'path'=>'DynamicValue.language', 'min'=>0, 'max'=>1},
           'expression' => {'type'=>'string', 'path'=>'DynamicValue.expression', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :description       # 0-1 string
-        attr_accessor :path              # 0-1 string
-        attr_accessor :language          # 0-1 string
-        attr_accessor :expression        # 0-1 string
       end
-
-      attr_accessor :id                  # 0-1 string
-      attr_accessor :extension           # 0-* [ Extension ]
-      attr_accessor :modifierExtension   # 0-* [ Extension ]
-      attr_accessor :actionIdentifier    # 0-1 Identifier
-      attr_accessor :label               # 0-1 string
-      attr_accessor :title               # 0-1 string
-      attr_accessor :description         # 0-1 string
-      attr_accessor :textEquivalent      # 0-1 string
-      attr_accessor :concept             # 0-* [ CodeableConcept ]
-      attr_accessor :documentation       # 0-* [ RelatedResource ]
-      attr_accessor :triggerDefinition   # 0-* [ TriggerDefinition ]
-      attr_accessor :condition           # 0-1 PlanDefinition::ActionDefinition::Condition
-      attr_accessor :relatedAction       # 0-* [ PlanDefinition::ActionDefinition::RelatedAction ]
-      attr_accessor :timingDateTime      # 0-1 dateTime
-      attr_accessor :timingPeriod        # 0-1 Period
-      attr_accessor :timingDuration      # 0-1 Duration
-      attr_accessor :timingRange         # 0-1 Range
-      attr_accessor :timingTiming        # 0-1 Timing
-      attr_accessor :participantType     # 0-* [ code ]
-      attr_accessor :type                # 0-1 Coding
-      attr_accessor :groupingBehavior    # 0-1 code
-      attr_accessor :selectionBehavior   # 0-1 code
-      attr_accessor :requiredBehavior    # 0-1 code
-      attr_accessor :precheckBehavior    # 0-1 code
-      attr_accessor :cardinalityBehavior # 0-1 code
-      attr_accessor :activityDefinition  # 0-1 Reference(ActivityDefinition)
-      attr_accessor :transform           # 0-1 Reference(StructureMap)
-      attr_accessor :dynamicValue        # 0-* [ PlanDefinition::ActionDefinition::DynamicValue ]
-      attr_accessor :actionDefinition    # 0-* [ PlanDefinition::ActionDefinition ]
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :url               # 0-1 uri
-    attr_accessor :identifier        # 0-* [ Identifier ]
-    attr_accessor :version           # 0-1 string
-    attr_accessor :name              # 0-1 string
-    attr_accessor :title             # 0-1 string
-    attr_accessor :type              # 0-1 CodeableConcept
-    attr_accessor :status            # 1-1 code
-    attr_accessor :experimental      # 0-1 boolean
-    attr_accessor :description       # 0-1 string
-    attr_accessor :purpose           # 0-1 string
-    attr_accessor :usage             # 0-1 string
-    attr_accessor :publicationDate   # 0-1 date
-    attr_accessor :lastReviewDate    # 0-1 date
-    attr_accessor :effectivePeriod   # 0-1 Period
-    attr_accessor :coverage          # 0-* [ UsageContext ]
-    attr_accessor :topic             # 0-* [ CodeableConcept ]
-    attr_accessor :contributor       # 0-* [ Contributor ]
-    attr_accessor :publisher         # 0-1 string
-    attr_accessor :contact           # 0-* [ ContactDetail ]
-    attr_accessor :copyright         # 0-1 string
-    attr_accessor :relatedResource   # 0-* [ RelatedResource ]
-    attr_accessor :library           # 0-* [ Reference(Library) ]
-    attr_accessor :actionDefinition  # 0-* [ PlanDefinition::ActionDefinition ]
-
-    def resourceType
-      'PlanDefinition'
     end
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class Attachment < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'string', 'path'=>'Attachment.id', 'min'=>0, 'max'=>1},
@@ -18,15 +14,5 @@ module FHIR
       'creation' => {'type'=>'dateTime', 'path'=>'Attachment.creation', 'min'=>0, 'max'=>1}
     }
 
-    attr_accessor :id          # 0-1 string
-    attr_accessor :extension   # 0-* [ Extension ]
-    attr_accessor :contentType # 0-1 code
-    attr_accessor :language    # 0-1 code
-    attr_accessor :data        # 0-1 base64Binary
-    attr_accessor :url         # 0-1 uri
-    attr_accessor :size        # 0-1 unsignedInt
-    attr_accessor :hash        # 0-1 base64Binary
-    attr_accessor :title       # 0-1 string
-    attr_accessor :creation    # 0-1 dateTime
   end
 end

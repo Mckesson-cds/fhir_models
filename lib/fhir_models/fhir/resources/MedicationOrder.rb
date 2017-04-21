@@ -1,9 +1,5 @@
 module FHIR
   class MedicationOrder < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'medication' => ['CodeableConcept', 'Reference']
     }
@@ -37,10 +33,6 @@ module FHIR
     }
 
     class DosageInstruction < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'asNeeded' => ['boolean', 'CodeableConcept'],
         'site' => ['CodeableConcept', 'Reference'],
@@ -69,34 +61,9 @@ module FHIR
         'rateRange' => {'type'=>'Range', 'path'=>'DosageInstruction.rate[x]', 'min'=>0, 'max'=>1},
         'rateQuantity' => {'type'=>'Quantity', 'path'=>'DosageInstruction.rate[x]', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                       # 0-1 string
-      attr_accessor :extension                # 0-* [ Extension ]
-      attr_accessor :modifierExtension        # 0-* [ Extension ]
-      attr_accessor :text                     # 0-1 string
-      attr_accessor :additionalInstructions   # 0-* [ CodeableConcept ]
-      attr_accessor :timing                   # 0-1 Timing
-      attr_accessor :asNeededBoolean          # 0-1 boolean
-      attr_accessor :asNeededCodeableConcept  # 0-1 CodeableConcept
-      attr_accessor :siteCodeableConcept      # 0-1 CodeableConcept
-      attr_accessor :siteReference            # 0-1 Reference(BodySite)
-      attr_accessor :route                    # 0-1 CodeableConcept
-      attr_accessor :local_method             # 0-1 CodeableConcept
-      attr_accessor :doseRange                # 0-1 Range
-      attr_accessor :doseQuantity             # 0-1 Quantity
-      attr_accessor :maxDosePerPeriod         # 0-1 Ratio
-      attr_accessor :maxDosePerAdministration # 0-1 Quantity
-      attr_accessor :maxDosePerLifetime       # 0-1 Quantity
-      attr_accessor :rateRatio                # 0-1 Ratio
-      attr_accessor :rateRange                # 0-1 Range
-      attr_accessor :rateQuantity             # 0-1 Quantity
     end
 
     class DispenseRequest < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'DispenseRequest.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'DispenseRequest.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -106,21 +73,9 @@ module FHIR
         'quantity' => {'type'=>'Quantity', 'path'=>'DispenseRequest.quantity', 'min'=>0, 'max'=>1},
         'expectedSupplyDuration' => {'type'=>'Duration', 'path'=>'DispenseRequest.expectedSupplyDuration', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                     # 0-1 string
-      attr_accessor :extension              # 0-* [ Extension ]
-      attr_accessor :modifierExtension      # 0-* [ Extension ]
-      attr_accessor :validityPeriod         # 0-1 Period
-      attr_accessor :numberOfRepeatsAllowed # 0-1 positiveInt
-      attr_accessor :quantity               # 0-1 Quantity
-      attr_accessor :expectedSupplyDuration # 0-1 Duration
     end
 
     class Substitution < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Substitution.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Substitution.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -128,19 +83,9 @@ module FHIR
         'allowed' => {'type'=>'boolean', 'path'=>'Substitution.allowed', 'min'=>1, 'max'=>1},
         'reason' => {'valid_codes'=>{'http://hl7.org/fhir/v3/ActReason'=>['CT', 'FP', 'OS', 'RR']}, 'type'=>'CodeableConcept', 'path'=>'Substitution.reason', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/v3-SubstanceAdminSubstitutionReason'}}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :allowed           # 1-1 boolean
-      attr_accessor :reason            # 0-1 CodeableConcept
     end
 
     class EventHistory < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'EventHistory.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'EventHistory.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -151,45 +96,6 @@ module FHIR
         'actor' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Practitioner'], 'type'=>'Reference', 'path'=>'EventHistory.actor', 'min'=>0, 'max'=>1},
         'reason' => {'type'=>'CodeableConcept', 'path'=>'EventHistory.reason', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>nil}}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :status            # 1-1 code
-      attr_accessor :action            # 0-1 CodeableConcept
-      attr_accessor :dateTime          # 1-1 dateTime
-      attr_accessor :actor             # 0-1 Reference(Practitioner)
-      attr_accessor :reason            # 0-1 CodeableConcept
-    end
-
-    attr_accessor :id                        # 0-1 id
-    attr_accessor :meta                      # 0-1 Meta
-    attr_accessor :implicitRules             # 0-1 uri
-    attr_accessor :language                  # 0-1 code
-    attr_accessor :text                      # 0-1 Narrative
-    attr_accessor :contained                 # 0-* [ Resource ]
-    attr_accessor :extension                 # 0-* [ Extension ]
-    attr_accessor :modifierExtension         # 0-* [ Extension ]
-    attr_accessor :identifier                # 0-* [ Identifier ]
-    attr_accessor :status                    # 0-1 code
-    attr_accessor :medicationCodeableConcept # 1-1 CodeableConcept
-    attr_accessor :medicationReference       # 1-1 Reference(Medication)
-    attr_accessor :patient                   # 0-1 Reference(Patient)
-    attr_accessor :encounter                 # 0-1 Reference(Encounter)
-    attr_accessor :dateWritten               # 0-1 dateTime
-    attr_accessor :prescriber                # 0-1 Reference(Practitioner)
-    attr_accessor :reasonCode                # 0-* [ CodeableConcept ]
-    attr_accessor :reasonReference           # 0-* [ Reference(Condition) ]
-    attr_accessor :note                      # 0-* [ Annotation ]
-    attr_accessor :category                  # 0-1 code
-    attr_accessor :dosageInstruction         # 0-* [ MedicationOrder::DosageInstruction ]
-    attr_accessor :dispenseRequest           # 0-1 MedicationOrder::DispenseRequest
-    attr_accessor :substitution              # 0-1 MedicationOrder::Substitution
-    attr_accessor :priorPrescription         # 0-1 Reference(MedicationOrder)
-    attr_accessor :eventHistory              # 0-* [ MedicationOrder::EventHistory ]
-
-    def resourceType
-      'MedicationOrder'
     end
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class ActivityDefinition < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'timing' => ['CodeableConcept', 'Timing'],
       'product' => ['Reference', 'CodeableConcept']
@@ -53,10 +49,6 @@ module FHIR
     }
 
     class DynamicValue < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'DynamicValue.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'DynamicValue.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -66,59 +58,6 @@ module FHIR
         'language' => {'type'=>'string', 'path'=>'DynamicValue.language', 'min'=>0, 'max'=>1},
         'expression' => {'type'=>'string', 'path'=>'DynamicValue.expression', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :description       # 0-1 string
-      attr_accessor :path              # 0-1 string
-      attr_accessor :language          # 0-1 string
-      attr_accessor :expression        # 0-1 string
-    end
-
-    attr_accessor :id                     # 0-1 id
-    attr_accessor :meta                   # 0-1 Meta
-    attr_accessor :implicitRules          # 0-1 uri
-    attr_accessor :language               # 0-1 code
-    attr_accessor :text                   # 0-1 Narrative
-    attr_accessor :contained              # 0-* [ Resource ]
-    attr_accessor :extension              # 0-* [ Extension ]
-    attr_accessor :modifierExtension      # 0-* [ Extension ]
-    attr_accessor :url                    # 0-1 uri
-    attr_accessor :identifier             # 0-* [ Identifier ]
-    attr_accessor :version                # 0-1 string
-    attr_accessor :name                   # 0-1 string
-    attr_accessor :title                  # 0-1 string
-    attr_accessor :status                 # 1-1 code
-    attr_accessor :experimental           # 0-1 boolean
-    attr_accessor :description            # 0-1 string
-    attr_accessor :purpose                # 0-1 string
-    attr_accessor :usage                  # 0-1 string
-    attr_accessor :publicationDate        # 0-1 date
-    attr_accessor :lastReviewDate         # 0-1 date
-    attr_accessor :effectivePeriod        # 0-1 Period
-    attr_accessor :coverage               # 0-* [ UsageContext ]
-    attr_accessor :topic                  # 0-* [ CodeableConcept ]
-    attr_accessor :contributor            # 0-* [ Contributor ]
-    attr_accessor :publisher              # 0-1 string
-    attr_accessor :contact                # 0-* [ ContactDetail ]
-    attr_accessor :copyright              # 0-1 string
-    attr_accessor :relatedResource        # 0-* [ RelatedResource ]
-    attr_accessor :library                # 0-* [ Reference(Library) ]
-    attr_accessor :category               # 0-1 code
-    attr_accessor :code                   # 0-1 CodeableConcept
-    attr_accessor :timingCodeableConcept  # 0-1 CodeableConcept
-    attr_accessor :timingTiming           # 0-1 Timing
-    attr_accessor :location               # 0-1 Reference(Location)
-    attr_accessor :participantType        # 0-* [ code ]
-    attr_accessor :productReference       # 0-1 Reference(Medication|Substance)
-    attr_accessor :productCodeableConcept # 0-1 CodeableConcept
-    attr_accessor :quantity               # 0-1 Quantity
-    attr_accessor :transform              # 0-1 Reference(StructureMap)
-    attr_accessor :dynamicValue           # 0-* [ ActivityDefinition::DynamicValue ]
-
-    def resourceType
-      'ActivityDefinition'
     end
   end
 end

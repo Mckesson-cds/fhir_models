@@ -1,9 +1,5 @@
 module FHIR
   class TestScript < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["date", "description", "identifier", "name", "publisher", "testscript-capability", "url", "use-context"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'TestScript.id', 'min'=>0, 'max'=>1},
@@ -41,10 +37,6 @@ module FHIR
     }
 
     class Contact < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Contact.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Contact.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -52,19 +44,9 @@ module FHIR
         'name' => {'type'=>'string', 'path'=>'Contact.name', 'min'=>0, 'max'=>1},
         'telecom' => {'type'=>'ContactPoint', 'path'=>'Contact.telecom', 'min'=>0, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :name              # 0-1 string
-      attr_accessor :telecom           # 0-* [ ContactPoint ]
     end
 
     class Origin < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Origin.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Origin.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -72,19 +54,9 @@ module FHIR
         'index' => {'type'=>'integer', 'path'=>'Origin.index', 'min'=>1, 'max'=>1},
         'profile' => {'valid_codes'=>{'http://hl7.org/fhir/testscript-profile-origin-types'=>['FHIR-Client', 'FHIR-SDC-FormFiller', 'FHIR-Client', 'FHIR-SDC-FormFiller']}, 'type'=>'Coding', 'path'=>'Origin.profile', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'extensible', 'uri'=>'http://hl7.org/fhir/ValueSet/testscript-profile-origin-types'}}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :index             # 1-1 integer
-      attr_accessor :profile           # 1-1 Coding
     end
 
     class Destination < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Destination.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Destination.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -92,19 +64,9 @@ module FHIR
         'index' => {'type'=>'integer', 'path'=>'Destination.index', 'min'=>1, 'max'=>1},
         'profile' => {'valid_codes'=>{'http://hl7.org/fhir/testscript-profile-destination-types'=>['FHIR-Server', 'FHIR-SDC-FormManager', 'FHIR-SDC-FormProcessor', 'FHIR-SDC-FormReceiver', 'FHIR-Server', 'FHIR-SDC-FormManager', 'FHIR-SDC-FormProcessor', 'FHIR-SDC-FormReceiver']}, 'type'=>'Coding', 'path'=>'Destination.profile', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'extensible', 'uri'=>'http://hl7.org/fhir/ValueSet/testscript-profile-destination-types'}}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :index             # 1-1 integer
-      attr_accessor :profile           # 1-1 Coding
     end
 
     class Metadata < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Metadata.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Metadata.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -114,10 +76,6 @@ module FHIR
       }
 
       class Link < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Link.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Link.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -125,19 +83,9 @@ module FHIR
           'url' => {'type'=>'uri', 'path'=>'Link.url', 'min'=>1, 'max'=>1},
           'description' => {'type'=>'string', 'path'=>'Link.description', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :url               # 1-1 uri
-        attr_accessor :description       # 0-1 string
       end
 
       class Capability < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Capability.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Capability.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -150,31 +98,10 @@ module FHIR
           'link' => {'type'=>'uri', 'path'=>'Capability.link', 'min'=>0, 'max'=>Float::INFINITY},
           'conformance' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Conformance'], 'type'=>'Reference', 'path'=>'Capability.conformance', 'min'=>1, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :required          # 0-1 boolean
-        attr_accessor :validated         # 0-1 boolean
-        attr_accessor :description       # 0-1 string
-        attr_accessor :origin            # 0-* [ integer ]
-        attr_accessor :destination       # 0-1 integer
-        attr_accessor :link              # 0-* [ uri ]
-        attr_accessor :conformance       # 1-1 Reference(Conformance)
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :link              # 0-* [ TestScript::Metadata::Link ]
-      attr_accessor :capability        # 1-* [ TestScript::Metadata::Capability ]
     end
 
     class Fixture < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Fixture.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Fixture.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -183,20 +110,9 @@ module FHIR
         'autodelete' => {'type'=>'boolean', 'path'=>'Fixture.autodelete', 'min'=>0, 'max'=>1},
         'resource' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Resource'], 'type'=>'Reference', 'path'=>'Fixture.resource', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :autocreate        # 0-1 boolean
-      attr_accessor :autodelete        # 0-1 boolean
-      attr_accessor :resource          # 0-1 Reference(Resource)
     end
 
     class Variable < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Variable.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Variable.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -207,22 +123,9 @@ module FHIR
         'path' => {'type'=>'string', 'path'=>'Variable.path', 'min'=>0, 'max'=>1},
         'sourceId' => {'type'=>'id', 'path'=>'Variable.sourceId', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :name              # 1-1 string
-      attr_accessor :defaultValue      # 0-1 string
-      attr_accessor :headerField       # 0-1 string
-      attr_accessor :path              # 0-1 string
-      attr_accessor :sourceId          # 0-1 id
     end
 
     class Rule < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Rule.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Rule.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -232,10 +135,6 @@ module FHIR
       }
 
       class Param < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Param.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Param.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -243,26 +142,10 @@ module FHIR
           'name' => {'type'=>'string', 'path'=>'Param.name', 'min'=>1, 'max'=>1},
           'value' => {'type'=>'string', 'path'=>'Param.value', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :name              # 1-1 string
-        attr_accessor :value             # 0-1 string
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :resource          # 1-1 Reference(Resource)
-      attr_accessor :param             # 0-* [ TestScript::Rule::Param ]
     end
 
     class Ruleset < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Ruleset.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Ruleset.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -272,10 +155,6 @@ module FHIR
       }
 
       class Rule < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Rule.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Rule.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -285,10 +164,6 @@ module FHIR
         }
 
         class Param < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'Param.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'Param.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -296,33 +171,11 @@ module FHIR
             'name' => {'type'=>'string', 'path'=>'Param.name', 'min'=>1, 'max'=>1},
             'value' => {'type'=>'string', 'path'=>'Param.value', 'min'=>0, 'max'=>1}
           }
-
-          attr_accessor :id                # 0-1 string
-          attr_accessor :extension         # 0-* [ Extension ]
-          attr_accessor :modifierExtension # 0-* [ Extension ]
-          attr_accessor :name              # 1-1 string
-          attr_accessor :value             # 0-1 string
         end
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :ruleId            # 1-1 id
-        attr_accessor :param             # 0-* [ TestScript::Ruleset::Rule::Param ]
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :resource          # 1-1 Reference(Resource)
-      attr_accessor :rule              # 1-* [ TestScript::Ruleset::Rule ]
     end
 
     class Setup < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Setup.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Setup.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -331,10 +184,6 @@ module FHIR
       }
 
       class Action < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Action.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Action.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -344,10 +193,6 @@ module FHIR
         }
 
         class Operation < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'Operation.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'Operation.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -370,10 +215,6 @@ module FHIR
           }
 
           class RequestHeader < FHIR::Model
-            include FHIR::Hashable
-            include FHIR::Json
-            include FHIR::Xml
-
             METADATA = {
               'id' => {'type'=>'string', 'path'=>'RequestHeader.id', 'min'=>0, 'max'=>1},
               'extension' => {'type'=>'Extension', 'path'=>'RequestHeader.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -381,39 +222,10 @@ module FHIR
               'field' => {'type'=>'string', 'path'=>'RequestHeader.field', 'min'=>1, 'max'=>1},
               'value' => {'type'=>'string', 'path'=>'RequestHeader.value', 'min'=>1, 'max'=>1}
             }
-
-            attr_accessor :id                # 0-1 string
-            attr_accessor :extension         # 0-* [ Extension ]
-            attr_accessor :modifierExtension # 0-* [ Extension ]
-            attr_accessor :field             # 1-1 string
-            attr_accessor :value             # 1-1 string
           end
-
-          attr_accessor :id                # 0-1 string
-          attr_accessor :extension         # 0-* [ Extension ]
-          attr_accessor :modifierExtension # 0-* [ Extension ]
-          attr_accessor :type              # 0-1 Coding
-          attr_accessor :resource          # 0-1 code
-          attr_accessor :label             # 0-1 string
-          attr_accessor :description       # 0-1 string
-          attr_accessor :accept            # 0-1 code
-          attr_accessor :contentType       # 0-1 code
-          attr_accessor :destination       # 0-1 integer
-          attr_accessor :encodeRequestUrl  # 0-1 boolean
-          attr_accessor :origin            # 0-1 integer
-          attr_accessor :params            # 0-1 string
-          attr_accessor :requestHeader     # 0-* [ TestScript::Setup::Action::Operation::RequestHeader ]
-          attr_accessor :responseId        # 0-1 id
-          attr_accessor :sourceId          # 0-1 id
-          attr_accessor :targetId          # 0-1 id
-          attr_accessor :url               # 0-1 string
         end
 
         class Assert < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'Assert.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'Assert.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -442,10 +254,6 @@ module FHIR
           }
 
           class Rule < FHIR::Model
-            include FHIR::Hashable
-            include FHIR::Json
-            include FHIR::Xml
-
             METADATA = {
               'id' => {'type'=>'string', 'path'=>'Rule.id', 'min'=>0, 'max'=>1},
               'extension' => {'type'=>'Extension', 'path'=>'Rule.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -455,10 +263,6 @@ module FHIR
             }
 
             class Param < FHIR::Model
-              include FHIR::Hashable
-              include FHIR::Json
-              include FHIR::Xml
-
               METADATA = {
                 'id' => {'type'=>'string', 'path'=>'Param.id', 'min'=>0, 'max'=>1},
                 'extension' => {'type'=>'Extension', 'path'=>'Param.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -466,26 +270,10 @@ module FHIR
                 'name' => {'type'=>'string', 'path'=>'Param.name', 'min'=>1, 'max'=>1},
                 'value' => {'type'=>'string', 'path'=>'Param.value', 'min'=>1, 'max'=>1}
               }
-
-              attr_accessor :id                # 0-1 string
-              attr_accessor :extension         # 0-* [ Extension ]
-              attr_accessor :modifierExtension # 0-* [ Extension ]
-              attr_accessor :name              # 1-1 string
-              attr_accessor :value             # 1-1 string
             end
-
-            attr_accessor :id                # 0-1 string
-            attr_accessor :extension         # 0-* [ Extension ]
-            attr_accessor :modifierExtension # 0-* [ Extension ]
-            attr_accessor :ruleId            # 1-1 id
-            attr_accessor :param             # 0-* [ TestScript::Setup::Action::Assert::Rule::Param ]
           end
 
           class Ruleset < FHIR::Model
-            include FHIR::Hashable
-            include FHIR::Json
-            include FHIR::Xml
-
             METADATA = {
               'id' => {'type'=>'string', 'path'=>'Ruleset.id', 'min'=>0, 'max'=>1},
               'extension' => {'type'=>'Extension', 'path'=>'Ruleset.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -495,10 +283,6 @@ module FHIR
             }
 
             class Rule < FHIR::Model
-              include FHIR::Hashable
-              include FHIR::Json
-              include FHIR::Xml
-
               METADATA = {
                 'id' => {'type'=>'string', 'path'=>'Rule.id', 'min'=>0, 'max'=>1},
                 'extension' => {'type'=>'Extension', 'path'=>'Rule.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -508,10 +292,6 @@ module FHIR
               }
 
               class Param < FHIR::Model
-                include FHIR::Hashable
-                include FHIR::Json
-                include FHIR::Xml
-
                 METADATA = {
                   'id' => {'type'=>'string', 'path'=>'Param.id', 'min'=>0, 'max'=>1},
                   'extension' => {'type'=>'Extension', 'path'=>'Param.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -519,72 +299,14 @@ module FHIR
                   'name' => {'type'=>'string', 'path'=>'Param.name', 'min'=>1, 'max'=>1},
                   'value' => {'type'=>'string', 'path'=>'Param.value', 'min'=>1, 'max'=>1}
                 }
-
-                attr_accessor :id                # 0-1 string
-                attr_accessor :extension         # 0-* [ Extension ]
-                attr_accessor :modifierExtension # 0-* [ Extension ]
-                attr_accessor :name              # 1-1 string
-                attr_accessor :value             # 1-1 string
               end
-
-              attr_accessor :id                # 0-1 string
-              attr_accessor :extension         # 0-* [ Extension ]
-              attr_accessor :modifierExtension # 0-* [ Extension ]
-              attr_accessor :ruleId            # 1-1 id
-              attr_accessor :param             # 0-* [ TestScript::Setup::Action::Assert::Ruleset::Rule::Param ]
             end
-
-            attr_accessor :id                # 0-1 string
-            attr_accessor :extension         # 0-* [ Extension ]
-            attr_accessor :modifierExtension # 0-* [ Extension ]
-            attr_accessor :rulesetId         # 1-1 id
-            attr_accessor :rule              # 0-* [ TestScript::Setup::Action::Assert::Ruleset::Rule ]
           end
-
-          attr_accessor :id                  # 0-1 string
-          attr_accessor :extension           # 0-* [ Extension ]
-          attr_accessor :modifierExtension   # 0-* [ Extension ]
-          attr_accessor :label               # 0-1 string
-          attr_accessor :description         # 0-1 string
-          attr_accessor :direction           # 0-1 code
-          attr_accessor :compareToSourceId   # 0-1 string
-          attr_accessor :compareToSourcePath # 0-1 string
-          attr_accessor :contentType         # 0-1 code
-          attr_accessor :headerField         # 0-1 string
-          attr_accessor :minimumId           # 0-1 string
-          attr_accessor :navigationLinks     # 0-1 boolean
-          attr_accessor :operator            # 0-1 code
-          attr_accessor :path                # 0-1 string
-          attr_accessor :requestURL          # 0-1 string
-          attr_accessor :resource            # 0-1 code
-          attr_accessor :response            # 0-1 code
-          attr_accessor :responseCode        # 0-1 string
-          attr_accessor :rule                # 0-1 TestScript::Setup::Action::Assert::Rule
-          attr_accessor :ruleset             # 0-1 TestScript::Setup::Action::Assert::Ruleset
-          attr_accessor :sourceId            # 0-1 id
-          attr_accessor :validateProfileId   # 0-1 id
-          attr_accessor :value               # 0-1 string
-          attr_accessor :warningOnly         # 0-1 boolean
         end
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :operation         # 0-1 TestScript::Setup::Action::Operation
-        attr_accessor :assert            # 0-1 TestScript::Setup::Action::Assert
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :action            # 1-* [ TestScript::Setup::Action ]
     end
 
     class Test < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Test.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Test.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -595,10 +317,6 @@ module FHIR
       }
 
       class Action < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Action.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Action.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -606,27 +324,10 @@ module FHIR
           'operation' => {'type'=>'TestScript::Setup::Action::Operation', 'path'=>'Action.operation', 'min'=>0, 'max'=>1},
           'assert' => {'type'=>'TestScript::Setup::Action::Assert', 'path'=>'Action.assert', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :operation         # 0-1 TestScript::Setup::Action::Operation
-        attr_accessor :assert            # 0-1 TestScript::Setup::Action::Assert
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :name              # 0-1 string
-      attr_accessor :description       # 0-1 string
-      attr_accessor :action            # 1-* [ TestScript::Test::Action ]
     end
 
     class Teardown < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Teardown.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Teardown.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -635,64 +336,13 @@ module FHIR
       }
 
       class Action < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Action.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Action.extension', 'min'=>0, 'max'=>Float::INFINITY},
           'modifierExtension' => {'type'=>'Extension', 'path'=>'Action.modifierExtension', 'min'=>0, 'max'=>Float::INFINITY},
           'operation' => {'type'=>'TestScript::Setup::Action::Operation', 'path'=>'Action.operation', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :operation         # 0-1 TestScript::Setup::Action::Operation
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :action            # 1-* [ TestScript::Teardown::Action ]
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :url               # 1-1 uri
-    attr_accessor :version           # 0-1 string
-    attr_accessor :name              # 1-1 string
-    attr_accessor :status            # 1-1 code
-    attr_accessor :identifier        # 0-1 Identifier
-    attr_accessor :experimental      # 0-1 boolean
-    attr_accessor :publisher         # 0-1 string
-    attr_accessor :contact           # 0-* [ TestScript::Contact ]
-    attr_accessor :date              # 0-1 dateTime
-    attr_accessor :description       # 0-1 markdown
-    attr_accessor :useContext        # 0-* [ CodeableConcept ]
-    attr_accessor :requirements      # 0-1 markdown
-    attr_accessor :copyright         # 0-1 string
-    attr_accessor :origin            # 0-* [ TestScript::Origin ]
-    attr_accessor :destination       # 0-* [ TestScript::Destination ]
-    attr_accessor :metadata          # 0-1 TestScript::Metadata
-    attr_accessor :fixture           # 0-* [ TestScript::Fixture ]
-    attr_accessor :profile           # 0-* [ Reference(Resource) ]
-    attr_accessor :variable          # 0-* [ TestScript::Variable ]
-    attr_accessor :rule              # 0-* [ TestScript::Rule ]
-    attr_accessor :ruleset           # 0-* [ TestScript::Ruleset ]
-    attr_accessor :setup             # 0-1 TestScript::Setup
-    attr_accessor :test              # 0-* [ TestScript::Test ]
-    attr_accessor :teardown          # 0-1 TestScript::Teardown
-
-    def resourceType
-      'TestScript'
     end
   end
 end

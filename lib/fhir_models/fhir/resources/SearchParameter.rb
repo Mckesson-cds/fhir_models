@@ -1,9 +1,5 @@
 module FHIR
   class SearchParameter < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["base", "code", "component", "context", "description", "name", "target", "type", "url"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'SearchParameter.id', 'min'=>0, 'max'=>1},
@@ -35,10 +31,6 @@ module FHIR
     }
 
     class Contact < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Contact.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Contact.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -46,43 +38,6 @@ module FHIR
         'name' => {'type'=>'string', 'path'=>'Contact.name', 'min'=>0, 'max'=>1},
         'telecom' => {'type'=>'ContactPoint', 'path'=>'Contact.telecom', 'min'=>0, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :name              # 0-1 string
-      attr_accessor :telecom           # 0-* [ ContactPoint ]
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :url               # 1-1 uri
-    attr_accessor :name              # 1-1 string
-    attr_accessor :status            # 0-1 code
-    attr_accessor :experimental      # 0-1 boolean
-    attr_accessor :date              # 0-1 dateTime
-    attr_accessor :publisher         # 0-1 string
-    attr_accessor :contact           # 0-* [ SearchParameter::Contact ]
-    attr_accessor :useContext        # 0-* [ CodeableConcept ]
-    attr_accessor :requirements      # 0-1 markdown
-    attr_accessor :code              # 1-1 code
-    attr_accessor :base              # 1-1 code
-    attr_accessor :type              # 1-1 code
-    attr_accessor :description       # 1-1 markdown
-    attr_accessor :expression        # 0-1 string
-    attr_accessor :xpath             # 0-1 string
-    attr_accessor :xpathUsage        # 0-1 code
-    attr_accessor :target            # 0-* [ code ]
-    attr_accessor :component         # 0-* [ Reference(SearchParameter) ]
-
-    def resourceType
-      'SearchParameter'
     end
   end
 end

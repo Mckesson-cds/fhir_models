@@ -1,9 +1,5 @@
 module FHIR
   class Account < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["balance", "identifier", "name", "owner", "patient", "period", "status", "subject", "type"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'Account.id', 'min'=>0, 'max'=>1},
@@ -27,30 +23,5 @@ module FHIR
       'owner' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Organization'], 'type'=>'Reference', 'path'=>'Account.owner', 'min'=>0, 'max'=>1},
       'description' => {'type'=>'string', 'path'=>'Account.description', 'min'=>0, 'max'=>1}
     }
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :identifier        # 0-* [ Identifier ]
-    attr_accessor :name              # 0-1 string
-    attr_accessor :type              # 0-1 CodeableConcept
-    attr_accessor :status            # 0-1 code
-    attr_accessor :active            # 0-1 Period
-    attr_accessor :currency          # 0-1 Coding
-    attr_accessor :balance           # 0-1 Money
-    attr_accessor :coverage          # 0-* [ Reference(Coverage) ]
-    attr_accessor :coveragePeriod    # 0-1 Period
-    attr_accessor :subject           # 0-1 Reference(Patient|Device|Practitioner|Location|HealthcareService|Organization)
-    attr_accessor :owner             # 0-1 Reference(Organization)
-    attr_accessor :description       # 0-1 string
-
-    def resourceType
-      'Account'
-    end
   end
 end

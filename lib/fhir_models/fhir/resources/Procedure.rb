@@ -1,9 +1,5 @@
 module FHIR
   class Procedure < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'performed' => ['dateTime', 'Period']
     }
@@ -45,10 +41,6 @@ module FHIR
     }
 
     class Performer < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Performer.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Performer.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -56,19 +48,9 @@ module FHIR
         'actor' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Practitioner', 'http://hl7.org/fhir/StructureDefinition/Organization', 'http://hl7.org/fhir/StructureDefinition/Patient', 'http://hl7.org/fhir/StructureDefinition/RelatedPerson'], 'type'=>'Reference', 'path'=>'Performer.actor', 'min'=>0, 'max'=>1},
         'role' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Performer.role', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/performer-role'}}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :actor             # 0-1 Reference(Practitioner|Organization|Patient|RelatedPerson)
-      attr_accessor :role              # 0-1 CodeableConcept
     end
 
     class FocalDevice < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'FocalDevice.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'FocalDevice.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -76,50 +58,6 @@ module FHIR
         'action' => {'valid_codes'=>{'http://hl7.org/fhir/device-action'=>['implanted', 'explanted', 'manipulated', 'implanted', 'explanted', 'manipulated']}, 'type'=>'CodeableConcept', 'path'=>'FocalDevice.action', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/device-action'}},
         'manipulated' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Device'], 'type'=>'Reference', 'path'=>'FocalDevice.manipulated', 'min'=>1, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :action            # 0-1 CodeableConcept
-      attr_accessor :manipulated       # 1-1 Reference(Device)
-    end
-
-    attr_accessor :id                 # 0-1 id
-    attr_accessor :meta               # 0-1 Meta
-    attr_accessor :implicitRules      # 0-1 uri
-    attr_accessor :language           # 0-1 code
-    attr_accessor :text               # 0-1 Narrative
-    attr_accessor :contained          # 0-* [ Resource ]
-    attr_accessor :extension          # 0-* [ Extension ]
-    attr_accessor :modifierExtension  # 0-* [ Extension ]
-    attr_accessor :identifier         # 0-* [ Identifier ]
-    attr_accessor :subject            # 1-1 Reference(Patient|Group)
-    attr_accessor :status             # 1-1 code
-    attr_accessor :category           # 0-1 CodeableConcept
-    attr_accessor :code               # 1-1 CodeableConcept
-    attr_accessor :notPerformed       # 0-1 boolean
-    attr_accessor :reasonNotPerformed # 0-* [ CodeableConcept ]
-    attr_accessor :bodySite           # 0-* [ CodeableConcept ]
-    attr_accessor :reasonReference    # 0-* [ Reference(Condition) ]
-    attr_accessor :reasonCode         # 0-* [ CodeableConcept ]
-    attr_accessor :performer          # 0-* [ Procedure::Performer ]
-    attr_accessor :performedDateTime  # 0-1 dateTime
-    attr_accessor :performedPeriod    # 0-1 Period
-    attr_accessor :encounter          # 0-1 Reference(Encounter)
-    attr_accessor :location           # 0-1 Reference(Location)
-    attr_accessor :outcome            # 0-1 CodeableConcept
-    attr_accessor :report             # 0-* [ Reference(DiagnosticReport) ]
-    attr_accessor :complication       # 0-* [ CodeableConcept ]
-    attr_accessor :followUp           # 0-* [ CodeableConcept ]
-    attr_accessor :request            # 0-1 Reference(CarePlan|DiagnosticRequest|ProcedureRequest|ReferralRequest)
-    attr_accessor :notes              # 0-* [ Annotation ]
-    attr_accessor :focalDevice        # 0-* [ Procedure::FocalDevice ]
-    attr_accessor :usedReference      # 0-* [ Reference(Device|Medication|Substance) ]
-    attr_accessor :usedCode           # 0-* [ CodeableConcept ]
-    attr_accessor :component          # 0-* [ Reference(MedicationAdministration|Procedure|Observation) ]
-
-    def resourceType
-      'Procedure'
     end
   end
 end

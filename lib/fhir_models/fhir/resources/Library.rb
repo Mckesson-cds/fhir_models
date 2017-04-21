@@ -1,9 +1,5 @@
 module FHIR
   class Library < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["description", "identifier", "status", "title", "topic", "version"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'Library.id', 'min'=>0, 'max'=>1},
@@ -39,42 +35,5 @@ module FHIR
       'dataRequirement' => {'type'=>'DataRequirement', 'path'=>'Library.dataRequirement', 'min'=>0, 'max'=>Float::INFINITY},
       'content' => {'type'=>'Attachment', 'path'=>'Library.content', 'min'=>1, 'max'=>1}
     }
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :url               # 0-1 uri
-    attr_accessor :identifier        # 0-* [ Identifier ]
-    attr_accessor :version           # 0-1 string
-    attr_accessor :name              # 0-1 string
-    attr_accessor :title             # 0-1 string
-    attr_accessor :type              # 1-1 CodeableConcept
-    attr_accessor :status            # 1-1 code
-    attr_accessor :experimental      # 0-1 boolean
-    attr_accessor :description       # 0-1 string
-    attr_accessor :purpose           # 0-1 string
-    attr_accessor :usage             # 0-1 string
-    attr_accessor :publicationDate   # 0-1 date
-    attr_accessor :lastReviewDate    # 0-1 date
-    attr_accessor :effectivePeriod   # 0-1 Period
-    attr_accessor :coverage          # 0-* [ UsageContext ]
-    attr_accessor :topic             # 0-* [ CodeableConcept ]
-    attr_accessor :contributor       # 0-* [ Contributor ]
-    attr_accessor :publisher         # 0-1 string
-    attr_accessor :contact           # 0-* [ ContactDetail ]
-    attr_accessor :copyright         # 0-1 string
-    attr_accessor :relatedResource   # 0-* [ RelatedResource ]
-    attr_accessor :parameter         # 0-* [ ParameterDefinition ]
-    attr_accessor :dataRequirement   # 0-* [ DataRequirement ]
-    attr_accessor :content           # 1-1 Attachment
-
-    def resourceType
-      'Library'
-    end
   end
 end

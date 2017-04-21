@@ -1,9 +1,5 @@
 module FHIR
   class EnrollmentRequest < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'insurer' => ['Identifier', 'Reference'],
       'provider' => ['Identifier', 'Reference'],
@@ -35,32 +31,5 @@ module FHIR
       'subjectReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Patient'], 'type'=>'Reference', 'path'=>'EnrollmentRequest.subject[x]', 'min'=>1, 'max'=>1},
       'coverage' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Coverage'], 'type'=>'Reference', 'path'=>'EnrollmentRequest.coverage', 'min'=>1, 'max'=>1}
     }
-
-    attr_accessor :id                     # 0-1 id
-    attr_accessor :meta                   # 0-1 Meta
-    attr_accessor :implicitRules          # 0-1 uri
-    attr_accessor :language               # 0-1 code
-    attr_accessor :text                   # 0-1 Narrative
-    attr_accessor :contained              # 0-* [ Resource ]
-    attr_accessor :extension              # 0-* [ Extension ]
-    attr_accessor :modifierExtension      # 0-* [ Extension ]
-    attr_accessor :identifier             # 0-* [ Identifier ]
-    attr_accessor :status                 # 1-1 code
-    attr_accessor :ruleset                # 0-1 Coding
-    attr_accessor :originalRuleset        # 0-1 Coding
-    attr_accessor :created                # 0-1 dateTime
-    attr_accessor :insurerIdentifier      # 0-1 Identifier
-    attr_accessor :insurerReference       # 0-1 Reference(Organization)
-    attr_accessor :providerIdentifier     # 0-1 Identifier
-    attr_accessor :providerReference      # 0-1 Reference(Practitioner)
-    attr_accessor :organizationIdentifier # 0-1 Identifier
-    attr_accessor :organizationReference  # 0-1 Reference(Organization)
-    attr_accessor :subjectIdentifier      # 1-1 Identifier
-    attr_accessor :subjectReference       # 1-1 Reference(Patient)
-    attr_accessor :coverage               # 1-1 Reference(Coverage)
-
-    def resourceType
-      'EnrollmentRequest'
-    end
   end
 end

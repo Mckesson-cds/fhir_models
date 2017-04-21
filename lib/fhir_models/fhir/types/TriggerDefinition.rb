@@ -16,14 +16,5 @@ module FHIR
       'eventData' => {'type'=>'DataRequirement', 'path'=>'TriggerDefinition.eventData', 'min'=>0, 'max'=>1}
     }
 
-    attr_accessor :id                   # 0-1 string
-    attr_accessor :extension            # 0-* [ Extension ]
-    attr_accessor :type                 # 1-1 code
-    attr_accessor :eventName            # 0-1 string
-    attr_accessor :eventTimingTiming    # 0-1 Timing
-    attr_accessor :eventTimingReference # 0-1 Reference(Schedule)
-    attr_accessor :eventTimingDate      # 0-1 date
-    attr_accessor :eventTimingDateTime  # 0-1 dateTime
-    attr_accessor :eventData            # 0-1 DataRequirement
   end
 end

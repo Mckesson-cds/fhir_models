@@ -1,9 +1,5 @@
 module FHIR
   class MeasureReport < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["patient"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'MeasureReport.id', 'min'=>0, 'max'=>1},
@@ -26,10 +22,6 @@ module FHIR
     }
 
     class Group < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Group.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Group.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -42,10 +34,6 @@ module FHIR
       }
 
       class Population < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Population.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Population.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -54,20 +42,9 @@ module FHIR
           'count' => {'type'=>'integer', 'path'=>'Population.count', 'min'=>0, 'max'=>1},
           'patients' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/List'], 'type'=>'Reference', 'path'=>'Population.patients', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :type              # 1-1 code
-        attr_accessor :count             # 0-1 integer
-        attr_accessor :patients          # 0-1 Reference(List)
       end
 
       class Stratifier < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Stratifier.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Stratifier.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -77,10 +54,6 @@ module FHIR
         }
 
         class Group < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'Group.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'Group.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -91,10 +64,6 @@ module FHIR
           }
 
           class Population < FHIR::Model
-            include FHIR::Hashable
-            include FHIR::Json
-            include FHIR::Xml
-
             METADATA = {
               'id' => {'type'=>'string', 'path'=>'Population.id', 'min'=>0, 'max'=>1},
               'extension' => {'type'=>'Extension', 'path'=>'Population.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -103,35 +72,11 @@ module FHIR
               'count' => {'type'=>'integer', 'path'=>'Population.count', 'min'=>0, 'max'=>1},
               'patients' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/List'], 'type'=>'Reference', 'path'=>'Population.patients', 'min'=>0, 'max'=>1}
             }
-
-            attr_accessor :id                # 0-1 string
-            attr_accessor :extension         # 0-* [ Extension ]
-            attr_accessor :modifierExtension # 0-* [ Extension ]
-            attr_accessor :type              # 1-1 code
-            attr_accessor :count             # 0-1 integer
-            attr_accessor :patients          # 0-1 Reference(List)
           end
-
-          attr_accessor :id                # 0-1 string
-          attr_accessor :extension         # 0-* [ Extension ]
-          attr_accessor :modifierExtension # 0-* [ Extension ]
-          attr_accessor :value             # 1-1 string
-          attr_accessor :population        # 0-* [ MeasureReport::Group::Stratifier::Group::Population ]
-          attr_accessor :measureScore      # 0-1 decimal
         end
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :identifier        # 1-1 Identifier
-        attr_accessor :group             # 0-* [ MeasureReport::Group::Stratifier::Group ]
       end
 
       class SupplementalData < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'SupplementalData.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'SupplementalData.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -141,10 +86,6 @@ module FHIR
         }
 
         class Group < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'Group.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'Group.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -153,52 +94,8 @@ module FHIR
             'count' => {'type'=>'integer', 'path'=>'Group.count', 'min'=>0, 'max'=>1},
             'patients' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/List'], 'type'=>'Reference', 'path'=>'Group.patients', 'min'=>0, 'max'=>1}
           }
-
-          attr_accessor :id                # 0-1 string
-          attr_accessor :extension         # 0-* [ Extension ]
-          attr_accessor :modifierExtension # 0-* [ Extension ]
-          attr_accessor :value             # 1-1 string
-          attr_accessor :count             # 0-1 integer
-          attr_accessor :patients          # 0-1 Reference(List)
         end
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :identifier        # 1-1 Identifier
-        attr_accessor :group             # 0-* [ MeasureReport::Group::SupplementalData::Group ]
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :identifier        # 1-1 Identifier
-      attr_accessor :population        # 0-* [ MeasureReport::Group::Population ]
-      attr_accessor :measureScore      # 0-1 decimal
-      attr_accessor :stratifier        # 0-* [ MeasureReport::Group::Stratifier ]
-      attr_accessor :supplementalData  # 0-* [ MeasureReport::Group::SupplementalData ]
-    end
-
-    attr_accessor :id                    # 0-1 id
-    attr_accessor :meta                  # 0-1 Meta
-    attr_accessor :implicitRules         # 0-1 uri
-    attr_accessor :language              # 0-1 code
-    attr_accessor :text                  # 0-1 Narrative
-    attr_accessor :contained             # 0-* [ Resource ]
-    attr_accessor :extension             # 0-* [ Extension ]
-    attr_accessor :modifierExtension     # 0-* [ Extension ]
-    attr_accessor :measure               # 1-1 Reference(Measure)
-    attr_accessor :type                  # 1-1 code
-    attr_accessor :patient               # 0-1 Reference(Patient)
-    attr_accessor :period                # 1-1 Period
-    attr_accessor :status                # 1-1 code
-    attr_accessor :date                  # 0-1 dateTime
-    attr_accessor :reportingOrganization # 0-1 Reference(Organization)
-    attr_accessor :group                 # 0-* [ MeasureReport::Group ]
-    attr_accessor :evaluatedResources    # 0-1 Reference(Bundle)
-
-    def resourceType
-      'MeasureReport'
     end
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class Meta < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'string', 'path'=>'Meta.id', 'min'=>0, 'max'=>1},
@@ -15,12 +11,5 @@ module FHIR
       'tag' => {'valid_codes'=>{'http://hl7.org/fhir/common-tags'=>['actionable', 'actionable']}, 'type'=>'Coding', 'path'=>'Meta.tag', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/common-tags'}}
     }
 
-    attr_accessor :id          # 0-1 string
-    attr_accessor :extension   # 0-* [ Extension ]
-    attr_accessor :versionId   # 0-1 id
-    attr_accessor :lastUpdated # 0-1 instant
-    attr_accessor :profile     # 0-* [ uri ]
-    attr_accessor :security    # 0-* [ Coding ]
-    attr_accessor :tag         # 0-* [ Coding ]
   end
 end

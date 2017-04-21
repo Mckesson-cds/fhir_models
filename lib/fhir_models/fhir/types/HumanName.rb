@@ -1,9 +1,5 @@
 module FHIR
   class HumanName < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'string', 'path'=>'HumanName.id', 'min'=>0, 'max'=>1},
@@ -17,14 +13,5 @@ module FHIR
       'period' => {'type'=>'Period', 'path'=>'HumanName.period', 'min'=>0, 'max'=>1}
     }
 
-    attr_accessor :id        # 0-1 string
-    attr_accessor :extension # 0-* [ Extension ]
-    attr_accessor :use       # 0-1 code
-    attr_accessor :text      # 0-1 string
-    attr_accessor :family    # 0-* [ string ]
-    attr_accessor :given     # 0-* [ string ]
-    attr_accessor :prefix    # 0-* [ string ]
-    attr_accessor :suffix    # 0-* [ string ]
-    attr_accessor :period    # 0-1 Period
   end
 end

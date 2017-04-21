@@ -1,9 +1,5 @@
 module FHIR
   class CapabilityStatement < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["context", "date", "description", "event", "fhirversion", "format", "mode", "name", "publisher", "resource", "resourceprofile", "securityservice", "software", "status", "supported-profile", "url", "version"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'CapabilityStatement.id', 'min'=>0, 'max'=>1},
@@ -42,10 +38,6 @@ module FHIR
     }
 
     class Contact < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Contact.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Contact.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -53,19 +45,9 @@ module FHIR
         'name' => {'type'=>'string', 'path'=>'Contact.name', 'min'=>0, 'max'=>1},
         'telecom' => {'type'=>'ContactPoint', 'path'=>'Contact.telecom', 'min'=>0, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :name              # 0-1 string
-      attr_accessor :telecom           # 0-* [ ContactPoint ]
     end
 
     class Software < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Software.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Software.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -74,20 +56,9 @@ module FHIR
         'version' => {'type'=>'string', 'path'=>'Software.version', 'min'=>0, 'max'=>1},
         'releaseDate' => {'type'=>'dateTime', 'path'=>'Software.releaseDate', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :name              # 1-1 string
-      attr_accessor :version           # 0-1 string
-      attr_accessor :releaseDate       # 0-1 dateTime
     end
 
     class Implementation < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Implementation.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Implementation.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -95,19 +66,9 @@ module FHIR
         'description' => {'type'=>'string', 'path'=>'Implementation.description', 'min'=>1, 'max'=>1},
         'url' => {'type'=>'uri', 'path'=>'Implementation.url', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :description       # 1-1 string
-      attr_accessor :url               # 0-1 uri
     end
 
     class Rest < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Rest.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Rest.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -123,10 +84,6 @@ module FHIR
       }
 
       class Security < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Security.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Security.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -138,10 +95,6 @@ module FHIR
         }
 
         class Certificate < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'Certificate.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'Certificate.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -149,28 +102,10 @@ module FHIR
             'type' => {'type'=>'code', 'path'=>'Certificate.type', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://www.rfc-editor.org/bcp/bcp13.txt'}},
             'blob' => {'type'=>'base64Binary', 'path'=>'Certificate.blob', 'min'=>0, 'max'=>1}
           }
-
-          attr_accessor :id                # 0-1 string
-          attr_accessor :extension         # 0-* [ Extension ]
-          attr_accessor :modifierExtension # 0-* [ Extension ]
-          attr_accessor :type              # 0-1 code
-          attr_accessor :blob              # 0-1 base64Binary
         end
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :cors              # 0-1 boolean
-        attr_accessor :service           # 0-* [ CodeableConcept ]
-        attr_accessor :description       # 0-1 string
-        attr_accessor :certificate       # 0-* [ CapabilityStatement::Rest::Security::Certificate ]
       end
 
       class Resource < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Resource.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Resource.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -192,10 +127,6 @@ module FHIR
         }
 
         class Interaction < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'Interaction.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'Interaction.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -203,19 +134,9 @@ module FHIR
             'code' => {'valid_codes'=>{'http://hl7.org/fhir/restful-interaction'=>['read', 'vread', 'update', 'delete', 'history-instance', 'history-type', 'create', 'search-type', 'read', 'vread', 'update', 'delete', 'history', 'create', 'search', 'conformance', 'transaction', 'batch', 'operation']}, 'type'=>'code', 'path'=>'Interaction.code', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/type-restful-interaction'}},
             'documentation' => {'type'=>'string', 'path'=>'Interaction.documentation', 'min'=>0, 'max'=>1}
           }
-
-          attr_accessor :id                # 0-1 string
-          attr_accessor :extension         # 0-* [ Extension ]
-          attr_accessor :modifierExtension # 0-* [ Extension ]
-          attr_accessor :code              # 1-1 code
-          attr_accessor :documentation     # 0-1 string
         end
 
         class SearchParam < FHIR::Model
-          include FHIR::Hashable
-          include FHIR::Json
-          include FHIR::Xml
-
           METADATA = {
             'id' => {'type'=>'string', 'path'=>'SearchParam.id', 'min'=>0, 'max'=>1},
             'extension' => {'type'=>'Extension', 'path'=>'SearchParam.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -228,44 +149,10 @@ module FHIR
             'modifier' => {'valid_codes'=>{'http://hl7.org/fhir/search-modifier-code'=>['missing', 'exact', 'contains', 'not', 'text', 'in', 'not-in', 'below', 'above', 'type', 'missing', 'exact', 'contains', 'not', 'text', 'in', 'not-in', 'below', 'above', 'type']}, 'type'=>'code', 'path'=>'SearchParam.modifier', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/search-modifier-code'}},
             'chain' => {'type'=>'string', 'path'=>'SearchParam.chain', 'min'=>0, 'max'=>Float::INFINITY}
           }
-
-          attr_accessor :id                # 0-1 string
-          attr_accessor :extension         # 0-* [ Extension ]
-          attr_accessor :modifierExtension # 0-* [ Extension ]
-          attr_accessor :name              # 1-1 string
-          attr_accessor :definition        # 0-1 uri
-          attr_accessor :type              # 1-1 code
-          attr_accessor :documentation     # 0-1 string
-          attr_accessor :target            # 0-* [ code ]
-          attr_accessor :modifier          # 0-* [ code ]
-          attr_accessor :chain             # 0-* [ string ]
         end
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :type              # 1-1 code
-        attr_accessor :profile           # 0-1 Reference(StructureDefinition)
-        attr_accessor :documentation     # 0-1 markdown
-        attr_accessor :interaction       # 1-* [ CapabilityStatement::Rest::Resource::Interaction ]
-        attr_accessor :versioning        # 0-1 code
-        attr_accessor :readHistory       # 0-1 boolean
-        attr_accessor :updateCreate      # 0-1 boolean
-        attr_accessor :conditionalCreate # 0-1 boolean
-        attr_accessor :conditionalRead   # 0-1 code
-        attr_accessor :conditionalUpdate # 0-1 boolean
-        attr_accessor :conditionalDelete # 0-1 code
-      # attr_accessor :referencePolicy   # 0-1 code  
-        attr_accessor :searchInclude     # 0-* [ string ]
-        attr_accessor :searchRevInclude  # 0-* [ string ]
-        attr_accessor :searchParam       # 0-* [ CapabilityStatement::Rest::Resource::SearchParam ]
       end
 
       class Interaction < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Interaction.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Interaction.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -273,19 +160,9 @@ module FHIR
           'code' => {'valid_codes'=>{'http://hl7.org/fhir/restful-interaction'=>['transaction', 'batch', 'search-system', 'history-system', 'read', 'vread', 'update', 'delete', 'history', 'create', 'search', 'conformance', 'transaction', 'batch', 'operation']}, 'type'=>'code', 'path'=>'Interaction.code', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/system-restful-interaction'}},
           'documentation' => {'type'=>'string', 'path'=>'Interaction.documentation', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :code              # 1-1 code
-        attr_accessor :documentation     # 0-1 string
       end
 
       class Operation < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Operation.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Operation.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -293,32 +170,10 @@ module FHIR
           'name' => {'type'=>'string', 'path'=>'Operation.name', 'min'=>1, 'max'=>1},
           'definition' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/OperationDefinition'], 'type'=>'Reference', 'path'=>'Operation.definition', 'min'=>1, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :name              # 1-1 string
-        attr_accessor :definition        # 1-1 Reference(OperationDefinition)
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :mode              # 1-1 code
-      attr_accessor :documentation     # 0-1 string
-      attr_accessor :security          # 0-1 CapabilityStatement::Rest::Security
-      attr_accessor :resource          # 0-* [ CapabilityStatement::Rest::Resource ]
-      attr_accessor :interaction       # 0-* [ CapabilityStatement::Rest::Interaction ]
-      attr_accessor :searchParam       # 0-* [ CapabilityStatement::Rest::Resource::SearchParam ]
-      attr_accessor :operation         # 0-* [ CapabilityStatement::Rest::Operation ]
-      attr_accessor :compartment       # 0-* [ uri ]
     end
 
     class Messaging < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Messaging.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Messaging.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -330,10 +185,6 @@ module FHIR
       }
 
       class Endpoint < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Endpoint.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Endpoint.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -341,19 +192,9 @@ module FHIR
           'protocol' => {'valid_codes'=>{'http://hl7.org/fhir/message-transport'=>['http', 'ftp', 'mllp', 'http', 'ftp', 'mllp']}, 'type'=>'Coding', 'path'=>'Endpoint.protocol', 'min'=>1, 'max'=>1, 'binding'=>{'strength'=>'extensible', 'uri'=>'http://hl7.org/fhir/ValueSet/message-transport'}},
           'address' => {'type'=>'uri', 'path'=>'Endpoint.address', 'min'=>1, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :protocol          # 1-1 Coding
-        attr_accessor :address           # 1-1 uri
       end
 
       class Event < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Event.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Event.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -366,33 +207,10 @@ module FHIR
           'response' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/StructureDefinition'], 'type'=>'Reference', 'path'=>'Event.response', 'min'=>1, 'max'=>1},
           'documentation' => {'type'=>'string', 'path'=>'Event.documentation', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :code              # 1-1 Coding
-        attr_accessor :category          # 0-1 code
-        attr_accessor :mode              # 1-1 code
-        attr_accessor :focus             # 1-1 code
-        attr_accessor :request           # 1-1 Reference(StructureDefinition)
-        attr_accessor :response          # 1-1 Reference(StructureDefinition)
-        attr_accessor :documentation     # 0-1 string
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :endpoint          # 0-* [ CapabilityStatement::Messaging::Endpoint ]
-      attr_accessor :reliableCache     # 0-1 unsignedInt
-      attr_accessor :documentation     # 0-1 string
-      attr_accessor :event             # 1-* [ CapabilityStatement::Messaging::Event ]
     end
 
     class Document < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Document.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Document.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -401,51 +219,6 @@ module FHIR
         'documentation' => {'type'=>'string', 'path'=>'Document.documentation', 'min'=>0, 'max'=>1},
         'profile' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/StructureDefinition'], 'type'=>'Reference', 'path'=>'Document.profile', 'min'=>1, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :mode              # 1-1 code
-      attr_accessor :documentation     # 0-1 string
-      attr_accessor :profile           # 1-1 Reference(StructureDefinition)
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :url               # 0-1 uri
-    attr_accessor :version           # 0-1 string
-    attr_accessor :name              # 0-1 string
-    attr_accessor :title             # 0-1 string
-    attr_accessor :status            # 1-1 code
-    attr_accessor :experimental      # 0-1 boolean
-    attr_accessor :date              # 1-1 dateTime
-    attr_accessor :publisher         # 0-1 string
-    attr_accessor :contact           # 0-* [ CapabilityStatement::Contact ]
-    attr_accessor :description       # 0-1 markdown
-    attr_accessor :useContext        # 0-* [ CodeableConcept ]
-    attr_accessor :jurisdiction      # 0-* [ CodeableConcept ]
-    attr_accessor :purpose           # 0-1 markdown
-    attr_accessor :copyright         # 0-1 string
-    attr_accessor :kind              # 1-1 code
-    attr_accessor :instantiates      # 0-* [ uri ]
-    attr_accessor :software          # 0-1 CapabilityStatement::Software
-    attr_accessor :implementation    # 0-1 CapabilityStatement::Implementation
-    attr_accessor :fhirVersion       # 1-1 id
-    attr_accessor :acceptUnknown     # 1-1 code
-    attr_accessor :format            # 1-* [ code ]
-    attr_accessor :profile           # 0-* [ Reference(StructureDefinition) ]
-    attr_accessor :rest              # 0-* [ CapabilityStatement::Rest ]
-    attr_accessor :messaging         # 0-* [ CapabilityStatement::Messaging ]
-    attr_accessor :document          # 0-* [ CapabilityStatement::Document ]
-
-    def resourceType
-      'CapabilityStatement'
     end
   end
 end

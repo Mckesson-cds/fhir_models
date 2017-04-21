@@ -1,9 +1,5 @@
 module FHIR
   class Coverage < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'issuer' => ['Identifier', 'Reference'],
       'planholder' => ['Identifier', 'Reference'],
@@ -42,40 +38,5 @@ module FHIR
       'network' => {'type'=>'string', 'path'=>'Coverage.network', 'min'=>0, 'max'=>1},
       'contract' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Contract'], 'type'=>'Reference', 'path'=>'Coverage.contract', 'min'=>0, 'max'=>Float::INFINITY}
     }
-
-    attr_accessor :id                    # 0-1 id
-    attr_accessor :meta                  # 0-1 Meta
-    attr_accessor :implicitRules         # 0-1 uri
-    attr_accessor :language              # 0-1 code
-    attr_accessor :text                  # 0-1 Narrative
-    attr_accessor :contained             # 0-* [ Resource ]
-    attr_accessor :extension             # 0-* [ Extension ]
-    attr_accessor :modifierExtension     # 0-* [ Extension ]
-    attr_accessor :status                # 1-1 code
-    attr_accessor :issuerIdentifier      # 1-1 Identifier
-    attr_accessor :issuerReference       # 1-1 Reference(Organization|Patient|RelatedPerson)
-    attr_accessor :isAgreement           # 0-1 boolean
-    attr_accessor :bin                   # 0-1 string
-    attr_accessor :period                # 0-1 Period
-    attr_accessor :type                  # 0-1 Coding
-    attr_accessor :planholderIdentifier  # 1-1 Identifier
-    attr_accessor :planholderReference   # 1-1 Reference(Patient|Organization)
-    attr_accessor :beneficiaryIdentifier # 1-1 Identifier
-    attr_accessor :beneficiaryReference  # 1-1 Reference(Patient)
-    attr_accessor :relationship          # 1-1 Coding
-    attr_accessor :identifier            # 0-* [ Identifier ]
-    attr_accessor :group                 # 0-1 string
-    attr_accessor :subGroup              # 0-1 string
-    attr_accessor :plan                  # 0-1 string
-    attr_accessor :subPlan               # 0-1 string
-    attr_accessor :local_class           # 0-1 string
-    attr_accessor :dependent             # 0-1 positiveInt
-    attr_accessor :sequence              # 0-1 positiveInt
-    attr_accessor :network               # 0-1 string
-    attr_accessor :contract              # 0-* [ Reference(Contract) ]
-
-    def resourceType
-      'Coverage'
-    end
   end
 end

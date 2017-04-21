@@ -1,9 +1,5 @@
 module FHIR
   class ContactPoint < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'string', 'path'=>'ContactPoint.id', 'min'=>0, 'max'=>1},
@@ -15,12 +11,5 @@ module FHIR
       'period' => {'type'=>'Period', 'path'=>'ContactPoint.period', 'min'=>0, 'max'=>1}
     }
 
-    attr_accessor :id        # 0-1 string
-    attr_accessor :extension # 0-* [ Extension ]
-    attr_accessor :system    # 0-1 code
-    attr_accessor :value     # 0-1 string
-    attr_accessor :use       # 0-1 code
-    attr_accessor :rank      # 0-1 positiveInt
-    attr_accessor :period    # 0-1 Period
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class DataElement < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["code", "context", "date", "description", "identifier", "name", "publisher", "status", "stringency", "url", "version"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'DataElement.id', 'min'=>0, 'max'=>1},
@@ -31,10 +27,6 @@ module FHIR
     }
 
     class Contact < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Contact.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Contact.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -42,19 +34,9 @@ module FHIR
         'name' => {'type'=>'string', 'path'=>'Contact.name', 'min'=>0, 'max'=>1},
         'telecom' => {'type'=>'ContactPoint', 'path'=>'Contact.telecom', 'min'=>0, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :name              # 0-1 string
-      attr_accessor :telecom           # 0-* [ ContactPoint ]
     end
 
     class Mapping < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Mapping.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Mapping.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -64,41 +46,6 @@ module FHIR
         'name' => {'type'=>'string', 'path'=>'Mapping.name', 'min'=>0, 'max'=>1},
         'comment' => {'type'=>'string', 'path'=>'Mapping.comment', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :identity          # 1-1 id
-      attr_accessor :uri               # 0-1 uri
-      attr_accessor :name              # 0-1 string
-      attr_accessor :comment           # 0-1 string
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :url               # 0-1 uri
-    attr_accessor :identifier        # 0-* [ Identifier ]
-    attr_accessor :version           # 0-1 string
-    attr_accessor :status            # 1-1 code
-    attr_accessor :experimental      # 0-1 boolean
-    attr_accessor :publisher         # 0-1 string
-    attr_accessor :date              # 0-1 dateTime
-    attr_accessor :name              # 0-1 string
-    attr_accessor :contact           # 0-* [ DataElement::Contact ]
-    attr_accessor :useContext        # 0-* [ CodeableConcept ]
-    attr_accessor :copyright         # 0-1 string
-    attr_accessor :stringency        # 0-1 code
-    attr_accessor :mapping           # 0-* [ DataElement::Mapping ]
-    attr_accessor :element           # 1-* [ ElementDefinition ]
-
-    def resourceType
-      'DataElement'
     end
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class ProcessResponse < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'request' => ['Identifier', 'Reference'],
       'organization' => ['Identifier', 'Reference'],
@@ -41,10 +37,6 @@ module FHIR
     }
 
     class Notes < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Notes.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Notes.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -52,43 +44,6 @@ module FHIR
         'type' => {'valid_codes'=>{'http://hl7.org/fhir/note-type'=>['display', 'print', 'printoper', 'display', 'print', 'printoper']}, 'type'=>'Coding', 'path'=>'Notes.type', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'required', 'uri'=>'http://hl7.org/fhir/ValueSet/note-type'}},
         'text' => {'type'=>'string', 'path'=>'Notes.text', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :type              # 0-1 Coding
-      attr_accessor :text              # 0-1 string
-    end
-
-    attr_accessor :id                            # 0-1 id
-    attr_accessor :meta                          # 0-1 Meta
-    attr_accessor :implicitRules                 # 0-1 uri
-    attr_accessor :language                      # 0-1 code
-    attr_accessor :text                          # 0-1 Narrative
-    attr_accessor :contained                     # 0-* [ Resource ]
-    attr_accessor :extension                     # 0-* [ Extension ]
-    attr_accessor :modifierExtension             # 0-* [ Extension ]
-    attr_accessor :identifier                    # 0-* [ Identifier ]
-    attr_accessor :status                        # 1-1 code
-    attr_accessor :requestIdentifier             # 0-1 Identifier
-    attr_accessor :requestReference              # 0-1 Reference(Resource)
-    attr_accessor :outcome                       # 0-1 Coding
-    attr_accessor :disposition                   # 0-1 string
-    attr_accessor :ruleset                       # 0-1 Coding
-    attr_accessor :originalRuleset               # 0-1 Coding
-    attr_accessor :created                       # 0-1 dateTime
-    attr_accessor :organizationIdentifier        # 0-1 Identifier
-    attr_accessor :organizationReference         # 0-1 Reference(Organization)
-    attr_accessor :requestProviderIdentifier     # 0-1 Identifier
-    attr_accessor :requestProviderReference      # 0-1 Reference(Practitioner)
-    attr_accessor :requestOrganizationIdentifier # 0-1 Identifier
-    attr_accessor :requestOrganizationReference  # 0-1 Reference(Organization)
-    attr_accessor :form                          # 0-1 Coding
-    attr_accessor :notes                         # 0-* [ ProcessResponse::Notes ]
-    attr_accessor :error                         # 0-* [ Coding ]
-
-    def resourceType
-      'ProcessResponse'
     end
   end
 end

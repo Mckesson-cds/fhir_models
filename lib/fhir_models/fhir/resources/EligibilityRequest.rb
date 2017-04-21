@@ -1,9 +1,5 @@
 module FHIR
   class EligibilityRequest < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'insurer' => ['Identifier', 'Reference'],
       'provider' => ['Identifier', 'Reference'],
@@ -50,43 +46,5 @@ module FHIR
       'benefitCategory' => {'valid_codes'=>{'http://hl7.org/fhir/benefit-category'=>['oral', 'vision', 'medical', 'pharmacy', 'oral', 'vision', 'medical', 'pharmacy']}, 'type'=>'Coding', 'path'=>'EligibilityRequest.benefitCategory', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/benefit-category'}},
       'benefitSubCategory' => {'valid_codes'=>{'http://hl7.org/fhir/benefit-subcategory'=>['1', '2', '3', '4', '5', '14', '23', '24', '25', '26', '27', '28', '30', '35', '36', '37', '49', '55', '56', '61', '62', '63', '69', '76', 'F1', 'F3', 'F4', 'F6', '1', '2', '3', '4', '5', '14', '23', '24', '25', '26', '27', '28', '30', '35', '36', '37', '49', '55', '56', '61', '62', '63', '69', '76', 'F1', 'F3', 'F4', 'F6']}, 'type'=>'Coding', 'path'=>'EligibilityRequest.benefitSubCategory', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/benefit-subcategory'}}
     }
-
-    attr_accessor :id                     # 0-1 id
-    attr_accessor :meta                   # 0-1 Meta
-    attr_accessor :implicitRules          # 0-1 uri
-    attr_accessor :language               # 0-1 code
-    attr_accessor :text                   # 0-1 Narrative
-    attr_accessor :contained              # 0-* [ Resource ]
-    attr_accessor :extension              # 0-* [ Extension ]
-    attr_accessor :modifierExtension      # 0-* [ Extension ]
-    attr_accessor :identifier             # 0-* [ Identifier ]
-    attr_accessor :status                 # 1-1 code
-    attr_accessor :ruleset                # 0-1 Coding
-    attr_accessor :originalRuleset        # 0-1 Coding
-    attr_accessor :created                # 0-1 dateTime
-    attr_accessor :insurerIdentifier      # 0-1 Identifier
-    attr_accessor :insurerReference       # 0-1 Reference(Organization)
-    attr_accessor :providerIdentifier     # 0-1 Identifier
-    attr_accessor :providerReference      # 0-1 Reference(Practitioner)
-    attr_accessor :organizationIdentifier # 0-1 Identifier
-    attr_accessor :organizationReference  # 0-1 Reference(Organization)
-    attr_accessor :priority               # 0-1 Coding
-    attr_accessor :entererIdentifier      # 0-1 Identifier
-    attr_accessor :entererReference       # 0-1 Reference(Practitioner)
-    attr_accessor :facilityIdentifier     # 0-1 Identifier
-    attr_accessor :facilityReference      # 0-1 Reference(Location)
-    attr_accessor :patientIdentifier      # 0-1 Identifier
-    attr_accessor :patientReference       # 0-1 Reference(Patient)
-    attr_accessor :coverageIdentifier     # 0-1 Identifier
-    attr_accessor :coverageReference      # 0-1 Reference(Coverage)
-    attr_accessor :businessArrangement    # 0-1 string
-    attr_accessor :servicedDate           # 0-1 date
-    attr_accessor :servicedPeriod         # 0-1 Period
-    attr_accessor :benefitCategory        # 0-1 Coding
-    attr_accessor :benefitSubCategory     # 0-1 Coding
-
-    def resourceType
-      'EligibilityRequest'
-    end
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class SampledData < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'string', 'path'=>'SampledData.id', 'min'=>0, 'max'=>1},
@@ -17,14 +13,5 @@ module FHIR
       'data' => {'type'=>'string', 'path'=>'SampledData.data', 'min'=>1, 'max'=>1}
     }
 
-    attr_accessor :id         # 0-1 string
-    attr_accessor :extension  # 0-* [ Extension ]
-    attr_accessor :origin     # 1-1 Quantity
-    attr_accessor :period     # 1-1 decimal
-    attr_accessor :factor     # 0-1 decimal
-    attr_accessor :lowerLimit # 0-1 decimal
-    attr_accessor :upperLimit # 0-1 decimal
-    attr_accessor :dimensions # 1-1 positiveInt
-    attr_accessor :data       # 1-1 string
   end
 end

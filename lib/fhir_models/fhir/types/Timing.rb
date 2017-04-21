@@ -1,9 +1,5 @@
 module FHIR
   class Timing < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = []
     METADATA = {
       'id' => {'type'=>'string', 'path'=>'Timing.id', 'min'=>0, 'max'=>1},
@@ -14,10 +10,6 @@ module FHIR
     }
 
     class Repeat < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'bounds' => ['Duration', 'Range', 'Period']
       }
@@ -41,29 +33,7 @@ module FHIR
         'offset' => {'type'=>'unsignedInt', 'path'=>'Repeat.offset', 'min'=>0, 'max'=>1}
       }
 
-      attr_accessor :id             # 0-1 string
-      attr_accessor :extension      # 0-* [ Extension ]
-      attr_accessor :boundsDuration # 0-1 Duration
-      attr_accessor :boundsRange    # 0-1 Range
-      attr_accessor :boundsPeriod   # 0-1 Period
-      attr_accessor :count          # 0-1 integer
-      attr_accessor :countMax       # 0-1 integer
-      attr_accessor :duration       # 0-1 decimal
-      attr_accessor :durationMax    # 0-1 decimal
-      attr_accessor :durationUnit   # 0-1 code
-      attr_accessor :frequency      # 0-1 integer
-      attr_accessor :frequencyMax   # 0-1 integer
-      attr_accessor :period         # 0-1 decimal
-      attr_accessor :periodMax      # 0-1 decimal
-      attr_accessor :periodUnit     # 0-1 code
-      attr_accessor :when           # 0-1 code
-      attr_accessor :offset         # 0-1 unsignedInt
     end
 
-    attr_accessor :id        # 0-1 string
-    attr_accessor :extension # 0-* [ Extension ]
-    attr_accessor :event     # 0-* [ dateTime ]
-    attr_accessor :repeat    # 0-1 Timing::Repeat
-    attr_accessor :code      # 0-1 CodeableConcept
   end
 end

@@ -1,9 +1,5 @@
 module FHIR
   class Contract < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'binding' => ['Attachment', 'Reference']
     }
@@ -40,10 +36,6 @@ module FHIR
     }
 
     class Agent < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Agent.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Agent.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -51,19 +43,9 @@ module FHIR
         'actor' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Contract', 'http://hl7.org/fhir/StructureDefinition/Device', 'http://hl7.org/fhir/StructureDefinition/Group', 'http://hl7.org/fhir/StructureDefinition/Location', 'http://hl7.org/fhir/StructureDefinition/Organization', 'http://hl7.org/fhir/StructureDefinition/Patient', 'http://hl7.org/fhir/StructureDefinition/Practitioner', 'http://hl7.org/fhir/StructureDefinition/RelatedPerson', 'http://hl7.org/fhir/StructureDefinition/Substance'], 'type'=>'Reference', 'path'=>'Agent.actor', 'min'=>1, 'max'=>1},
         'role' => {'valid_codes'=>{'http://www.hl7.org/fhir/contractactorrole'=>['practitioner', 'patient', 'practitioner', 'patient']}, 'type'=>'CodeableConcept', 'path'=>'Agent.role', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/contract-actorrole'}}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :actor             # 1-1 Reference(Contract|Device|Group|Location|Organization|Patient|Practitioner|RelatedPerson|Substance)
-      attr_accessor :role              # 0-* [ CodeableConcept ]
     end
 
     class Signer < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Signer.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Signer.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -72,20 +54,9 @@ module FHIR
         'party' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Organization', 'http://hl7.org/fhir/StructureDefinition/Patient', 'http://hl7.org/fhir/StructureDefinition/Practitioner', 'http://hl7.org/fhir/StructureDefinition/RelatedPerson'], 'type'=>'Reference', 'path'=>'Signer.party', 'min'=>1, 'max'=>1},
         'signature' => {'type'=>'Signature', 'path'=>'Signer.signature', 'min'=>1, 'max'=>Float::INFINITY}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :type              # 1-1 Coding
-      attr_accessor :party             # 1-1 Reference(Organization|Patient|Practitioner|RelatedPerson)
-      attr_accessor :signature         # 1-* [ Signature ]
     end
 
     class ValuedItem < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'entity' => ['CodeableConcept', 'Reference']
       }
@@ -103,26 +74,9 @@ module FHIR
         'points' => {'type'=>'decimal', 'path'=>'ValuedItem.points', 'min'=>0, 'max'=>1},
         'net' => {'type'=>'Money', 'path'=>'ValuedItem.net', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                    # 0-1 string
-      attr_accessor :extension             # 0-* [ Extension ]
-      attr_accessor :modifierExtension     # 0-* [ Extension ]
-      attr_accessor :entityCodeableConcept # 0-1 CodeableConcept
-      attr_accessor :entityReference       # 0-1 Reference(Resource)
-      attr_accessor :identifier            # 0-1 Identifier
-      attr_accessor :effectiveTime         # 0-1 dateTime
-      attr_accessor :quantity              # 0-1 Quantity
-      attr_accessor :unitPrice             # 0-1 Money
-      attr_accessor :factor                # 0-1 decimal
-      attr_accessor :points                # 0-1 decimal
-      attr_accessor :net                   # 0-1 Money
     end
 
     class Term < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       METADATA = {
         'id' => {'type'=>'string', 'path'=>'Term.id', 'min'=>0, 'max'=>1},
         'extension' => {'type'=>'Extension', 'path'=>'Term.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -142,10 +96,6 @@ module FHIR
       }
 
       class Agent < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         METADATA = {
           'id' => {'type'=>'string', 'path'=>'Agent.id', 'min'=>0, 'max'=>1},
           'extension' => {'type'=>'Extension', 'path'=>'Agent.extension', 'min'=>0, 'max'=>Float::INFINITY},
@@ -153,19 +103,9 @@ module FHIR
           'actor' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Contract', 'http://hl7.org/fhir/StructureDefinition/Device', 'http://hl7.org/fhir/StructureDefinition/Group', 'http://hl7.org/fhir/StructureDefinition/Location', 'http://hl7.org/fhir/StructureDefinition/Organization', 'http://hl7.org/fhir/StructureDefinition/Patient', 'http://hl7.org/fhir/StructureDefinition/Practitioner', 'http://hl7.org/fhir/StructureDefinition/RelatedPerson', 'http://hl7.org/fhir/StructureDefinition/Substance'], 'type'=>'Reference', 'path'=>'Agent.actor', 'min'=>1, 'max'=>1},
           'role' => {'valid_codes'=>{'http://www.hl7.org/fhir/contractactorrole'=>['practitioner', 'patient', 'practitioner', 'patient']}, 'type'=>'CodeableConcept', 'path'=>'Agent.role', 'min'=>0, 'max'=>Float::INFINITY, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/contract-actorrole'}}
         }
-
-        attr_accessor :id                # 0-1 string
-        attr_accessor :extension         # 0-* [ Extension ]
-        attr_accessor :modifierExtension # 0-* [ Extension ]
-        attr_accessor :actor             # 1-1 Reference(Contract|Device|Group|Location|Organization|Patient|Practitioner|RelatedPerson|Substance)
-        attr_accessor :role              # 0-* [ CodeableConcept ]
       end
 
       class ValuedItem < FHIR::Model
-        include FHIR::Hashable
-        include FHIR::Json
-        include FHIR::Xml
-
         MULTIPLE_TYPES = {
           'entity' => ['CodeableConcept', 'Reference']
         }
@@ -183,43 +123,10 @@ module FHIR
           'points' => {'type'=>'decimal', 'path'=>'ValuedItem.points', 'min'=>0, 'max'=>1},
           'net' => {'type'=>'Money', 'path'=>'ValuedItem.net', 'min'=>0, 'max'=>1}
         }
-
-        attr_accessor :id                    # 0-1 string
-        attr_accessor :extension             # 0-* [ Extension ]
-        attr_accessor :modifierExtension     # 0-* [ Extension ]
-        attr_accessor :entityCodeableConcept # 0-1 CodeableConcept
-        attr_accessor :entityReference       # 0-1 Reference(Resource)
-        attr_accessor :identifier            # 0-1 Identifier
-        attr_accessor :effectiveTime         # 0-1 dateTime
-        attr_accessor :quantity              # 0-1 Quantity
-        attr_accessor :unitPrice             # 0-1 Money
-        attr_accessor :factor                # 0-1 decimal
-        attr_accessor :points                # 0-1 decimal
-        attr_accessor :net                   # 0-1 Money
       end
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :identifier        # 0-1 Identifier
-      attr_accessor :issued            # 0-1 dateTime
-      attr_accessor :applies           # 0-1 Period
-      attr_accessor :type              # 0-1 CodeableConcept
-      attr_accessor :subType           # 0-1 CodeableConcept
-      attr_accessor :topic             # 0-* [ Reference(Resource) ]
-      attr_accessor :action            # 0-* [ CodeableConcept ]
-      attr_accessor :actionReason      # 0-* [ CodeableConcept ]
-      attr_accessor :agent             # 0-* [ Contract::Term::Agent ]
-      attr_accessor :text              # 0-1 string
-      attr_accessor :valuedItem        # 0-* [ Contract::Term::ValuedItem ]
-      attr_accessor :group             # 0-* [ Contract::Term ]
     end
 
     class Friendly < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'content' => ['Attachment', 'Reference']
       }
@@ -230,19 +137,9 @@ module FHIR
         'contentAttachment' => {'type'=>'Attachment', 'path'=>'Friendly.content[x]', 'min'=>1, 'max'=>1},
         'contentReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Composition', 'http://hl7.org/fhir/StructureDefinition/DocumentReference', 'http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse'], 'type'=>'Reference', 'path'=>'Friendly.content[x]', 'min'=>1, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :contentAttachment # 1-1 Attachment
-      attr_accessor :contentReference  # 1-1 Reference(Composition|DocumentReference|QuestionnaireResponse)
     end
 
     class Legal < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'content' => ['Attachment', 'Reference']
       }
@@ -253,19 +150,9 @@ module FHIR
         'contentAttachment' => {'type'=>'Attachment', 'path'=>'Legal.content[x]', 'min'=>1, 'max'=>1},
         'contentReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Composition', 'http://hl7.org/fhir/StructureDefinition/DocumentReference', 'http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse'], 'type'=>'Reference', 'path'=>'Legal.content[x]', 'min'=>1, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :contentAttachment # 1-1 Attachment
-      attr_accessor :contentReference  # 1-1 Reference(Composition|DocumentReference|QuestionnaireResponse)
     end
 
     class Rule < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'content' => ['Attachment', 'Reference']
       }
@@ -276,45 +163,6 @@ module FHIR
         'contentAttachment' => {'type'=>'Attachment', 'path'=>'Rule.content[x]', 'min'=>1, 'max'=>1},
         'contentReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/DocumentReference'], 'type'=>'Reference', 'path'=>'Rule.content[x]', 'min'=>1, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :contentAttachment # 1-1 Attachment
-      attr_accessor :contentReference  # 1-1 Reference(DocumentReference)
-    end
-
-    attr_accessor :id                # 0-1 id
-    attr_accessor :meta              # 0-1 Meta
-    attr_accessor :implicitRules     # 0-1 uri
-    attr_accessor :language          # 0-1 code
-    attr_accessor :text              # 0-1 Narrative
-    attr_accessor :contained         # 0-* [ Resource ]
-    attr_accessor :extension         # 0-* [ Extension ]
-    attr_accessor :modifierExtension # 0-* [ Extension ]
-    attr_accessor :identifier        # 0-1 Identifier
-    attr_accessor :issued            # 0-1 dateTime
-    attr_accessor :applies           # 0-1 Period
-    attr_accessor :subject           # 0-* [ Reference(Resource) ]
-    attr_accessor :topic             # 0-* [ Reference(Resource) ]
-    attr_accessor :authority         # 0-* [ Reference(Organization) ]
-    attr_accessor :domain            # 0-* [ Reference(Location) ]
-    attr_accessor :type              # 0-1 CodeableConcept
-    attr_accessor :subType           # 0-* [ CodeableConcept ]
-    attr_accessor :action            # 0-* [ CodeableConcept ]
-    attr_accessor :actionReason      # 0-* [ CodeableConcept ]
-    attr_accessor :agent             # 0-* [ Contract::Agent ]
-    attr_accessor :signer            # 0-* [ Contract::Signer ]
-    attr_accessor :valuedItem        # 0-* [ Contract::ValuedItem ]
-    attr_accessor :term              # 0-* [ Contract::Term ]
-    attr_accessor :bindingAttachment # 0-1 Attachment
-    attr_accessor :bindingReference  # 0-1 Reference(Composition|DocumentReference|QuestionnaireResponse)
-    attr_accessor :friendly          # 0-* [ Contract::Friendly ]
-    attr_accessor :legal             # 0-* [ Contract::Legal ]
-    attr_accessor :rule              # 0-* [ Contract::Rule ]
-
-    def resourceType
-      'Contract'
     end
   end
 end

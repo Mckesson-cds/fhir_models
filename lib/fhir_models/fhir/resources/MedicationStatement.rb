@@ -1,9 +1,5 @@
 module FHIR
   class MedicationStatement < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     MULTIPLE_TYPES = {
       'medication' => ['CodeableConcept', 'Reference'],
       'effective' => ['dateTime', 'Period']
@@ -38,10 +34,6 @@ module FHIR
     }
 
     class Dosage < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'asNeeded' => ['boolean', 'CodeableConcept'],
         'site' => ['CodeableConcept', 'Reference'],
@@ -68,55 +60,6 @@ module FHIR
         'rateQuantity' => {'type'=>'Quantity', 'path'=>'Dosage.rate[x]', 'min'=>0, 'max'=>1},
         'maxDosePerPeriod' => {'type'=>'Ratio', 'path'=>'Dosage.maxDosePerPeriod', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                      # 0-1 string
-      attr_accessor :extension               # 0-* [ Extension ]
-      attr_accessor :modifierExtension       # 0-* [ Extension ]
-      attr_accessor :text                    # 0-1 string
-      attr_accessor :additionalInstructions  # 0-* [ CodeableConcept ]
-      attr_accessor :timing                  # 0-1 Timing
-      attr_accessor :asNeededBoolean         # 0-1 boolean
-      attr_accessor :asNeededCodeableConcept # 0-1 CodeableConcept
-      attr_accessor :siteCodeableConcept     # 0-1 CodeableConcept
-      attr_accessor :siteReference           # 0-1 Reference(BodySite)
-      attr_accessor :route                   # 0-1 CodeableConcept
-      attr_accessor :local_method            # 0-1 CodeableConcept
-      attr_accessor :doseQuantity            # 0-1 Quantity
-      attr_accessor :doseRange               # 0-1 Range
-      attr_accessor :rateRatio               # 0-1 Ratio
-      attr_accessor :rateRange               # 0-1 Range
-      attr_accessor :rateQuantity            # 0-1 Quantity
-      attr_accessor :maxDosePerPeriod        # 0-1 Ratio
-    end
-
-    attr_accessor :id                        # 0-1 id
-    attr_accessor :meta                      # 0-1 Meta
-    attr_accessor :implicitRules             # 0-1 uri
-    attr_accessor :language                  # 0-1 code
-    attr_accessor :text                      # 0-1 Narrative
-    attr_accessor :contained                 # 0-* [ Resource ]
-    attr_accessor :extension                 # 0-* [ Extension ]
-    attr_accessor :modifierExtension         # 0-* [ Extension ]
-    attr_accessor :identifier                # 0-* [ Identifier ]
-    attr_accessor :status                    # 1-1 code
-    attr_accessor :medicationCodeableConcept # 1-1 CodeableConcept
-    attr_accessor :medicationReference       # 1-1 Reference(Medication)
-    attr_accessor :patient                   # 1-1 Reference(Patient)
-    attr_accessor :effectiveDateTime         # 0-1 dateTime
-    attr_accessor :effectivePeriod           # 0-1 Period
-    attr_accessor :informationSource         # 0-1 Reference(Patient|Practitioner|RelatedPerson)
-    attr_accessor :supportingInformation     # 0-* [ Reference(Resource) ]
-    attr_accessor :dateAsserted              # 0-1 dateTime
-    attr_accessor :notTaken                  # 0-1 boolean
-    attr_accessor :reasonNotTaken            # 0-* [ CodeableConcept ]
-    attr_accessor :reasonForUseCode          # 0-* [ CodeableConcept ]
-    attr_accessor :reasonForUseReference     # 0-* [ Reference(Condition) ]
-    attr_accessor :note                      # 0-* [ Annotation ]
-    attr_accessor :category                  # 0-1 code
-    attr_accessor :dosage                    # 0-* [ MedicationStatement::Dosage ]
-
-    def resourceType
-      'MedicationStatement'
     end
   end
 end

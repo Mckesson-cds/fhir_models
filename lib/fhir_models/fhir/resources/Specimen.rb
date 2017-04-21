@@ -1,9 +1,5 @@
 module FHIR
   class Specimen < FHIR::Model
-    include FHIR::Hashable
-    include FHIR::Json
-    include FHIR::Xml
-
     SEARCH_PARAMS = ["accession", "bodysite", "collected", "collector", "container", "container-id", "identifier", "parent", "patient", "subject", "type"]
     METADATA = {
       'id' => {'type'=>'id', 'path'=>'Specimen.id', 'min'=>0, 'max'=>1},
@@ -29,10 +25,6 @@ module FHIR
     }
 
     class Collection < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'collected' => ['dateTime', 'Period']
       }
@@ -47,23 +39,9 @@ module FHIR
         'method' => {'local_name'=>'local_method', 'valid_codes'=>{'http://snomed.info/sct'=>['119295008', '413651001', '360020006', '430823004', '16404004', '67889009', '29240004', '45710003', '7800008', '258431006', '20255002', '386147002', '278450005'], 'http://hl7.org/fhir/v2/0488'=>['ANP', 'BAP', 'BCAE', 'BCAN', 'BCPD', 'BIO', 'CAP', 'CATH', 'CVP', 'EPLA', 'ESWA', 'FNA', 'KOFFP', 'LNA', 'LNV', 'MARTL', 'ML11', 'MLP', 'NYP', 'PACE', 'PIN', 'PNA', 'PRIME', 'PUMP', 'QC5', 'SCLP', 'SCRAPS', 'SHA', 'SWA', 'SWD', 'TMAN', 'TMCH', 'TMM4', 'TMMY', 'TMOT', 'TMP', 'TMPV', 'TMSC', 'TMUP', 'TMVI', 'VENIP', 'WOOD']}, 'type'=>'CodeableConcept', 'path'=>'Collection.method', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/specimen-collection-method'}},
         'bodySite' => {'valid_codes'=>{'http://snomed.info/sct'=>[]}, 'type'=>'CodeableConcept', 'path'=>'Collection.bodySite', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/body-site'}}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :collector         # 0-1 Reference(Practitioner)
-      attr_accessor :collectedDateTime # 0-1 dateTime
-      attr_accessor :collectedPeriod   # 0-1 Period
-      attr_accessor :quantity          # 0-1 Quantity
-      attr_accessor :local_method      # 0-1 CodeableConcept
-      attr_accessor :bodySite          # 0-1 CodeableConcept
     end
 
     class Treatment < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'time' => ['dateTime', 'Period']
       }
@@ -77,22 +55,9 @@ module FHIR
         'timeDateTime' => {'type'=>'dateTime', 'path'=>'Treatment.time[x]', 'min'=>0, 'max'=>1},
         'timePeriod' => {'type'=>'Period', 'path'=>'Treatment.time[x]', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                # 0-1 string
-      attr_accessor :extension         # 0-* [ Extension ]
-      attr_accessor :modifierExtension # 0-* [ Extension ]
-      attr_accessor :description       # 0-1 string
-      attr_accessor :procedure         # 0-1 CodeableConcept
-      attr_accessor :additive          # 0-* [ Reference(Substance) ]
-      attr_accessor :timeDateTime      # 0-1 dateTime
-      attr_accessor :timePeriod        # 0-1 Period
     end
 
     class Container < FHIR::Model
-      include FHIR::Hashable
-      include FHIR::Json
-      include FHIR::Xml
-
       MULTIPLE_TYPES = {
         'additive' => ['CodeableConcept', 'Reference']
       }
@@ -108,42 +73,6 @@ module FHIR
         'additiveCodeableConcept' => {'valid_codes'=>{'http://hl7.org/fhir/v2/0371'=>['ACDA', 'ACDB', 'ACET', 'AMIES', 'BACTM', 'BF10', 'BOR', 'BOUIN', 'BSKM', 'C32', 'C38', 'CARS', 'CARY', 'CHLTM', 'CTAD', 'EDTK', 'EDTK15', 'EDTK75', 'EDTN', 'ENT', 'ENT+', 'F10', 'FDP', 'FL10', 'FL100', 'HCL6', 'HEPA', 'HEPL', 'HEPN', 'HNO3', 'JKM', 'KARN', 'KOX', 'LIA', 'M4', 'M4RT', 'M5', 'MICHTM', 'MMDTM', 'NAF', 'NAPS', 'NONE', 'PAGE', 'PHENOL', 'PVA', 'RLM', 'SILICA', 'SPS', 'SST', 'STUTM', 'THROM', 'THYMOL', 'THYO', 'TOLU', 'URETM', 'VIRTM', 'WEST']}, 'type'=>'CodeableConcept', 'path'=>'Container.additive[x]', 'min'=>0, 'max'=>1, 'binding'=>{'strength'=>'example', 'uri'=>'http://hl7.org/fhir/ValueSet/v2-0371'}},
         'additiveReference' => {'type_profiles'=>['http://hl7.org/fhir/StructureDefinition/Substance'], 'type'=>'Reference', 'path'=>'Container.additive[x]', 'min'=>0, 'max'=>1}
       }
-
-      attr_accessor :id                      # 0-1 string
-      attr_accessor :extension               # 0-* [ Extension ]
-      attr_accessor :modifierExtension       # 0-* [ Extension ]
-      attr_accessor :identifier              # 0-* [ Identifier ]
-      attr_accessor :description             # 0-1 string
-      attr_accessor :type                    # 0-1 CodeableConcept
-      attr_accessor :capacity                # 0-1 Quantity
-      attr_accessor :specimenQuantity        # 0-1 Quantity
-      attr_accessor :additiveCodeableConcept # 0-1 CodeableConcept
-      attr_accessor :additiveReference       # 0-1 Reference(Substance)
-    end
-
-    attr_accessor :id                  # 0-1 id
-    attr_accessor :meta                # 0-1 Meta
-    attr_accessor :implicitRules       # 0-1 uri
-    attr_accessor :language            # 0-1 code
-    attr_accessor :text                # 0-1 Narrative
-    attr_accessor :contained           # 0-* [ Resource ]
-    attr_accessor :extension           # 0-* [ Extension ]
-    attr_accessor :modifierExtension   # 0-* [ Extension ]
-    attr_accessor :identifier          # 0-* [ Identifier ]
-    attr_accessor :accessionIdentifier # 0-1 Identifier
-    attr_accessor :status              # 0-1 code
-    attr_accessor :type                # 0-1 CodeableConcept
-    attr_accessor :subject             # 1-1 Reference(Patient|Group|Device|Substance)
-    attr_accessor :receivedTime        # 0-1 dateTime
-    attr_accessor :parent              # 0-* [ Reference(Specimen) ]
-    attr_accessor :request             # 0-* [ Reference(DiagnosticRequest|ProcedureRequest) ]
-    attr_accessor :collection          # 0-1 Specimen::Collection
-    attr_accessor :treatment           # 0-* [ Specimen::Treatment ]
-    attr_accessor :container           # 0-* [ Specimen::Container ]
-    attr_accessor :note                # 0-* [ Annotation ]
-
-    def resourceType
-      'Specimen'
     end
   end
 end
