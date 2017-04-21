@@ -10,6 +10,7 @@ module FHIR
     include FHIR::Operations
 
     attr_reader :model_data
+    alias to_hash model_data
 
     def self.new(*args, &block)
       resource_type = (args.first || {}).delete('resourceType')
@@ -96,7 +97,3 @@ module FHIR
     end
   end
 end
-
-# FIXME: Remove these. They're old model support and need to be elsewhere.
-FHIR::MedicationOrder = Class.new(FHIR::Model)
-FHIR::Conformance = Class.new(FHIR::Model)

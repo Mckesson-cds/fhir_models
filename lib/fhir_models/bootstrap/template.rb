@@ -1,8 +1,6 @@
 module FHIR
   module Boot
     class Template
-      extend FHIR::Deprecate
-
       attr_accessor :name
       attr_accessor :hierarchy
       attr_accessor :kind
