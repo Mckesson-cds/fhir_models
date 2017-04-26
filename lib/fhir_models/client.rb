@@ -42,6 +42,14 @@ module FHIR
     attr_accessor :iss, :http_client, :fhir_version, :headers
     attr_reader :accept_type
 
+    def self.log_tags
+      @log_tags ||= ['FHIR Client']
+    end
+
+    def self.log_tags=(tags)
+      @log_tags = Array.wrap(tags)
+    end
+
     def initialize(iss, headers: {})
       @iss = Addressable::URI.parse(iss)
       @fhir_version = FHIR::VERSION
@@ -151,7 +159,7 @@ module FHIR
 
     def use_no_auth!
       @http_client = Faraday.new(iss) do |client|
-        client.use FHIR::RequestLogger, FHIR.logger
+        client.use FHIR::RequestLogger, FHIR.logger, self.class.log_tags
         client.adapter Faraday.default_adapter
       end
     end
