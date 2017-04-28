@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe FHIR::Client do
@@ -27,8 +29,7 @@ describe FHIR::Client do
     it 'only has the FHIR headers by default' do
       stub = stub_request(:get, "#{iss}/Patient/#{example_patient_id}")
         .with(headers: fhir_headers)
-        .to_return(body: example_json)
-      response = subject.read(FHIR::Patient, example_patient_id)
+      subject.read(FHIR::Patient, example_patient_id)
 
       expect(stub).to have_been_requested
     end
@@ -40,7 +41,7 @@ describe FHIR::Client do
         .to_return(body: example_json)
 
       subject.headers = custom_headers
-      response = subject.read(FHIR::Patient, example_patient_id)
+      subject.read(FHIR::Patient, example_patient_id)
 
       expect(stub).to have_been_requested
     end
@@ -53,7 +54,7 @@ describe FHIR::Client do
 
       client = FHIR::Client.new(iss, headers: custom_headers)
       client.headers = custom_headers
-      response = client.read(FHIR::Patient, example_patient_id)
+      client.read(FHIR::Patient, example_patient_id)
 
       expect(stub).to have_been_requested
     end
@@ -329,6 +330,89 @@ describe FHIR::Client do
           expect(reply.status).to eq 400
           expect(reply.body).to eq error_response
         end
+      end
+    end
+  end
+
+  context 'logging' do
+    let(:logs) { String.new } # Needs to be non-frozen
+    let(:response_headers) do
+      {
+        'X-Foo' => SecureRandom.uuid
+      }
+    end
+
+    let(:request_body) do
+      {
+        'name' => [
+          {
+            'given' => ['Fred']
+          }
+        ]
+      }
+    end
+
+    before do
+      stub_request(:any, /#{iss}/)
+        .to_return(status: status, body: response_body, headers: response_headers)
+    end
+
+    context 'successful request' do
+      let(:status) { 200 }
+      let(:response_body) { example_json }
+
+      it 'info logs the method, status, url, and response headers' do
+        allow(FHIR.logger).to receive(:info) { |&block| logs << block.call }
+
+        subject.read(FHIR::Patient, example_patient_id)
+
+        expect(logs).to include('GET')
+        expect(logs).to include(status.to_s)
+        expect(logs).to include("#{iss}/Patient/#{example_patient_id}")
+        expect(logs).to include(response_headers['X-Foo'])
+      end
+
+      it 'debug logs the request body, request headers, and response body' do
+        allow(FHIR.logger).to receive(:debug) { |&block| logs << block.call }
+
+        subject.create(FHIR::Patient, request_body)
+
+        expect(logs).to include(request_body.to_json)
+        expect(logs).to include(fhir_headers['Accept'])
+        expect(logs).to include(example_json)
+      end
+    end
+
+    context 'unsuccessful request' do
+      let(:status) { 400 }
+      let(:response_body) { '{ "resourceType": "OperationOutcome", "issue": { "diagnostics": "Unsupported resource type \'Patient\'" } }' }
+
+      it 'info logs the method, status, and url' do
+        allow(FHIR.logger).to receive(:info) { |&block| logs << block.call }
+
+        expect { subject.read(FHIR::Patient, example_patient_id) }.to raise_error(FHIR::ClientException)
+
+        expect(logs).to include('GET')
+        expect(logs).to include(status.to_s)
+        expect(logs).to include("#{iss}/Patient/#{example_patient_id}")
+      end
+
+      it 'debug logs the request body' do
+        allow(FHIR.logger).to receive(:debug) { |&block| logs << block.call }
+
+        expect { subject.create(FHIR::Patient, request_body) }.to raise_error(FHIR::ClientException)
+
+        expect(logs).to include(request_body.to_json)
+      end
+
+      it 'error logs the request headers, response headers, and response body' do
+        allow(FHIR.logger).to receive(:error) { |&block| logs << block.call }
+
+        expect { subject.read(FHIR::Patient, example_patient_id) }.to raise_error(FHIR::ClientException)
+
+        expect(logs).to include(fhir_headers['Accept'])
+        expect(logs).to include(response_headers['X-Foo'])
+        expect(logs).to include(response_body)
       end
     end
   end

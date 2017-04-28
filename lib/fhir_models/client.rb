@@ -2,6 +2,7 @@ require 'fhir_models/client/uri_helper'
 require 'fhir_models/client'
 require 'fhir_models/client_reply'
 require 'fhir_models/client_exception'
+require 'fhir_models/request_logger'
 require 'addressable/uri'
 require 'oauth2'
 
@@ -40,6 +41,14 @@ module FHIR
 
     attr_accessor :iss, :http_client, :fhir_version, :headers
     attr_reader :accept_type
+
+    def self.log_tags
+      @log_tags ||= ['FHIR Client']
+    end
+
+    def self.log_tags=(tags)
+      @log_tags = Array.wrap(tags)
+    end
 
     def initialize(iss, headers: {})
       @iss = Addressable::URI.parse(iss)
@@ -149,7 +158,10 @@ module FHIR
     deprecate :use_format_param= => :use_format_param!, deprecator: FHIR::DEPRECATOR
 
     def use_no_auth!
-      @http_client = Faraday.new(iss)
+      @http_client = Faraday.new(iss) do |client|
+        client.use FHIR::RequestLogger, FHIR.logger, self.class.log_tags
+        client.adapter Faraday.default_adapter
+      end
     end
     alias set_no_auth use_no_auth!
     deprecate set_no_auth: :use_no_auth!, deprecator: FHIR::DEPRECATOR
