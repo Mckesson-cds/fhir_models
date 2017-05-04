@@ -17,7 +17,7 @@ module FHIR
 
       app.call(request_env).on_complete do |response_env|
         logger.info { tagged("#{request_method.upcase} - #{response_env.status} - #{request_url}") }
-        logger.debug { tagged(request_body) }
+        logger.debug { tagged(request_body.present? ? request_body : '[Empty Request Body]') }
 
         if response_env.success?
           logger.debug { tagged(request_headers) }
