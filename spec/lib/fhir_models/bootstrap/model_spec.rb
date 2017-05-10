@@ -1,5 +1,5 @@
-RSpec.describe 'FHIR::Model', :skip do
-  describe '#primitive?(datatype, value)' do
+RSpec.describe 'FHIR::Model' do
+  describe '#primitive?(datatype, value)', :skip do
     subject { FHIR::Patient.new({}) }
 
     describe "datatype 'integer'" do

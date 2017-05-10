@@ -97,6 +97,53 @@ describe FHIR::Model do
     end
   end
 
+  context 'accessing attributes' do
+    let(:resource) do
+      FHIR::Model.new(
+        {
+          'resourceType' => 'Patient',
+          'contact' => [
+            {
+              'address' => {
+                'line' => ['256 GB Hard Dr']
+              }
+            }
+          ],
+          'name' => [
+            {
+              'given' => ['Fred']
+            }
+          ]
+        }
+      )
+    end
+
+    it 'returns properly-typed attributes' do
+      expect(resource).to be_a FHIR::Patient
+      expect(resource.contact.first).to be_a FHIR::Patient::Contact
+      expect(resource.contact.first.address).to be_a FHIR::Address
+      expect(resource.name.size).to eq 1
+      expect(resource.name.first).to be_a FHIR::HumanName
+    end
+
+    context 'polymorphic types' do
+    end
+
+    context 'attributes not defined by FHIR' do
+    end
+
+    # TODO: Figure out how to handle local_name overrides
+    context 'attributes with local_name overrides' do
+    end
+
+    context 'when an array attribute is not present' do
+      it 'returns an empty array' do
+        expect(resource.telecom).to be_an Array
+        expect(resource.telecom.size).to eq 0
+      end
+    end
+  end
+
   %w(Patient Resource).each do |model_name|
     describe FHIR.const_get(model_name) do
       it_behaves_like 'a FHIR Model', model_name
