@@ -46,18 +46,15 @@ module FHIR
     alias eql? ==
 
     def method_missing(method_name, *args)
-      super unless model_data.key?(method_name) ||
-                   self.class::METADATA.key?(method_name.to_s) ||
-                   multiple_types.key?(method_name.to_s)
+      super unless has_attribute?(method_name)
 
-      if multiple_types.key?(method_name.to_s)
-        available_type = multiple_types[method_name.to_s].detect { |type| model_data.key?(:"#{method_name}#{type.upcase_first}") }
-        key = available_type.present? ? :"#{method_name}#{available_type.upcase_first}" : nil
-        data = key.present? ? model_data[key] : nil
-      else
-        key = method_name
-        data = model_data[method_name]
-      end
+      key = if polymorphic_attribute?(method_name)
+              polymorphic_key(method_name) || method_name
+            else
+              method_name
+            end
+
+      data = model_data[key]
 
       converted_model = convert_to_fhir_model(data, key)
       model_data[key] = converted_model unless converted_model.nil?
@@ -67,6 +64,10 @@ module FHIR
       end
 
       model_data[key]
+    end
+
+    def respond_to_missing?(method_name, _include_all = false)
+      has_attribute?(method_name) || super
     end
 
     def self.from_json(json)
@@ -101,9 +102,32 @@ module FHIR
 
     private
 
+    def has_attribute?(name)
+      model_data.key?(name) ||
+        attribute_definitions.key?(name.to_s) ||
+        multiple_types.key?(name.to_s)
+    end
+
+    def polymorphic_attribute?(name)
+      multiple_types.key?(name.to_s)
+    end
+
+    def polymorphic_key(base_name)
+      available_type = multiple_types[base_name.to_s].detect { |type| model_data.key?(:"#{base_name}#{type.upcase_first}") }
+      available_type.present? ? :"#{base_name}#{available_type.upcase_first}" : nil
+    end
+
     def multiple_types
-      if self.class.const_defined?('MULTIPLE_TYPES')
+      if self.class.const_defined?(:MULTIPLE_TYPES)
         self.class::MULTIPLE_TYPES
+      else
+        {}
+      end
+    end
+
+    def attribute_definitions
+      if self.class.const_defined?(:METADATA)
+        self.class::METADATA
       else
         {}
       end
@@ -127,14 +151,14 @@ module FHIR
     end
 
     def class_for_attribute(name)
-      return FHIR::Model unless self.class::METADATA.key?(name.to_s)
-      type = self.class::METADATA[name.to_s]['type']
+      return FHIR::Model unless attribute_definitions.key?(name.to_s)
+      type = attribute_definitions[name.to_s]['type']
       FHIR.const_get(type) if type =~ /\A[A-Z]/
     end
 
     def array_attribute?(name)
-      return false unless self.class::METADATA.key?(name.to_s)
-      self.class::METADATA[name.to_s]['max'] > 1
+      return false unless attribute_definitions.key?(name.to_s)
+      attribute_definitions[name.to_s]['max'] > 1
     end
   end
 end

@@ -97,7 +97,7 @@ describe FHIR::Model do
     end
   end
 
-  context 'accessing attributes' do
+  context 'reading attributes' do
     let(:resource) do
       FHIR::Model.new(
         {
@@ -113,7 +113,8 @@ describe FHIR::Model do
             {
               'given' => ['Fred']
             }
-          ]
+          ],
+          'deceasedBoolean' => false
         }
       )
     end
@@ -126,21 +127,51 @@ describe FHIR::Model do
       expect(resource.name.first).to be_a FHIR::HumanName
     end
 
+    context 'for attributes not included in the data' do
+      it 'returns nil for non-array attributes' do
+        # TODO: Should this return appropriate empty values for primitive types?
+        expect(resource.text).to eq nil
+      end
+
+      it 'returns an empty array for array attributes' do
+        expect(resource.telecom).to be_an Array
+        expect(resource.telecom.size).to eq 0
+      end
+    end
+
     context 'polymorphic types' do
+      it 'works with type-specific names' do
+        expect(resource.deceasedBoolean).to eq false
+      end
+
+      it 'works with generic-type names' do
+        expect(resource.deceased).to eq false
+      end
     end
 
     context 'attributes not defined by FHIR' do
+      let(:resource) do
+        FHIR::Model.new(
+          {
+            'resourceType' => 'Patient',
+            'foo' => [
+              {
+                'bar' => 'baz'
+              }
+            ]
+          }
+        )
+      end
+
+      it 'converts them to FHIR::Model instances' do
+        expect(resource.foo).to be_an Array
+        expect(resource.foo.first).to be_a FHIR::Model
+        expect(resource.foo.first.bar).to eq 'baz'
+      end
     end
 
     # TODO: Figure out how to handle local_name overrides
     context 'attributes with local_name overrides' do
-    end
-
-    context 'when an array attribute is not present' do
-      it 'returns an empty array' do
-        expect(resource.telecom).to be_an Array
-        expect(resource.telecom.size).to eq 0
-      end
     end
   end
 

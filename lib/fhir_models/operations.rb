@@ -53,9 +53,9 @@ module FHIR
     def client=(new_client)
       @client = new_client
 
-      self.class::METADATA.each do |name, metadata|
-        next if metadata.key?('local_name')
-        attribute = metadata['local_name'] || name
+      attribute_definitions.each do |name, attribute_definition|
+        next if attribute_definition.key?('local_name')
+        attribute = attribute_definition['local_name'] || name
         value = public_send(attribute)
         assign_client_on_child(value)
       end

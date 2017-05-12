@@ -476,7 +476,7 @@ describe FHIR::Model do
       expect(model.client).to eq client
     end
 
-    it 'sets the client on its attributes/children', :focus do
+    it 'sets the client on its attributes/children' do
       model.client = client
 
       expect(model.medication.client).to eq client
