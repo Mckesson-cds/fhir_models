@@ -46,10 +46,48 @@ module FHIR
     alias eql? ==
 
     def method_missing(method_name, *args)
-      super unless has_attribute?(method_name)
+      if method_name.to_s.ends_with?('=')
+        method_name = method_name.to_s.chomp('=').to_sym
+        assignment = true
+      end
+      super unless has_attribute?(method_name) || has_attribute?(method_name.to_s.sub('local_', '').to_sym)
 
+      if assignment
+        handle_fhir_writer(method_name, args)
+      else
+        handle_fhir_reader(method_name, args)
+      end
+    end
+
+    def handle_fhir_writer(method_name, args)
+      if polymorphic_index.key?(method_name)
+        polymorphic_index[method_name].each do |key|
+          model_data[key] = nil
+        end
+        polymorphic_name = base_name_by_attribute[method_name.to_sym]
+        define_singleton_method(polymorphic_name) do
+          model_data[method_name]
+        end
+      end
+
+      key = if method_name =~ /local_/
+              method_name.to_s.sub('local_', '').to_sym
+            else
+              method_name
+            end
+
+      define_singleton_method("#{method_name}=") do |value|
+        model_data[key] = value
+      end
+
+      model_data[key] = args.first
+    end
+
+    def handle_fhir_reader(method_name, args)
       key = if polymorphic_attribute?(method_name)
               polymorphic_key(method_name) || method_name
+            elsif method_name =~ /local_/
+              method_name.to_s.sub('local_', '').to_sym
             else
               method_name
             end
@@ -113,13 +151,36 @@ module FHIR
     end
 
     def polymorphic_key(base_name)
-      available_type = multiple_types[base_name.to_s].detect { |type| model_data.key?(:"#{base_name}#{type.upcase_first}") }
+      available_type = multiple_types[base_name.to_s].detect { |type| !model_data[:"#{base_name}#{type.upcase_first}"].nil? }
       available_type.present? ? :"#{base_name}#{available_type.upcase_first}" : nil
     end
 
     def multiple_types
       if self.class.const_defined?(:MULTIPLE_TYPES)
         self.class::MULTIPLE_TYPES
+      else
+        {}
+      end
+    end
+
+    def polymorphic_index
+      if multiple_types.present?
+        base_name_by_attribute.each_with_object({}) do |(attribute, base_name), index|
+          index[attribute] = base_name_by_attribute.select { |_attr, base| base == base_name }.keys
+        end
+      else
+        {}
+      end
+    end
+
+    def base_name_by_attribute
+      if multiple_types.present?
+        multiple_types.each_with_object({}) do |(base_name, types), index|
+          types.each do |type|
+            key = base_name + type.upcase_first
+            index[key.to_sym] = base_name.to_sym
+          end
+        end
       else
         {}
       end
