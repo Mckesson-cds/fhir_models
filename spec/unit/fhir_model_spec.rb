@@ -95,6 +95,21 @@ describe FHIR::Model do
     it 'returns a subclass of resourceType' do
       expect(FHIR::Model.new('resourceType' => 'Patient')).to be_a FHIR::Patient
     end
+
+    it 'allows unrecognized resourceTypes' do
+      model = FHIR::Model.new('resourceType' => 'NotARealResource')
+      expect(model.resource_type).to eq 'NotARealResource'
+      expect(model.class).to eq FHIR::Model
+    end
+  end
+
+  context '#dup' do
+    it 'returns a copy of the object with internal model data deeply duplicated' do
+      model = FHIR::Model.new(resourceType: 'Patient', name: [{ given: ['Fred'] }])
+      duplicate = model.dup
+      duplicate.name.first.given = ['Bob']
+      expect(model.name.first.given).to eq ['Fred']
+    end
   end
 
   context 'reading attributes' do

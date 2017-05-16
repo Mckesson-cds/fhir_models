@@ -14,5 +14,10 @@ module FHIR
       return nil unless client && next_link.try(:url)
       @next_bundle ||= client.parse_reply(self.class, client.default_format, client.raw_read_url(next_link.url))
     end
+
+    # Override Enumerable's not-so-helpful version of as_json which returns an array
+    def as_json(_options = nil)
+      to_hash
+    end
   end
 end

@@ -12,12 +12,12 @@ module FHIR
     attr_reader :model_data
 
     def self.new(*args, &block)
-      resource_type = (args.first || {}).delete('resourceType')
+      resource_type = (args.first || {})['resourceType']
       if self == Model && resource_type.nil?
         # raise NotImplementedError, "#{self} is an abstract class and cannot be instantiated."
       end
 
-      subclass = FHIR.const_get(resource_type) if resource_type
+      subclass = FHIR.const_get(resource_type) if resource_type && FHIR.const_defined?(resource_type)
       if subclass && subclass != self
         subclass.new(*args, &block)
       else
@@ -137,6 +137,10 @@ module FHIR
       @resource_type ||= self.class.resource_type
     end
     alias resourceType resource_type
+
+    def dup
+      self.class.new(model_data.deep_dup)
+    end
 
     private
 
